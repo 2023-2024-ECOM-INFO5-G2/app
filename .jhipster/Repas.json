@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20230926122853",
+  "entityTableName": "repas",
+  "fields": [
+    {
+      "fieldName": "idRepas",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "apportCalorique",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Repas",
+  "relationships": [
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "idPatient",
+      "relationshipName": "idRepas",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}

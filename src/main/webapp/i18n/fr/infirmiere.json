@@ -1,0 +1,25 @@
+{
+  "g2EcomApp": {
+    "infirmiere": {
+      "home": {
+        "title": "Infirmieres",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Infirmiere",
+        "createOrEditLabel": "Créer ou éditer un Infirmiere",
+        "notFound": "Aucun Infirmiere trouvé"
+      },
+      "created": "Un nouveau Infirmiere a été créé avec l'identifiant { param }",
+      "updated": "Le Infirmiere avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Infirmiere avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Infirmiere { id } ?"
+      },
+      "detail": {
+        "title": "Infirmiere"
+      },
+      "id": "ID",
+      "user": "User",
+      "patient": "Patient"
+    }
+  }
+}

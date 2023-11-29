@@ -1,0 +1,25 @@
+{
+  "g2EcomApp": {
+    "aideSoignant": {
+      "home": {
+        "title": "AideSoignants",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Aide Soignant",
+        "createOrEditLabel": "Créer ou éditer un Aide Soignant",
+        "notFound": "Aucun Aide Soignant trouvé"
+      },
+      "created": "Un nouveau Aide Soignant a été créé avec l'identifiant { param }",
+      "updated": "Le Aide Soignant avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Aide Soignant avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Aide Soignant { id } ?"
+      },
+      "detail": {
+        "title": "Aide Soignant"
+      },
+      "id": "ID",
+      "user": "User",
+      "patient": "Patient"
+    }
+  }
+}

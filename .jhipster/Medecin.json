@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20230926122953",
+  "entityTableName": "medecin",
+  "fields": [
+    {
+      "fieldName": "idMedecin",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Medecin",
+  "relationships": [
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "idMedecin",
+      "relationshipName": "idMedecin",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}

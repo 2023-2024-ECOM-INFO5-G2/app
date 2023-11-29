@@ -1,0 +1,78 @@
+{
+  "applications": "*",
+  "changelogDate": "20230926122453",
+  "entityTableName": "patient",
+  "fields": [
+    {
+      "fieldName": "idPatient",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sexe",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateDeNaissance",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "chambre",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "poids",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "dateArrivee",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Patient",
+  "relationships": [
+    {
+      "otherEntityName": "medecin",
+      "otherEntityRelationshipName": "idMedecin",
+      "relationshipName": "idMedecin",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "aideSoignant",
+      "otherEntityRelationshipName": "idSoignant",
+      "relationshipName": "idPatient",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "infirmiere",
+      "otherEntityRelationshipName": "idInfirmiere",
+      "relationshipName": "idPatient",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "repas",
+      "otherEntityRelationshipName": "idRepas",
+      "relationshipName": "idPatient",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}
