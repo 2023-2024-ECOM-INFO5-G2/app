@@ -7,8 +7,8 @@ services:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database-jhipster:5432/g2ecom?useUnicode=true&characterEncoding=utf8&useSSL=false
-      - SPRING_LIQUIBASE_URL=jdbc:postgresql://database-jhipster:5432/g2ecom?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/g2ecom
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://localhost:5432/g2ecom
     ports:
       - 8080:8080
     healthcheck:
