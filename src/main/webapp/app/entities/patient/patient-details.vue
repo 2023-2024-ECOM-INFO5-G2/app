@@ -42,12 +42,35 @@
   </div>
 
   <div class="row justify-content-center mt-5">
+<<<<<<< HEAD
     <div class="col-12">
       <b-card header="IMC" align="center">
         <b-card-title>
           {{ patientIMC || 'Aucune donnée' }}
         </b-card-title>
       </b-card>
+=======
+    <div v-if="albuPatient.length > 0" class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center text-center">
+            <div class="col"></div>
+            <div class="col">
+              <span>Albumine (g/kg)</span>
+            </div>
+            <div class="col">
+              <b-button v-b-modal.modal-albu variant="primary">+</b-button>
+            </div>
+          </div>
+        </div>
+        <b-modal id="modal-albu" title="Ajouter une mesure d'Albumine" @ok="addAlbuValue">
+          <b-form-input v-model="newAlbuValue" placeholder="Valeur mesurée (g/kg)" type="number"></b-form-input>
+        </b-modal>
+        <div class="card-body text-center">
+          <h5>{{ albuPatient[albuPatient.length - 1].valeur }}</h5>
+        </div>
+      </div>
+>>>>>>> afcc7d5 (✨ Add meals history for a patient and ability to add meals)
     </div>
   </div>
   <div class="row justify-content-center mt-5">

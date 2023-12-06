@@ -23,6 +23,8 @@ import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 // @ts-ignore
 import { type IRepas } from '@/shared/model/repas.model';
 // @ts-ignore
+import { type IRepas } from '@/shared/model/repas.model';
+// @ts-ignore
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -80,7 +82,6 @@ export default defineComponent({
     const mealName: Ref<String> = ref('');
     const mealDesc: Ref<String> = ref('');
     const mealCal: Ref<Number> = ref(0);
-
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
@@ -164,7 +165,6 @@ export default defineComponent({
           patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[poidsPatient.value.length - 1]?.valeur);
           refreshCharts();
           updateDanger();
-<<<<<<< HEAD
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -185,8 +185,26 @@ export default defineComponent({
 
           await repasService().create(newMeal);
           await retrievePatientMeals(patient.value.id);
-=======
->>>>>>> 6f8b56e (✨ Live hot-update when editing patient)
+        }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+    };
+
+    const addMeal = async () => {
+      try {
+        if (Number(mealCal.value) <= 0) alertService.showError('Donnée incorrecte, calories doit être positif');
+        else {
+          // Create a new EPA entry object
+          const newMeal = {
+            nom: mealName.value,
+            description: mealDesc.value,
+            apportCalorique: mealCal.value,
+            patients: [patient.value],
+          };
+
+          await repasService().create(newMeal);
+          await retrievePatientMeals(patient.value.id);
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -253,6 +271,20 @@ export default defineComponent({
 
         poidsPatient.value.sort((a: IMesurePoids, b: IMesurePoids) => +new Date(a.date) - +new Date(b.date));
         EPAPatient.value.sort((a: IMesureEPA, b: IMesureEPA) => +new Date(a.date) - +new Date(b.date));
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+    };
+
+    const retrievePatientMeals = async (patientId: string | string[]) => {
+      try {
+        const res = await repasService().retrieve();
+        patientMeals.value = [];
+        for (const meal of res.data) {
+          if (meal.patients.filter((patient: IPatient) => patient.id === Number(patientId)).length === 0) continue;
+          delete meal.patients;
+          patientMeals.value.push(meal);
+        }
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }
