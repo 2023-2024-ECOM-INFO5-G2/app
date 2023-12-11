@@ -17,8 +17,8 @@ plugins {
     // jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
 
-group = "polytech.ecom.g02"
-version = "0.0.1-SNAPSHOT"
+group = "polytech.g02.ecom"
+version = "0.1.1"
 
 description = ""
 
