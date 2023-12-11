@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import polytech.g02.ecom.domain.Mesure;
 import polytech.g02.ecom.repository.MesureRepository;
 import polytech.g02.ecom.web.rest.errors.BadRequestAlertException;
+import src.main.java.polytech.g02.ecom.domain.Alerte;
+import src.main.java.polytech.g02.ecom.domain.Patient;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -86,7 +88,9 @@ public class MesureResource {
         if (!mesureRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        if (mesure.nom_valeur == "EPA") {
+            detectionBeta(mesure.valeur, mesure.patient, mesure.date);
+        }
         Mesure result = mesureRepository.save(mesure);
         return ResponseEntity
             .ok()
@@ -183,5 +187,21 @@ public class MesureResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    private void detectionBeta(float value, Patient patient, LocalDate date) {
+        String message = "";
+
+        if (value < 7) {
+            message += "EPA critique, cas de dénutrition détécté";
+        }
+        if (message != "") {
+            Alerte alerte = new Alerte();
+            Set<Patient> patients = new Set<Patient>();
+            patients.add(patient);
+            alerte.setPatients(patients);
+            alerte.setMessage(message);
+            alerteRepository.save(alerte);
+        }
     }
 }
