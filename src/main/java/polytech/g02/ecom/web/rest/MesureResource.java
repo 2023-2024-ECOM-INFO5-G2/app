@@ -4,20 +4,19 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import polytech.g02.ecom.domain.Alerte;
 import polytech.g02.ecom.domain.Mesure;
+import polytech.g02.ecom.domain.Patient;
 import polytech.g02.ecom.repository.MesureRepository;
 import polytech.g02.ecom.web.rest.errors.BadRequestAlertException;
-import src.main.java.polytech.g02.ecom.domain.Alerte;
-import src.main.java.polytech.g02.ecom.domain.Patient;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -88,8 +87,8 @@ public class MesureResource {
         if (!mesureRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        if (mesure.nom_valeur == "EPA") {
-            detectionBeta(mesure.valeur, mesure.patient, mesure.date);
+        if (Objects.equals(mesure.getNomValeur(), "EPA")) {
+            detectionBeta(mesure.getValeur(), mesure.getPatient(), mesure.getDate());
         }
         Mesure result = mesureRepository.save(mesure);
         return ResponseEntity
@@ -195,13 +194,13 @@ public class MesureResource {
         if (value < 7) {
             message += "EPA critique, cas de dénutrition détécté";
         }
-        if (message != "") {
+        if (!message.equals("")) {
             Alerte alerte = new Alerte();
-            Set<Patient> patients = new Set<Patient>();
+            Set<Patient> patients = new HashSet<>();
             patients.add(patient);
             alerte.setPatients(patients);
-            alerte.setMessage(message);
-            alerteRepository.save(alerte);
+            alerte.setDescription(message);
+            //            Alerte result = alerteRespository.save(alerte);
         }
     }
 }
