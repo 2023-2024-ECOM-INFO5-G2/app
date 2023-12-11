@@ -164,6 +164,7 @@ export default defineComponent({
           patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[poidsPatient.value.length - 1]?.valeur);
           refreshCharts();
           updateDanger();
+<<<<<<< HEAD
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -184,6 +185,8 @@ export default defineComponent({
 
           await repasService().create(newMeal);
           await retrievePatientMeals(patient.value.id);
+=======
+>>>>>>> 6f8b56e (✨ Live hot-update when editing patient)
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
