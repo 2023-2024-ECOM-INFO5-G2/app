@@ -81,6 +81,7 @@ export default defineComponent({
     const mealDesc: Ref<String> = ref('');
     const mealCal: Ref<Number> = ref(0);
 
+
     const retrievePatient = async (patientId: string | string[]) => {
       try {
         const res = await patientService().find(Number(patientId));
@@ -305,7 +306,6 @@ export default defineComponent({
       mealName,
       mealDesc,
       mealCal,
-
       ...dataUtils,
 
       previousState,
