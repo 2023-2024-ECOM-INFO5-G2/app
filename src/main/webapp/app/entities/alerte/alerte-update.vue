@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="ecom02App.alerte.home.createOrEditLabel"
+          id="g2ecomApp.alerte.home.createOrEditLabel"
           data-cy="AlerteCreateUpdateHeading"
-          v-text="t$('ecom02App.alerte.home.createOrEditLabel')"
+          v-text="t$('g2ecomApp.alerte.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="alerte.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="alerte.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.alerte.description')" for="alerte-description"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.alerte.description')" for="alerte-description"></label>
             <input
               type="text"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.alerte.date')" for="alerte-date"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.alerte.date')" for="alerte-date"></label>
             <div class="d-flex">
               <input
                 id="alerte-date"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.alerte.patient')" for="alerte-patient"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.alerte.patient')" for="alerte-patient"></label>
             <select class="form-control" id="alerte-patient" data-cy="patient" name="patient" v-model="alerte.patient">
               <option v-bind:value="null"></option>
               <option

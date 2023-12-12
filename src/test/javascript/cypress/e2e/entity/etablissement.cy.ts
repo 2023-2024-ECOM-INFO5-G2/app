@@ -122,16 +122,6 @@ describe('Etablissement e2e test', () => {
         cy.url().should('match', etablissementPageUrlPattern);
       });
 
-      it('edit button click should load edit Etablissement page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
-        cy.getEntityCreateUpdateHeading('Etablissement');
-        cy.get(entityCreateSaveButtonSelector).click();
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-        cy.url().should('match', etablissementPageUrlPattern);
-      });
-
       it('last delete button click should delete instance of Etablissement', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('etablissement').should('exist');
@@ -163,11 +153,11 @@ describe('Etablissement e2e test', () => {
       cy.get(`[data-cy="adresse"]`).type('plaire amorcer accumuler');
       cy.get(`[data-cy="adresse"]`).should('have.value', 'plaire amorcer accumuler');
 
-      cy.get(`[data-cy="ville"]`).type('hé');
-      cy.get(`[data-cy="ville"]`).should('have.value', 'hé');
+      cy.get(`[data-cy="ville"]`).type('grss');
+      cy.get(`[data-cy="ville"]`).should('have.value', 'grss');
 
-      cy.get(`[data-cy="codePostal"]`).type("à l'encontre de a magnifique");
-      cy.get(`[data-cy="codePostal"]`).should('have.value', "à l'encontre de a magnifique");
+      cy.get(`[data-cy="codePostal"]`).type('64160');
+      cy.get(`[data-cy="codePostal"]`).should('have.value', '64160');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

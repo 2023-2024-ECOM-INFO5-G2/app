@@ -94,7 +94,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('ecom02App.mesureEPA.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('g2ecomApp.mesureEPA.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -106,7 +106,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('ecom02App.mesureEPA.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('g2ecomApp.mesureEPA.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

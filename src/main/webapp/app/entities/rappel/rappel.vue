@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="RappelHeading">
-      <span v-text="t$('ecom02App.rappel.home.title')" id="rappel-heading"></span>
+      <span v-text="t$('g2ecomApp.rappel.home.title')" id="rappel-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('ecom02App.rappel.home.refreshListLabel')"></span>
+          <span v-text="t$('g2ecomApp.rappel.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'RappelCreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,26 +15,26 @@
             class="btn btn-primary jh-create-entity create-rappel"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('ecom02App.rappel.home.createLabel')"></span>
+            <span v-text="t$('g2ecomApp.rappel.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && rappels && rappels.length === 0">
-      <span v-text="t$('ecom02App.rappel.home.notFound')"></span>
+      <span v-text="t$('g2ecomApp.rappel.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="rappels && rappels.length > 0">
       <table class="table table-striped" aria-describedby="rappels">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.date')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.frequenceJour')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.echeance')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.tache')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.user')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.patient')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.date')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.frequenceJour')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.echeance')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.tache')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.user')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.rappel.patient')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -90,10 +90,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="ecom02App.rappel.delete.question" data-cy="rappelDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="g2ecomApp.rappel.delete.question" data-cy="rappelDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-rappel-heading" v-text="t$('ecom02App.rappel.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-rappel-heading" v-text="t$('g2ecomApp.rappel.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

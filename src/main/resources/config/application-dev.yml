@@ -32,8 +32,8 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./build/h2db/db/ecom02;DB_CLOSE_DELAY=-1
-    username: ecom02
+    url: jdbc:h2:file:./build/h2db/db/g2ecom;DB_CLOSE_DELAY=-1
+    username: g2ecom
     password:
     hikari:
       poolName: Hikari

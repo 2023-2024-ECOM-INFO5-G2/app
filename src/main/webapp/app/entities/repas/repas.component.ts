@@ -53,7 +53,7 @@ export default defineComponent({
     const removeRepas = async () => {
       try {
         await repasService().delete(removeId.value);
-        const message = t$('ecom02App.repas.deleted', { param: removeId.value }).toString();
+        const message = t$('g2ecomApp.repas.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveRepass();

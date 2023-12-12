@@ -136,7 +136,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('ecom02App.patient.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('g2ecomApp.patient.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -148,7 +148,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('ecom02App.patient.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('g2ecomApp.patient.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

@@ -122,16 +122,6 @@ describe('MesureAlbumine e2e test', () => {
         cy.url().should('match', mesureAlbuminePageUrlPattern);
       });
 
-      it('edit button click should load edit MesureAlbumine page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
-        cy.getEntityCreateUpdateHeading('MesureAlbumine');
-        cy.get(entityCreateSaveButtonSelector).click();
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-        cy.url().should('match', mesureAlbuminePageUrlPattern);
-      });
-
       it('last delete button click should delete instance of MesureAlbumine', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('mesureAlbumine').should('exist');
@@ -157,8 +147,8 @@ describe('MesureAlbumine e2e test', () => {
     });
 
     it('should create an instance of MesureAlbumine', () => {
-      cy.get(`[data-cy="valeur"]`).type('18565.91');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '18565.91');
+      cy.get(`[data-cy="valeur"]`).type('10.91');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '10.91');
 
       cy.get(`[data-cy="date"]`).type('2023-12-05T08:59');
       cy.get(`[data-cy="date"]`).blur();

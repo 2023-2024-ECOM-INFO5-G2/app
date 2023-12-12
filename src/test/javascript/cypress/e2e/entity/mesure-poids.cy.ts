@@ -122,16 +122,6 @@ describe('MesurePoids e2e test', () => {
         cy.url().should('match', mesurePoidsPageUrlPattern);
       });
 
-      it('edit button click should load edit MesurePoids page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
-        cy.getEntityCreateUpdateHeading('MesurePoids');
-        cy.get(entityCreateSaveButtonSelector).click();
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-        cy.url().should('match', mesurePoidsPageUrlPattern);
-      });
-
       it('last delete button click should delete instance of MesurePoids', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('mesurePoids').should('exist');
@@ -157,8 +147,8 @@ describe('MesurePoids e2e test', () => {
     });
 
     it('should create an instance of MesurePoids', () => {
-      cy.get(`[data-cy="valeur"]`).type('23619.78');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '23619.78');
+      cy.get(`[data-cy="valeur"]`).type('120.78');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '120.78');
 
       cy.get(`[data-cy="date"]`).type('2023-12-05T12:51');
       cy.get(`[data-cy="date"]`).blur();

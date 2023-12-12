@@ -164,11 +164,11 @@ describe('Repas e2e test', () => {
       cy.get(`[data-cy="date"]`).blur();
       cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T00:50');
 
-      cy.get(`[data-cy="apportCalorique"]`).type('24016.84');
-      cy.get(`[data-cy="apportCalorique"]`).should('have.value', '24016.84');
+      cy.get(`[data-cy="apportCalorique"]`).type('120.84');
+      cy.get(`[data-cy="apportCalorique"]`).should('have.value', '120.84');
 
-      cy.get(`[data-cy="poidsConsomme"]`).type('30872.47');
-      cy.get(`[data-cy="poidsConsomme"]`).should('have.value', '30872.47');
+      cy.get(`[data-cy="poidsConsomme"]`).type('120.47');
+      cy.get(`[data-cy="poidsConsomme"]`).should('have.value', '120.47');
 
       cy.get(`[data-cy="description"]`).type('horrible');
       cy.get(`[data-cy="description"]`).should('have.value', 'horrible');

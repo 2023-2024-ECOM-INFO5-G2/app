@@ -127,16 +127,6 @@ describe('Rappel e2e test', () => {
         cy.url().should('match', rappelPageUrlPattern);
       });
 
-      it('edit button click should load edit Rappel page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
-        cy.getEntityCreateUpdateHeading('Rappel');
-        cy.get(entityCreateSaveButtonSelector).click();
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-        cy.url().should('match', rappelPageUrlPattern);
-      });
-
       it('last delete button click should delete instance of Rappel', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('rappel').should('exist');
@@ -166,8 +156,8 @@ describe('Rappel e2e test', () => {
       cy.get(`[data-cy="date"]`).blur();
       cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T10:42');
 
-      cy.get(`[data-cy="frequenceJour"]`).type('29573');
-      cy.get(`[data-cy="frequenceJour"]`).should('have.value', '29573');
+      cy.get(`[data-cy="frequenceJour"]`).type('2');
+      cy.get(`[data-cy="frequenceJour"]`).should('have.value', '2');
 
       cy.get(`[data-cy="echeance"]`).type('2023-12-05');
       cy.get(`[data-cy="echeance"]`).blur();

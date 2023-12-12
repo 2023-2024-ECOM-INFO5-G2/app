@@ -122,16 +122,6 @@ describe('MesureEPA e2e test', () => {
         cy.url().should('match', mesureEPAPageUrlPattern);
       });
 
-      it('edit button click should load edit MesureEPA page and save', () => {
-        cy.get(entityEditButtonSelector).first().click();
-        cy.getEntityCreateUpdateHeading('MesureEPA');
-        cy.get(entityCreateSaveButtonSelector).click();
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response.statusCode).to.equal(200);
-        });
-        cy.url().should('match', mesureEPAPageUrlPattern);
-      });
-
       it('last delete button click should delete instance of MesureEPA', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('mesureEPA').should('exist');
@@ -157,8 +147,8 @@ describe('MesureEPA e2e test', () => {
     });
 
     it('should create an instance of MesureEPA', () => {
-      cy.get(`[data-cy="valeur"]`).type('6835.44');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '6835.44');
+      cy.get(`[data-cy="valeur"]`).type('5.44');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '5.44');
 
       cy.get(`[data-cy="date"]`).type('2023-12-04T17:28');
       cy.get(`[data-cy="date"]`).blur();

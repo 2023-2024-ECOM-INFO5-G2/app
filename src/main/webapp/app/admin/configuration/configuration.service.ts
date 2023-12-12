@@ -56,6 +56,6 @@ export default class ConfigurationService {
       }
     }
     // by default, use the default ApplicationContext Id
-    return res['contexts']['ecom02']['beans'];
+    return res['contexts']['g2ecom']['beans'];
   }
 }
