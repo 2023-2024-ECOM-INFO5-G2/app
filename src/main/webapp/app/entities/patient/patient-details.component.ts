@@ -8,7 +8,6 @@ import PatientService from './patient.service';
 import MesureEPAService from '../mesure-epa/mesure-epa.service';
 import MesurePoidsService from '../mesure-poids/mesure-poids.service';
 import MesureAlbumineService from '../mesure-albumine/mesure-albumine.service';
-import RepasService from '../repas/repas.service';
 import { useDateFormat } from '@/shared/composables';
 // @ts-ignore
 import useDataUtils from '@/shared/data/data-utils.service';
