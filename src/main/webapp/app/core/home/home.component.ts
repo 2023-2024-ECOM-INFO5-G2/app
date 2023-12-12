@@ -54,7 +54,7 @@ export default defineComponent({
     };
 
     const selectEtablissement = (etablissement: IEtablissement) => {
-      selectedEtablissement.value = etablissement;
+      selectedetablissement.value = etablissement;
     };
 
     const data = () => {

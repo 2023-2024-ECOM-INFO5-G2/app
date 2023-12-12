@@ -8,8 +8,9 @@
           v-for="etablissement in etablissements"
           :key="etablissement.id"
           @click="() => selectEtablissement(etablissement)"
+          :class="{ active: selectedetablissement === etablissement }"
         >
-          <button>{{ etablissement.nom }}</button>
+          {{ etablissement.nom }}
         </li>
       </ul>
     </div>
@@ -81,3 +82,9 @@
 </template>
 
 <script lang="ts" src="./home.component.ts"></script>
+
+<style>
+.list-group-item {
+  cursor: pointer;
+}
+</style>
