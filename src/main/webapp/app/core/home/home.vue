@@ -1,27 +1,17 @@
 <template>
   <div class="home row">
     <div class="col-md-3">
-      <h4 class="my-4">Liste d'établissements</h4>
-      <b-list-group>
-        <b-list-group-item class="d-flex justify-content-between align-items-center">
-          Hopital Jeanne de Flandres
-          <b-badge variant="danger" pill>14</b-badge>
-        </b-list-group-item>
-
-        <b-list-group-item class="d-flex justify-content-between align-items-center">
-          Hopital Fleming
-          <b-badge variant="danger" pill>2</b-badge>
-        </b-list-group-item>
-
-        <b-list-group-item class="d-flex justify-content-between align-items-center"> Hopital Pasteur </b-list-group-item>
-
-        <b-list-group-item active class="d-flex justify-content-between align-items-center a"> Hopital Croix Rousse </b-list-group-item>
-
-        <b-list-group-item class="d-flex justify-content-between align-items-center">
-          CHU Grenoble Alpes
-          <b-badge variant="danger" pill>1</b-badge>
-        </b-list-group-item>
-      </b-list-group>
+      <h4 class="card-header">Liste des établissements</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          v-for="etablissement in etablissements"
+          :key="etablissement.id"
+          @click="() => selectEtablissement(etablissement)"
+        >
+          <button>{{ etablissement.nom }}</button>
+        </li>
+      </ul>
     </div>
 
     <div class="col-md-9">
