@@ -37,9 +37,9 @@
       <div class="row justify-content-center text-center mt-5">
         <div class="col-4">
           <div class="card">
-            <h6 class="card-header">{{ 'Etablissement séléctionné : Hopital Croix Rousse' }}</h6>
+            <h6 class="card-header">{{ 'Etablissement choisi : ' + selectedetablissement.nom }}</h6>
             <div class="card-body">
-              <h5>{{ "informations sur l'etablissement choisi" }}</h5>
+              <h5>{{ selectedetablissement.ville + ' ' + selectedetablissement.adresse }}</h5>
             </div>
           </div>
         </div>
