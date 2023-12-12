@@ -60,6 +60,8 @@ export default defineComponent({
     const validationRules = {
       valeur: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minValue: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        maxValue: validations.maxValue(t$('entity.validation.max', { max: 10 }).toString(), 10),
       },
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
