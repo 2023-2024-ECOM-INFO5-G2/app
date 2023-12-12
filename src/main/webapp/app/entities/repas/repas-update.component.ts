@@ -60,12 +60,22 @@ export default defineComponent({
     const validationRules = {
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
+        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
       },
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      apportCalorique: {},
-      poidsConsomme: {},
+      apportCalorique: {
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        minValue: validations.minValue(t$('entity.validation.min', { min: 10 }).toString(), 10),
+        maxValue: validations.maxValue(t$('entity.validation.max', { max: 6000 }).toString(), 6000),
+      },
+      poidsConsomme: {
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        minValue: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        maxValue: validations.maxValue(t$('entity.validation.max', { max: 2500 }).toString(), 2500),
+      },
       description: {},
       patient: {},
     };
