@@ -126,7 +126,8 @@ export default defineComponent({
 
     const addPoidsValue = async () => {
       try {
-        if (Number(newWeightValue.value) <= 0 || newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newWeightValue.value) <= 0 || Number(newWeightValue.value) >= 500) alertService.showError('Poids (0 - 500)');
         else {
           // Create a new Poids entry object
           const newPoidsEntry = {
