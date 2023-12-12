@@ -54,15 +54,24 @@ export default defineComponent({
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
-      nom: {},
+      nom: {
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
+        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
+      },
       adresse: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
+        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
       },
       ville: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
+        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
       },
       codePostal: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 5 }).toString(), 5),
+        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 5 }).toString(), 5),
       },
       patients: {},
       users: {},
