@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "authenticationType": "jwt",
-    "baseName": "ecom02",
+    "baseName": "g2ecom",
     "buildTool": "gradle",
     "cacheProvider": "ehcache",
     "clientFramework": "vue",

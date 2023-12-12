@@ -9,7 +9,7 @@ jib {
         }
     }
     to {
-        image = "ecom02:latest"
+        image = "g2ecom:latest"
     }
     container {
         entrypoint = ["bash", "-c", "/entrypoint.sh"]
@@ -26,4 +26,3 @@ jib {
       permissions = ["/entrypoint.sh": "755"]
     }
 }
-
