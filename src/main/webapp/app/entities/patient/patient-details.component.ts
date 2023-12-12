@@ -153,7 +153,8 @@ export default defineComponent({
 
     const addEPAValue = async () => {
       try {
-        if (Number(newEPAValue.value) <= 0 || newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newEPAValue.value) <= 0 || Number(newEPAValue.value) >= 10) alertService.showError('EPA (0 - 10)');
         else {
           // Create a new EPA entry object
           const newEPAEntry = {
