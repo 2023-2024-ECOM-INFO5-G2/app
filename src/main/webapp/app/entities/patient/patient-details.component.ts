@@ -92,6 +92,7 @@ export default defineComponent({
     };
 
     const addAlbuValue = async () => {
+      // TODO: add validation using vuelidate
       try {
         if (Number(newAlbuValue.value) <= 0 || newAlbuValue.value === null) alertService.showError('Donnée incorrecte');
         else {

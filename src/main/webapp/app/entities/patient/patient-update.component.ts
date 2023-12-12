@@ -68,15 +68,24 @@ export default defineComponent({
     const validationRules = {
       prenom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
       },
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
       },
       sexe: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
       },
       taille: {
         required: validations.required(t$('entity.validation.required').toString()),
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        minValue: validations.minValue(t$('entity.validation.min', { min: 40 }).toString(), 40),
+        maxValue: validations.maxValue(t$('entity.validation.max', { max: 251 }).toString(), 251),
       },
       dateDeNaissance: {
         required: validations.required(t$('entity.validation.required').toString()),
