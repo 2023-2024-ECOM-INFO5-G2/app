@@ -72,6 +72,8 @@ export default defineComponent({
       frequenceJour: {
         required: validations.required(t$('entity.validation.required').toString()),
         numeric: validations.numeric(t$('entity.validation.number').toString()),
+        maxValue: validations.maxValue(t$('entity.validation.max', { min: 120 }).toString(), 120),
+        minValue: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
       },
       echeance: {
         required: validations.required(t$('entity.validation.required').toString()),
