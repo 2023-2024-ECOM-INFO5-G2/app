@@ -74,7 +74,15 @@ public class AlerteGatlingTest extends Simulation {
                     http("Create new alerte")
                         .post("/api/alertes")
                         .headers(headers_http_authenticated)
-                        .body(StringBody("{" + "\"description\": \"SAMPLE_TEXT\"" + ", \"date\": \"2020-01-01T00:00:00.000Z\"" + "}"))
+                        .body(
+                            StringBody(
+                                "{" +
+                                "\"description\": \"SAMPLE_TEXT\"" +
+                                ", \"date\": \"2020-01-01T00:00:00.000Z\"" +
+                                ", \"severe\": null" +
+                                "}"
+                            )
+                        )
                         .asJson()
                         .check(status().is(201))
                         .check(headerRegex("Location", "(.*)").saveAs("new_alerte_url"))

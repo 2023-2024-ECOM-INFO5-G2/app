@@ -12,6 +12,11 @@
       "fieldName": "date",
       "fieldType": "ZonedDateTime",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "severe",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
     }
   ],
   "name": "Alerte",

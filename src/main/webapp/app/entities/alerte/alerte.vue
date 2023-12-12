@@ -31,6 +31,7 @@
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.description')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.date')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.severe')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.patient')"></span></th>
             <th scope="row"></th>
           </tr>
@@ -42,6 +43,7 @@
             </td>
             <td>{{ alerte.description }}</td>
             <td>{{ formatDateShort(alerte.date) || '' }}</td>
+            <td>{{ alerte.severe }}</td>
             <td>
               <div v-if="alerte.patient">
                 <router-link :to="{ name: 'PatientView', params: { patientId: alerte.patient.id } }">{{ alerte.patient.id }}</router-link>

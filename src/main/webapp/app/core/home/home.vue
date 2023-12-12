@@ -1,11 +1,22 @@
 <template>
   <div class="home row">
     <div class="col-md-3">
-      <span class="hipster img-fluid rounded"></span>
+      <h4 class="card-header">Liste des établissements</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          v-for="etablissement in etablissements"
+          :key="etablissement.id"
+          @click="() => selectEtablissement(etablissement)"
+          :class="{ active: selectedetablissement === etablissement }"
+        >
+          {{ etablissement.nom }}
+        </li>
+      </ul>
     </div>
+
     <div class="col-md-9">
       <h1 class="display-4" v-text="t$('home.title')"></h1>
-      <p class="lead" v-text="t$('home.subtitle')"></p>
 
       <div>
         <div class="alert alert-success" v-if="authenticated">
@@ -23,45 +34,57 @@
         </div>
       </div>
 
-      <p v-text="t$('home.question')"></p>
+      <div class="row justify-content-center text-center mt-5">
+        <div class="col-4">
+          <div class="card">
+            <h6 class="card-header">{{ 'Etablissement choisi : ' + selectedetablissement.nom }}</h6>
+            <div class="card-body">
+              <h5>{{ selectedetablissement.ville + ' ' + selectedetablissement.adresse }}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <h6 class="card-header">{{ 'Cas détectés' }}</h6>
+            <div class="card-body">
+              <h5>{{ '0' }}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <h6 class="card-header">{{ 'Staff' }}</h6>
+            <div class="card-body">
+              <h5>{{ '62 patients ; 10 AS ; 5 infirmières' }}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <ul>
-        <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" v-text="t$('home.link.homepage')"></a></li>
-        <li>
-          <a
-            href="http://stackoverflow.com/tags/jhipster/info"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.stackoverflow')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.bugtracker')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://gitter.im/jhipster/generator-jhipster"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.chat')"
-          ></a>
-        </li>
-        <li>
-          <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" v-text="t$('home.link.follow')"></a>
-        </li>
-      </ul>
+      <h1 class="my-4">Liste des patients</h1>
 
-      <p>
-        <span v-text="t$('home.like')"></span>
-        <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" v-text="t$('home.github')"></a>!
-      </p>
+      <div>
+        <b-table> </b-table>
+      </div>
+
+      <div class="row justify-content-end">
+        <div class="col-md-4">
+          <div class="card text-center">
+            <h6 class="card-header">{{ 'Laisser une instruction' }}</h6>
+            <div class="card-body">
+              <a href="#" class="btn btn-primary">+</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" src="./home.component.ts"></script>
+
+<style>
+.list-group-item {
+  cursor: pointer;
+}
+</style>

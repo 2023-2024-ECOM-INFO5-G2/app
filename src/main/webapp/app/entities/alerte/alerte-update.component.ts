@@ -64,6 +64,9 @@ export default defineComponent({
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
+      severe: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
       patient: {},
     };
     const v$ = useVuelidate(validationRules, alerte as any);

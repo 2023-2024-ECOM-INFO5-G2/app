@@ -19,6 +19,12 @@
             <span v-if="alerte.date">{{ formatDateLong(alerte.date) }}</span>
           </dd>
           <dt>
+            <span v-text="t$('ecom02App.alerte.severe')"></span>
+          </dt>
+          <dd>
+            <span>{{ alerte.severe }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('ecom02App.alerte.patient')"></span>
           </dt>
           <dd>

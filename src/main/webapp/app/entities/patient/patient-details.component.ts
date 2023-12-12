@@ -54,9 +54,9 @@ export default defineComponent({
 
     const previousState = () => router.go(-1);
     const patient: Ref<IPatient> = ref({});
-    const poidsPatient: Ref<Array<IMesure>> = ref([]);
-    const EPAPatient: Ref<Array<IMesure>> = ref([]);
-    const albuPatient: Ref<Array<IMesure>> = ref([]);
+    const poidsPatient: Ref<Array<IMesurepoids>> = ref([]);
+    const EPAPatient: Ref<Array<IMesureEPA>> = ref([]);
+    const albuPatient: Ref<Array<IMesureAlbumine>> = ref([]);
     const patientIMC: Ref<Number> = ref(0);
     const weightChartData: Ref<Object> = ref({});
     const EPAChartData: Ref<Object> = ref({});

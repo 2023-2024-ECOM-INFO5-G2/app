@@ -1,11 +1,11 @@
-id;description;date
-1;ouch de façon que timide;2023-12-05T10:02:28
-2;quelque après que;2023-12-04T20:48:59
-3;athlète;2023-12-04T21:29:35
-4;au point que après agréable;2023-12-04T18:13:20
-5;toc-toc;2023-12-05T09:52:09
-6;supprimer ranger;2023-12-05T12:17:25
-7;tsoin-tsoin présidence de peur que;2023-12-05T11:30:12
-8;soutenir afin que smack;2023-12-04T16:09:13
-9;oh;2023-12-05T11:06:57
-10;après que;2023-12-05T03:25:17
+id;description;date;severe
+1;ouch de façon que timide;2023-12-05T10:02:28;true
+2;certainement sale avant;2023-12-05T01:47:21;false
+3;au point que après agréable;2023-12-04T18:13:20;true
+4;dense;2023-12-04T23:29:54;false
+5;tant;2023-12-05T01:36:16;false
+6;glouglou autour;2023-12-04T23:56:10;false
+7;administration;2023-12-05T11:11:49;true
+8;soutenir afin que smack;2023-12-04T16:09:13;true
+9;responsable;2023-12-05T07:57:41;true
+10;athlète;2023-12-04T16:58:25;false
