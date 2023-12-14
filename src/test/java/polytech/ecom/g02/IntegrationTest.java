@@ -14,7 +14,7 @@ import polytech.ecom.g02.config.EmbeddedSQL;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = { G2ecomApp.class, AsyncSyncConfiguration.class })
+@SpringBootTest(classes = { Ecom02App.class, AsyncSyncConfiguration.class })
 @EmbeddedSQL
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public @interface IntegrationTest {
