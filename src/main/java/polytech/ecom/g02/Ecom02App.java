@@ -21,7 +21,7 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
-public class G2ecomApp {
+public class Ecom02App {
 
     private static final Logger log = LoggerFactory.getLogger(G2ecomApp.class);
 
