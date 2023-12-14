@@ -3,23 +3,23 @@
     <div class="col-8">
       <div v-if="mesureEPA">
         <h2 class="jh-entity-heading" data-cy="mesureEPADetailsHeading">
-          <span v-text="t$('ecom02App.mesureEPA.detail.title')"></span> {{ mesureEPA.id }}
+          <span v-text="t$('g2ecomApp.mesureEPA.detail.title')"></span> {{ mesureEPA.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('ecom02App.mesureEPA.valeur')"></span>
+            <span v-text="t$('g2ecomApp.mesureEPA.valeur')"></span>
           </dt>
           <dd>
             <span>{{ mesureEPA.valeur }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.mesureEPA.date')"></span>
+            <span v-text="t$('g2ecomApp.mesureEPA.date')"></span>
           </dt>
           <dd>
             <span v-if="mesureEPA.date">{{ formatDateLong(mesureEPA.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.mesureEPA.patient')"></span>
+            <span v-text="t$('g2ecomApp.mesureEPA.patient')"></span>
           </dt>
           <dd>
             <div v-if="mesureEPA.patient">

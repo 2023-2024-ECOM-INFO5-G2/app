@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="MesureAlbumineHeading">
-      <span v-text="t$('ecom02App.mesureAlbumine.home.title')" id="mesure-albumine-heading"></span>
+      <span v-text="t$('g2ecomApp.mesureAlbumine.home.title')" id="mesure-albumine-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('ecom02App.mesureAlbumine.home.refreshListLabel')"></span>
+          <span v-text="t$('g2ecomApp.mesureAlbumine.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'MesureAlbumineCreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,23 +15,23 @@
             class="btn btn-primary jh-create-entity create-mesure-albumine"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('ecom02App.mesureAlbumine.home.createLabel')"></span>
+            <span v-text="t$('g2ecomApp.mesureAlbumine.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && mesureAlbumines && mesureAlbumines.length === 0">
-      <span v-text="t$('ecom02App.mesureAlbumine.home.notFound')"></span>
+      <span v-text="t$('g2ecomApp.mesureAlbumine.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="mesureAlbumines && mesureAlbumines.length > 0">
       <table class="table table-striped" aria-describedby="mesureAlbumines">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureAlbumine.valeur')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureAlbumine.date')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureAlbumine.patient')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureAlbumine.valeur')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureAlbumine.date')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureAlbumine.patient')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -92,13 +92,13 @@
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
         <span
-          id="ecom02App.mesureAlbumine.delete.question"
+          id="g2ecomApp.mesureAlbumine.delete.question"
           data-cy="mesureAlbumineDeleteDialogHeading"
           v-text="t$('entity.delete.title')"
         ></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-mesureAlbumine-heading" v-text="t$('ecom02App.mesureAlbumine.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-mesureAlbumine-heading" v-text="t$('g2ecomApp.mesureAlbumine.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

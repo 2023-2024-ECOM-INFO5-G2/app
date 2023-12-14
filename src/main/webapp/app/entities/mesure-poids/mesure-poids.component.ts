@@ -53,7 +53,7 @@ export default defineComponent({
     const removeMesurePoids = async () => {
       try {
         await mesurePoidsService().delete(removeId.value);
-        const message = t$('ecom02App.mesurePoids.deleted', { param: removeId.value }).toString();
+        const message = t$('g2ecomApp.mesurePoids.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveMesurePoidss();

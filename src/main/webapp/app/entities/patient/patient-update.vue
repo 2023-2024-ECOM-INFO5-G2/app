@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="ecom02App.patient.home.createOrEditLabel"
+          id="g2ecomApp.patient.home.createOrEditLabel"
           data-cy="PatientCreateUpdateHeading"
-          v-text="t$('ecom02App.patient.home.createOrEditLabel')"
+          v-text="t$('g2ecomApp.patient.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="patient.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="patient.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.prenom')" for="patient-prenom"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.prenom')" for="patient-prenom"></label>
             <input
               type="text"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.nom')" for="patient-nom"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.nom')" for="patient-nom"></label>
             <input
               type="text"
               class="form-control"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.sexe')" for="patient-sexe"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.sexe')" for="patient-sexe"></label>
             <input
               type="text"
               class="form-control"
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.taille')" for="patient-taille"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.taille')" for="patient-taille"></label>
             <input
               type="number"
               class="form-control"
@@ -77,7 +77,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.dateDeNaissance')" for="patient-dateDeNaissance"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.dateDeNaissance')" for="patient-dateDeNaissance"></label>
             <b-input-group class="mb-3">
               <b-input-group-prepend>
                 <b-form-datepicker
@@ -111,7 +111,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.numChambre')" for="patient-numChambre"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.numChambre')" for="patient-numChambre"></label>
             <input
               type="number"
               class="form-control"
@@ -127,7 +127,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.taille')" for="patient-taille"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.taille')" for="patient-taille"></label>
             <input
               type="number"
               class="form-control"
@@ -139,7 +139,7 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.dateArrivee')" for="patient-dateArrivee"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.dateArrivee')" for="patient-dateArrivee"></label>
             <b-input-group class="mb-3">
               <b-input-group-prepend>
                 <b-form-datepicker
@@ -174,7 +174,7 @@
           <div class="form-group">
             <label
               class="form-control-label"
-              v-text="t$('ecom02App.patient.infosComplementaires')"
+              v-text="t$('g2ecomApp.patient.infosComplementaires')"
               for="patient-infosComplementaires"
             ></label>
             <textarea
@@ -187,7 +187,7 @@
             ></textarea>
           </div>
           <div class="form-group">
-            <label v-text="t$('ecom02App.patient.user')" for="patient-user"></label>
+            <label v-text="t$('g2ecomApp.patient.user')" for="patient-user"></label>
             <select
               class="form-control"
               id="patient-users"
@@ -203,7 +203,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.patient.etablissement')" for="patient-etablissement"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.patient.etablissement')" for="patient-etablissement"></label>
             <select
               class="form-control"
               id="patient-etablissement"

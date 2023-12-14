@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="MesureEPAHeading">
-      <span v-text="t$('ecom02App.mesureEPA.home.title')" id="mesure-epa-heading"></span>
+      <span v-text="t$('g2ecomApp.mesureEPA.home.title')" id="mesure-epa-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('ecom02App.mesureEPA.home.refreshListLabel')"></span>
+          <span v-text="t$('g2ecomApp.mesureEPA.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'MesureEPACreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,23 +15,23 @@
             class="btn btn-primary jh-create-entity create-mesure-epa"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('ecom02App.mesureEPA.home.createLabel')"></span>
+            <span v-text="t$('g2ecomApp.mesureEPA.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && mesureEPAS && mesureEPAS.length === 0">
-      <span v-text="t$('ecom02App.mesureEPA.home.notFound')"></span>
+      <span v-text="t$('g2ecomApp.mesureEPA.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="mesureEPAS && mesureEPAS.length > 0">
       <table class="table table-striped" aria-describedby="mesureEPAS">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureEPA.valeur')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureEPA.date')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.mesureEPA.patient')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureEPA.valeur')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureEPA.date')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.mesureEPA.patient')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -81,10 +81,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="ecom02App.mesureEPA.delete.question" data-cy="mesureEPADeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="g2ecomApp.mesureEPA.delete.question" data-cy="mesureEPADeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-mesureEPA-heading" v-text="t$('ecom02App.mesureEPA.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-mesureEPA-heading" v-text="t$('g2ecomApp.mesureEPA.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

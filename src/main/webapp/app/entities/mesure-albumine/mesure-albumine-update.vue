@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="ecom02App.mesureAlbumine.home.createOrEditLabel"
+          id="g2ecomApp.mesureAlbumine.home.createOrEditLabel"
           data-cy="MesureAlbumineCreateUpdateHeading"
-          v-text="t$('ecom02App.mesureAlbumine.home.createOrEditLabel')"
+          v-text="t$('g2ecomApp.mesureAlbumine.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="mesureAlbumine.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="mesureAlbumine.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.mesureAlbumine.valeur')" for="mesure-albumine-valeur"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.mesureAlbumine.valeur')" for="mesure-albumine-valeur"></label>
             <input
               type="number"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.mesureAlbumine.date')" for="mesure-albumine-date"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.mesureAlbumine.date')" for="mesure-albumine-date"></label>
             <div class="d-flex">
               <input
                 id="mesure-albumine-date"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.mesureAlbumine.patient')" for="mesure-albumine-patient"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.mesureAlbumine.patient')" for="mesure-albumine-patient"></label>
             <select class="form-control" id="mesure-albumine-patient" data-cy="patient" name="patient" v-model="mesureAlbumine.patient">
               <option v-bind:value="null"></option>
               <option

@@ -25,7 +25,7 @@ public class PostgreSqlTestContainer implements SqlTestContainer {
         if (null == postgreSQLContainer) {
             postgreSQLContainer =
                 new PostgreSQLContainer<>("postgres:16.0")
-                    .withDatabaseName("ecom02")
+                    .withDatabaseName("g2ecom")
                     .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                     .withLogConsumer(new Slf4jLogConsumer(log))
                     .withReuse(true);

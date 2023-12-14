@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="ecom02App.rappel.home.createOrEditLabel"
+          id="g2ecomApp.rappel.home.createOrEditLabel"
           data-cy="RappelCreateUpdateHeading"
-          v-text="t$('ecom02App.rappel.home.createOrEditLabel')"
+          v-text="t$('g2ecomApp.rappel.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="rappel.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="rappel.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.date')" for="rappel-date"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.date')" for="rappel-date"></label>
             <div class="d-flex">
               <input
                 id="rappel-date"
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.frequenceJour')" for="rappel-frequenceJour"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.frequenceJour')" for="rappel-frequenceJour"></label>
             <input
               type="number"
               class="form-control"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.echeance')" for="rappel-echeance"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.echeance')" for="rappel-echeance"></label>
             <b-input-group class="mb-3">
               <b-input-group-prepend>
                 <b-form-datepicker
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.tache')" for="rappel-tache"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.tache')" for="rappel-tache"></label>
             <input
               type="text"
               class="form-control"
@@ -96,7 +96,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label v-text="t$('ecom02App.rappel.user')" for="rappel-user"></label>
+            <label v-text="t$('g2ecomApp.rappel.user')" for="rappel-user"></label>
             <select
               class="form-control"
               id="rappel-users"
@@ -112,7 +112,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.patient')" for="rappel-patient"></label>
+            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.patient')" for="rappel-patient"></label>
             <select class="form-control" id="rappel-patient" data-cy="patient" name="patient" v-model="rappel.patient">
               <option v-bind:value="null"></option>
               <option

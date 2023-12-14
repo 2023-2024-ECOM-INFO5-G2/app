@@ -3,23 +3,23 @@
     <div class="col-8">
       <div v-if="mesurePoids">
         <h2 class="jh-entity-heading" data-cy="mesurePoidsDetailsHeading">
-          <span v-text="t$('ecom02App.mesurePoids.detail.title')"></span> {{ mesurePoids.id }}
+          <span v-text="t$('g2ecomApp.mesurePoids.detail.title')"></span> {{ mesurePoids.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('ecom02App.mesurePoids.valeur')"></span>
+            <span v-text="t$('g2ecomApp.mesurePoids.valeur')"></span>
           </dt>
           <dd>
             <span>{{ mesurePoids.valeur }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.mesurePoids.date')"></span>
+            <span v-text="t$('g2ecomApp.mesurePoids.date')"></span>
           </dt>
           <dd>
             <span v-if="mesurePoids.date">{{ formatDateLong(mesurePoids.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.mesurePoids.patient')"></span>
+            <span v-text="t$('g2ecomApp.mesurePoids.patient')"></span>
           </dt>
           <dd>
             <div v-if="mesurePoids.patient">

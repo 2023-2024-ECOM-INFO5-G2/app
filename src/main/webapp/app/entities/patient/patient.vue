@@ -26,7 +26,7 @@
   <div class="row mt-5">
     <div class="col">
       <h2 id="page-heading" data-cy="PatientHeading">
-        <span id="patient-heading" v-text="t$('ecom02App.patient.home.title')"></span>
+        <span id="patient-heading" v-text="t$('g2ecomApp.patient.home.title')"></span>
       </h2>
     </div>
   </div>
@@ -35,9 +35,9 @@
       <table aria-describedby="patients" class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.nom')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.numChambre')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.prenom')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.nom')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.numChambre')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -68,10 +68,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="ecom02App.patient.delete.question" data-cy="patientDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="g2ecomApp.patient.delete.question" data-cy="patientDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-patient-heading" v-text="t$('ecom02App.patient.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-patient-heading" v-text="t$('g2ecomApp.patient.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

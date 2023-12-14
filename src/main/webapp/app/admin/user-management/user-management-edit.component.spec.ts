@@ -93,8 +93,8 @@ describe('UserManagementEdit Component', () => {
       // GIVEN
       axiosStub.put.resolves({
         headers: {
-          'x-ecom02app-alert': '',
-          'x-ecom02app-params': '',
+          'x-g2ecomapp-alert': '',
+          'x-g2ecomapp-params': '',
         },
       });
       axiosStub.get.withArgs('api/admin/users/' + 123).resolves({
@@ -123,8 +123,8 @@ describe('UserManagementEdit Component', () => {
       // GIVEN
       axiosStub.post.resolves({
         headers: {
-          'x-ecom02app-alert': '',
-          'x-ecom02app-params': '',
+          'x-g2ecomapp-alert': '',
+          'x-g2ecomapp-params': '',
         },
       });
       axiosStub.get.resolves({});

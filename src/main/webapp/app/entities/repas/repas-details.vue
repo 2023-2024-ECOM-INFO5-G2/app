@@ -3,41 +3,41 @@
     <div class="col-8">
       <div v-if="repas">
         <h2 class="jh-entity-heading" data-cy="repasDetailsHeading">
-          <span v-text="t$('ecom02App.repas.detail.title')"></span> {{ repas.id }}
+          <span v-text="t$('g2ecomApp.repas.detail.title')"></span> {{ repas.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('ecom02App.repas.nom')"></span>
+            <span v-text="t$('g2ecomApp.repas.nom')"></span>
           </dt>
           <dd>
             <span>{{ repas.nom }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.repas.date')"></span>
+            <span v-text="t$('g2ecomApp.repas.date')"></span>
           </dt>
           <dd>
             <span v-if="repas.date">{{ formatDateLong(repas.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.repas.apportCalorique')"></span>
+            <span v-text="t$('g2ecomApp.repas.apportCalorique')"></span>
           </dt>
           <dd>
             <span>{{ repas.apportCalorique }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.repas.poidsConsomme')"></span>
+            <span v-text="t$('g2ecomApp.repas.poidsConsomme')"></span>
           </dt>
           <dd>
             <span>{{ repas.poidsConsomme }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.repas.description')"></span>
+            <span v-text="t$('g2ecomApp.repas.description')"></span>
           </dt>
           <dd>
             <span>{{ repas.description }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.repas.patient')"></span>
+            <span v-text="t$('g2ecomApp.repas.patient')"></span>
           </dt>
           <dd>
             <div v-if="repas.patient">
