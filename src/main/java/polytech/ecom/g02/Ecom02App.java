@@ -27,7 +27,7 @@ public class Ecom02App {
 
     private final Environment env;
 
-    public G2ecomApp(Environment env) {
+    public Ecom02App(Environment env) {
         this.env = env;
     }
 
