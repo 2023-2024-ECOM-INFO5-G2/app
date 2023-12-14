@@ -23,7 +23,7 @@ import tech.jhipster.config.JHipsterConstants;
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class Ecom02App {
 
-    private static final Logger log = LoggerFactory.getLogger(G2ecomApp.class);
+    private static final Logger log = LoggerFactory.getLogger(Ecom02App.class);
 
     private final Environment env;
 
@@ -65,7 +65,7 @@ public class Ecom02App {
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(G2ecomApp.class);
+        SpringApplication app = new SpringApplication(Ecom02App.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

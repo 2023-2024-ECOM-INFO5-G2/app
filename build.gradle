@@ -93,7 +93,7 @@ eclipse {
 defaultTasks "bootRun"
 
 springBoot {
-    mainClass = "polytech.ecom.g02.G2ecomApp"
+    mainClass = "polytech.ecom.g02.Ecom02App"
 }
 
 test {
