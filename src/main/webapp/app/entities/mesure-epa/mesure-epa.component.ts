@@ -53,7 +53,7 @@ export default defineComponent({
     const removeMesureEPA = async () => {
       try {
         await mesureEPAService().delete(removeId.value);
-        const message = t$('ecom02App.mesureEPA.deleted', { param: removeId.value }).toString();
+        const message = t$('g2ecomApp.mesureEPA.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveMesureEPAs();

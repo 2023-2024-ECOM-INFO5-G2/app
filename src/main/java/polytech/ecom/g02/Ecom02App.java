@@ -21,18 +21,18 @@ import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
-public class Ecom02App {
+public class G2ecomApp {
 
-    private static final Logger log = LoggerFactory.getLogger(Ecom02App.class);
+    private static final Logger log = LoggerFactory.getLogger(G2ecomApp.class);
 
     private final Environment env;
 
-    public Ecom02App(Environment env) {
+    public G2ecomApp(Environment env) {
         this.env = env;
     }
 
     /**
-     * Initializes ecom02.
+     * Initializes g2ecom.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
@@ -65,7 +65,7 @@ public class Ecom02App {
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Ecom02App.class);
+        SpringApplication app = new SpringApplication(G2ecomApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

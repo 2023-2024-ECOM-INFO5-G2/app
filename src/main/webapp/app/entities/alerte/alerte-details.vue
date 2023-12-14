@@ -3,23 +3,23 @@
     <div class="col-8">
       <div v-if="alerte">
         <h2 class="jh-entity-heading" data-cy="alerteDetailsHeading">
-          <span v-text="t$('ecom02App.alerte.detail.title')"></span> {{ alerte.id }}
+          <span v-text="t$('g2ecomApp.alerte.detail.title')"></span> {{ alerte.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('ecom02App.alerte.description')"></span>
+            <span v-text="t$('g2ecomApp.alerte.description')"></span>
           </dt>
           <dd>
             <span>{{ alerte.description }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.alerte.date')"></span>
+            <span v-text="t$('g2ecomApp.alerte.date')"></span>
           </dt>
           <dd>
             <span v-if="alerte.date">{{ formatDateLong(alerte.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.alerte.patient')"></span>
+            <span v-text="t$('g2ecomApp.alerte.patient')"></span>
           </dt>
           <dd>
             <div v-if="alerte.patient">

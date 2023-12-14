@@ -85,8 +85,8 @@ describe('UserManagement Component', () => {
       // GIVEN
       axiosStub.delete.resolves({
         headers: {
-          'x-ecom02app-alert': '',
-          'x-ecom02app-params': '',
+          'x-g2ecomapp-alert': '',
+          'x-g2ecomapp-params': '',
         },
       });
 

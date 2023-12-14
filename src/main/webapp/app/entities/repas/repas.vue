@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="RepasHeading">
-      <span v-text="t$('ecom02App.repas.home.title')" id="repas-heading"></span>
+      <span v-text="t$('g2ecomApp.repas.home.title')" id="repas-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('ecom02App.repas.home.refreshListLabel')"></span>
+          <span v-text="t$('g2ecomApp.repas.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'RepasCreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,26 +15,26 @@
             class="btn btn-primary jh-create-entity create-repas"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('ecom02App.repas.home.createLabel')"></span>
+            <span v-text="t$('g2ecomApp.repas.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && repas && repas.length === 0">
-      <span v-text="t$('ecom02App.repas.home.notFound')"></span>
+      <span v-text="t$('g2ecomApp.repas.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="repas && repas.length > 0">
       <table class="table table-striped" aria-describedby="repas">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.nom')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.date')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.apportCalorique')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.poidsConsomme')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.description')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.repas.patient')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.nom')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.date')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.apportCalorique')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.poidsConsomme')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.description')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.repas.patient')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -85,10 +85,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="ecom02App.repas.delete.question" data-cy="repasDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="g2ecomApp.repas.delete.question" data-cy="repasDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-repas-heading" v-text="t$('ecom02App.repas.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-repas-heading" v-text="t$('g2ecomApp.repas.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

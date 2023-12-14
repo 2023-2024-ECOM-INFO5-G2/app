@@ -3,35 +3,35 @@
     <div class="col-8">
       <div v-if="rappel">
         <h2 class="jh-entity-heading" data-cy="rappelDetailsHeading">
-          <span v-text="t$('ecom02App.rappel.detail.title')"></span> {{ rappel.id }}
+          <span v-text="t$('g2ecomApp.rappel.detail.title')"></span> {{ rappel.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('ecom02App.rappel.date')"></span>
+            <span v-text="t$('g2ecomApp.rappel.date')"></span>
           </dt>
           <dd>
             <span v-if="rappel.date">{{ formatDateLong(rappel.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.frequenceJour')"></span>
+            <span v-text="t$('g2ecomApp.rappel.frequenceJour')"></span>
           </dt>
           <dd>
             <span>{{ rappel.frequenceJour }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.echeance')"></span>
+            <span v-text="t$('g2ecomApp.rappel.echeance')"></span>
           </dt>
           <dd>
             <span>{{ rappel.echeance }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.tache')"></span>
+            <span v-text="t$('g2ecomApp.rappel.tache')"></span>
           </dt>
           <dd>
             <span>{{ rappel.tache }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.user')"></span>
+            <span v-text="t$('g2ecomApp.rappel.user')"></span>
           </dt>
           <dd>
             <span v-for="(user, i) in rappel.users" :key="user.id"
@@ -40,7 +40,7 @@
             </span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.patient')"></span>
+            <span v-text="t$('g2ecomApp.rappel.patient')"></span>
           </dt>
           <dd>
             <div v-if="rappel.patient">
