@@ -1,100 +1,68 @@
 <template>
-  <div>
-    <h2 id="page-heading" data-cy="PatientHeading">
-      <span v-text="t$('ecom02App.patient.home.title')" id="patient-heading"></span>
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
-          <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('ecom02App.patient.home.refreshListLabel')"></span>
-        </button>
-        <router-link :to="{ name: 'PatientCreate' }" custom v-slot="{ navigate }">
-          <button
-            @click="navigate"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-patient"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('ecom02App.patient.home.createLabel')"></span>
-          </button>
-        </router-link>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <h6 class="card-header">Etablissement</h6>
+        <select v-model="selectedetablissement" class="form-select">
+          <option v-for="etablissement in etablissements" :value="etablissement" :key="etablissement.id">
+            {{ etablissement.nom }}
+          </option>
+        </select>
+        <div class="card-body">
+          <h5>{{ selectedetablissement.nom }}</h5>
+          <h5>{{ selectedetablissement.adresse + ' ' + selectedetablissement.ville }}</h5>
+        </div>
       </div>
-    </h2>
-    <br />
-    <div class="alert alert-warning" v-if="!isFetching && patients && patients.length === 0">
-      <span v-text="t$('ecom02App.patient.home.notFound')"></span>
     </div>
-    <div class="table-responsive" v-if="patients && patients.length > 0">
-      <table class="table table-striped" aria-describedby="patients">
+    <div class="col">
+      <div class="card">
+        <h6 class="card-header" v-text="'Cas détectés'"></h6>
+        <div class="card-body text-center">
+          <h5><strong>2</strong></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col">
+      <h2 id="page-heading" data-cy="PatientHeading">
+        <span id="patient-heading" v-text="t$('g2ecomApp.patient.home.title')"></span>
+      </h2>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col">
+      <table aria-describedby="patients" class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.nom')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.sexe')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.taille')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.dateDeNaissance')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.numChambre')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.dateArrivee')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.infoComplementaires')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.user')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.patient.etablissement')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.prenom')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.nom')"></span></th>
+            <th scope="row"><span v-text="t$('g2ecomApp.patient.numChambre')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="patient in patients" :key="patient.id" data-cy="entityTable">
-            <td>
-              <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>
-            </td>
-            <td>{{ patient.prenom }}</td>
-            <td>{{ patient.nom }}</td>
-            <td>{{ patient.sexe }}</td>
-            <td>{{ patient.taille }}</td>
-            <td>{{ patient.dateDeNaissance }}</td>
-            <td>{{ patient.numChambre }}</td>
-            <td>{{ formatDateShort(patient.dateArrivee) || '' }}</td>
-            <td>{{ patient.infoComplementaires }}</td>
-            <td>
-              <span v-for="(user, i) in patient.users" :key="user.id"
-                >{{ i > 0 ? ', ' : '' }}
-                {{ user.id }}
-              </span>
-            </td>
-            <td>
-              <div v-if="patient.etablissement">
-                <router-link :to="{ name: 'EtablissementView', params: { etablissementId: patient.etablissement.id } }">{{
-                  patient.etablissement.id
-                }}</router-link>
-              </div>
-            </td>
-            <td class="text-right">
-              <div class="btn-group">
-                <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+          <template
+            v-for="patient in patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
+            :key="patient.id"
+          >
+            <tr data-cy="entityTable">
+              <!--          <td>-->
+              <!--            <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>-->
+              <!--          </td>-->
+              <td>{{ patient.prenom }}</td>
+              <td>{{ patient.nom }}</td>
+              <td>{{ patient.numChambre }}</td>
+              <td>
+                <router-link v-slot="{ navigate }" :to="{ name: 'PatientView', params: { patientId: patient.id } }" custom>
+                  <button class="btn btn-info btn-sm details" data-cy="entityDetailsButton" @click="navigate">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="t$('entity.action.view')"></span>
                   </button>
                 </router-link>
-                <router-link :to="{ name: 'PatientEdit', params: { patientId: patient.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
-                    <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
-                    <span class="d-none d-md-inline" v-text="t$('entity.action.edit')"></span>
-                  </button>
-                </router-link>
-                <b-button
-                  v-on:click="prepareRemove(patient)"
-                  variant="danger"
-                  class="btn btn-sm"
-                  data-cy="entityDeleteButton"
-                  v-b-modal.removeEntity
-                >
-                  <font-awesome-icon icon="times"></font-awesome-icon>
-                  <span class="d-none d-md-inline" v-text="t$('entity.action.delete')"></span>
-                </b-button>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>

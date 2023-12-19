@@ -1,6 +1,6 @@
 {
   "name": "ecom-02",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Description for Ecom 02",
   "license": "UNLICENSED",
@@ -96,10 +96,12 @@
     "axios": "1.6.0",
     "bootstrap": "4.6.2",
     "bootstrap-vue": "2.23.1",
+    "chart.js": "^4.4.0",
     "dayjs": "1.11.10",
     "deepmerge": "4.3.1",
     "pinia": "2.1.7",
     "vue": "3.3.7",
+    "vue-chartjs": "^5.2.0",
     "vue-i18n": "9.6.2",
     "vue-router": "4.2.5"
   },
@@ -128,6 +130,7 @@
     "generator-jhipster": "8.0.0",
     "happy-dom": "12.10.3",
     "husky": "8.0.3",
+    "lighthouse": "11.2.0",
     "lint-staged": "15.0.2",
     "numeral": "2.0.6",
     "postcss-import": "15.1.0",

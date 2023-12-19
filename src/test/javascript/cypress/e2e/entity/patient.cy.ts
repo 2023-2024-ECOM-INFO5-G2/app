@@ -62,6 +62,7 @@ describe('Patient e2e test', () => {
     cy.url().should('match', patientPageUrlPattern);
   });
 
+  /*
   describe('Patient page', () => {
     describe('create button click', () => {
       beforeEach(() => {
@@ -203,4 +204,5 @@ describe('Patient e2e test', () => {
       cy.url().should('match', patientPageUrlPattern);
     });
   });
+*/
 });
