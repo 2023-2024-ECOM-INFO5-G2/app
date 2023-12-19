@@ -63,8 +63,44 @@
 
       <h1 class="my-4">Liste des patients</h1>
 
-      <div>
-        <b-table> </b-table>
+      <div class="row mt-5">
+        <div class="col">
+          <div style="max-height: 300px; overflow-y: auto">
+            <table aria-describedby="patients" class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="row"><span v-text="t$('g2EcomApp.patient.prenom')"></span></th>
+                  <th scope="row"><span v-text="t$('g2EcomApp.patient.nom')"></span></th>
+                  <th scope="row"><span v-text="t$('g2EcomApp.patient.numChambre')"></span></th>
+                  <th scope="row"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <template
+                  v-for="patient in patients.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
+                  :key="patient.id"
+                >
+                  <tr data-cy="entityTable">
+                    <!--          <td>-->
+                    <!--            <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>-->
+                    <!--          </td>-->
+                    <td>{{ patient.prenom }}</td>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.numChambre }}</td>
+                    <td>
+                      <router-link v-slot="{ navigate }" :to="{ name: 'PatientView', params: { patientId: patient.id } }" custom>
+                        <button class="btn btn-info btn-sm details" data-cy="entityDetailsButton" @click="navigate">
+                          <font-awesome-icon icon="eye"></font-awesome-icon>
+                          <span class="d-none d-md-inline" v-text="t$('entity.action.view')"></span>
+                        </button>
+                      </router-link>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div class="row justify-content-end">
