@@ -56,7 +56,7 @@ export default class AlertService {
 
   public showHttpError(httpErrorResponse: any) {
     let errorMessage: string | null = null;
-    switch (httpErrorResponse.status) {
+    switch (httpErrorResponse?.status) {
       case 0:
         errorMessage = this.i18n.t('error.server.not.reachable').toString();
         break;
@@ -74,7 +74,7 @@ export default class AlertService {
         if (errorMessage && entityKey) {
           errorMessage = this.i18n.t(errorMessage, { entityName: this.i18n.t(`global.menu.entities.${entityKey}`) }).toString();
         } else if (!errorMessage) {
-          errorMessage = this.i18n.t(httpErrorResponse.data.message).toString();
+          errorMessage = this.i18n.t(httpErrorResponse?.data.message)?.toString();
         }
         break;
       }
@@ -84,7 +84,7 @@ export default class AlertService {
         break;
 
       default:
-        errorMessage = this.i18n.t(httpErrorResponse.data.message).toString();
+        errorMessage = this.i18n.t(httpErrorResponse?.data.message)?.toString();
     }
     this.showError(errorMessage);
   }
