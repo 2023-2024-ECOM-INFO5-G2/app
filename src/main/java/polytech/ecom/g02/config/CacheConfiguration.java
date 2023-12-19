@@ -48,6 +48,24 @@ public class CacheConfiguration {
             createCache(cm, polytech.ecom.g02.domain.User.class.getName());
             createCache(cm, polytech.ecom.g02.domain.Authority.class.getName());
             createCache(cm, polytech.ecom.g02.domain.User.class.getName() + ".authorities");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".alertes");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".rappels");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".mesurePoids");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".mesureEPAS");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".mesureAlbumines");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".repas");
+            createCache(cm, polytech.ecom.g02.domain.Patient.class.getName() + ".users");
+            createCache(cm, polytech.ecom.g02.domain.Etablissement.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.Etablissement.class.getName() + ".patients");
+            createCache(cm, polytech.ecom.g02.domain.Etablissement.class.getName() + ".users");
+            createCache(cm, polytech.ecom.g02.domain.Repas.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.Rappel.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.Rappel.class.getName() + ".users");
+            createCache(cm, polytech.ecom.g02.domain.Alerte.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.MesurePoids.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.MesureEPA.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.MesureAlbumine.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,26 @@
+{
+  "ecom02App": {
+    "mesurePoids": {
+      "home": {
+        "title": "MesurePoids",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Mesure Poids",
+        "createOrEditLabel": "Créer ou éditer un Mesure Poids",
+        "notFound": "Aucun Mesure Poids trouvé"
+      },
+      "created": "Un nouveau Mesure Poids a été créé avec l'identifiant { param }",
+      "updated": "Le Mesure Poids avec l'identifiant { param } a été mis à jour",
+      "deleted": "Le Mesure Poids avec l'identifiant { param } a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Mesure Poids { id } ?"
+      },
+      "detail": {
+        "title": "Mesure Poids"
+      },
+      "id": "ID",
+      "valeur": "Valeur",
+      "date": "Date",
+      "patient": "Patient"
+    }
+  }
+}
