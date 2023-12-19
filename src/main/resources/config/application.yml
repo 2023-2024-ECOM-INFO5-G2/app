@@ -185,7 +185,7 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: ecom02@localhost
+    from: polytech.ecomg02@gmail.com
   api-docs:
     default-include-pattern: /api/**
     management-include-pattern: /management/**

@@ -73,7 +73,7 @@ jobs:
       - name: Build docker image
         run: |
           npm run java:docker:prod
-          docker tag g2ecom ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ secrets.DOCKER_IMAGE_TAG }}
+          docker tag ecom02 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ secrets.DOCKER_IMAGE_TAG }}
       #        if: (matrix.environment == 'development' && github.ref == 'refs/heads/develop') || (matrix.environment == 'production' && github.ref == 'refs/heads/main')
       - name: Publish docker image
         run: |
