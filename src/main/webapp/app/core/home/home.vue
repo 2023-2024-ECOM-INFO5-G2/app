@@ -108,11 +108,15 @@
           <div class="card text-center">
             <h6 class="card-header">{{ 'Laisser une instruction' }}</h6>
             <div class="card-body">
-              <a href="#" class="btn btn-primary">+</a>
+              <b-button v-b-modal.modal-instruction variant="primary">+</b-button>
             </div>
           </div>
         </div>
       </div>
+
+      <b-modal id="modal-instruction" title="Ajouter une instruction">
+        <b-form-input v-model="newInstruction" placeholder="Type d'instruction" type="number"></b-form-input>
+      </b-modal>
     </div>
   </div>
 </template>
