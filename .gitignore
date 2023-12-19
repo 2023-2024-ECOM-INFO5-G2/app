@@ -149,5 +149,3 @@ Desktop.ini
 ######################
 /coverage/
 /.nyc_output/
-
-.env

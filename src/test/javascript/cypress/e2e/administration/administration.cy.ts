@@ -1,12 +1,4 @@
-import {
-  userManagementPageHeadingSelector,
-  metricsPageHeadingSelector,
-  healthPageHeadingSelector,
-  logsPageHeadingSelector,
-  configurationPageHeadingSelector,
-  swaggerPageSelector,
-  swaggerFrameSelector,
-} from '../../support/commands';
+import { userManagementPageHeadingSelector, swaggerPageSelector, swaggerFrameSelector } from '../../support/commands';
 
 describe('/admin', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
@@ -21,34 +13,6 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('user-management');
       cy.get(userManagementPageHeadingSelector).should('be.visible');
-    });
-  });
-
-  describe('/metrics', () => {
-    it('should load the page', () => {
-      cy.clickOnAdminMenuItem('metrics');
-      cy.get(metricsPageHeadingSelector).should('be.visible');
-    });
-  });
-
-  describe('/health', () => {
-    it('should load the page', () => {
-      cy.clickOnAdminMenuItem('health');
-      cy.get(healthPageHeadingSelector).should('be.visible');
-    });
-  });
-
-  describe('/logs', () => {
-    it('should load the page', () => {
-      cy.clickOnAdminMenuItem('logs');
-      cy.get(logsPageHeadingSelector).should('be.visible');
-    });
-  });
-
-  describe('/configuration', () => {
-    it('should load the page', () => {
-      cy.clickOnAdminMenuItem('configuration');
-      cy.get(configurationPageHeadingSelector).should('be.visible');
     });
   });
 

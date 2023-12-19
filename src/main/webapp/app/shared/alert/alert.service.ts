@@ -56,7 +56,7 @@ export default class AlertService {
 
   public showHttpError(httpErrorResponse: any) {
     let errorMessage: string | null = null;
-    switch (httpErrorResponse?.status) {
+    switch (httpErrorResponse.status) {
       case 0:
         errorMessage = this.i18n.t('error.server.not.reachable').toString();
         break;
@@ -84,7 +84,7 @@ export default class AlertService {
         break;
 
       default:
-        errorMessage = this.i18n.t(httpErrorResponse?.data.message)?.toString();
+        errorMessage = this.i18n.t(httpErrorResponse.data.message).toString();
     }
     this.showError(errorMessage);
   }
