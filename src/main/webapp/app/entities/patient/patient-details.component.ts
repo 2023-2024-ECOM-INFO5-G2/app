@@ -1,9 +1,21 @@
-import { defineComponent, inject, ref, provide, type Ref } from 'vue';
+import { defineComponent, inject, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { Line } from 'vue-chartjs';
-import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip,
+} from 'chart.js';
+import 'chartjs-adapter-luxon';
 import PatientService from './patient.service';
 import MesureEPAService from '../mesure-epa/mesure-epa.service';
 import MesurePoidsService from '../mesure-poids/mesure-poids.service';
@@ -27,7 +39,7 @@ import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -58,13 +70,20 @@ export default defineComponent({
     const EPAPatient: Ref<Array<IMesure>> = ref([]);
     const albuPatient: Ref<Array<IMesure>> = ref([]);
     const patientIMC: Ref<Number> = ref(0);
-    const weightChartData: Ref<Object> = ref({});
-    const EPAChartData: Ref<Object> = ref({});
+    const chartData: Ref<Object> = ref({});
     const chartOptions: Ref<Object> = ref({
       responsive: true,
+      scales: {
+        x: {
+          type: 'time',
+          parsing: false,
+          ticks: {
+            callback: (value: number) => new Date(value).toLocaleString('fr-FR'),
+          },
+        },
+      },
     });
-    const weightChartLoaded: Ref<Boolean> = ref(false);
-    const EPAChartLoaded: Ref<Boolean> = ref(false);
+    const chartDataLoaded: Ref<Boolean> = ref(false);
     const newEPAValue: Ref<Number> = ref(0);
     const newWeightValue: Ref<Number> = ref(0);
     const newAlbuValue: Ref<Number> = ref(0);
@@ -205,27 +224,25 @@ export default defineComponent({
       const EPAValues = [];
       for (const weightEntry of poidsPatient.value) {
         weightValues.push({
-          x: weightEntry.date,
+          x: Date.parse(weightEntry.date),
           y: weightEntry.valeur,
         });
       }
       for (const EPAEntry of EPAPatient.value) {
         EPAValues.push({
-          x: EPAEntry.date,
+          x: Date.parse(EPAEntry.date),
           y: EPAEntry.valeur,
         });
       }
-      weightChartData.value = {
+      console.log(EPAValues);
+      console.log(weightValues);
+      chartData.value = {
         datasets: [
           {
             label: 'poids (kg)',
             data: weightValues,
             borderColor: 'rgb(255, 125, 100)',
           },
-        ],
-      };
-      EPAChartData.value = {
-        datasets: [
           {
             label: 'EPA',
             data: EPAValues,
@@ -233,8 +250,7 @@ export default defineComponent({
           },
         ],
       };
-      weightChartLoaded.value = true;
-      EPAChartLoaded.value = true;
+      chartDataLoaded.value = true;
     };
 
     const retrievePatientMesures = async (patientId: string | string[]) => {
@@ -243,8 +259,8 @@ export default defineComponent({
         const resPoids = await mesurePoidsService().retrieve();
         const resEPA = await mesureEPAService().retrieve();
 
-        poidsPatient.value = resAlbu.data.filter((o: IMesurePoids) => o.patient !== null && o.patient.id === Number(patientId));
-        albuPatient.value = resPoids.data.filter((o: IMesureAlbumine) => o.patient !== null && o.patient.id === Number(patientId));
+        poidsPatient.value = resPoids.data.filter((o: IMesurePoids) => o.patient !== null && o.patient.id === Number(patientId));
+        albuPatient.value = resAlbu.data.filter((o: IMesureAlbumine) => o.patient !== null && o.patient.id === Number(patientId));
         EPAPatient.value = resEPA.data.filter((o: IMesureEPA) => o.patient !== null && o.patient.id === Number(patientId));
 
         poidsPatient.value.sort((a: IMesurePoids, b: IMesurePoids) => +new Date(a.date) - +new Date(b.date));
@@ -287,11 +303,9 @@ export default defineComponent({
       poidsPatient,
       EPAPatient,
       patientIMC,
-      weightChartData,
-      EPAChartData,
+      chartData,
       chartOptions,
-      weightChartLoaded,
-      EPAChartLoaded,
+      chartDataLoaded,
       newEPAValue,
       newWeightValue,
       newAlbuValue,
