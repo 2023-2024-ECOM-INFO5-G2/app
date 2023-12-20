@@ -191,13 +191,13 @@ jhipster:
     management-include-pattern: /management/**
     title: Ecom 02 API
     description: Ecom 02 API documentation
-    version: 0.0.1
-    terms-of-service-url:
-    contact-name:
-    contact-url:
-    contact-email:
-    license: unlicensed
-    license-url:
+    version: ${info.project.version}
+    terms-of-service-url: ${info.project.url}
+    contact-name: ${info.project.contact.name}
+    contact-url: ${info.project.url}
+    contact-email: ${info.project.contact.email}
+    license: ${info.project.license}
+    license-url: ${info.project.license-url}
   security:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
 # ===================================================================

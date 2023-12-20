@@ -35,7 +35,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/ecom02
     username: ecom02
-    password:
+    password: ecom02
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -44,10 +44,18 @@ spring:
     contexts: prod
     url: jdbc:postgresql://localhost:5432/ecom02
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: polytech.ecomg02@gmail.com
+    password: dzbijssfpbqdyyub
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: true
 
