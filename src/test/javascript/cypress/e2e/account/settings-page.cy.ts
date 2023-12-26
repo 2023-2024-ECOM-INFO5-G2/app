@@ -72,7 +72,7 @@ describe('/account/settings', () => {
 
   describe('if there is another user with an email', () => {
     let originalAdminAccount: Account;
-    const testAdminEmail = 'admin@localhost.fr';
+    const testAdminEmail = 'polytech.ecomg02@gmail.com';
 
     before(() => {
       cy.login(adminUsername, adminPassword);
