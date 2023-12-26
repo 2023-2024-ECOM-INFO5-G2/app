@@ -3,7 +3,7 @@ import type { Account } from '../../support/account';
 
 describe('/account/settings', () => {
   const adminUsername = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const adminPassword = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const adminPassword = Cypress.env('E2E_PASSWORD') ?? 'jaimelebeurre';
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
 
@@ -72,7 +72,7 @@ describe('/account/settings', () => {
 
   describe('if there is another user with an email', () => {
     let originalAdminAccount: Account;
-    const testAdminEmail = 'admin@localhost.fr';
+    const testAdminEmail = 'polytech.ecomg02@gmail.com';
 
     before(() => {
       cy.login(adminUsername, adminPassword);

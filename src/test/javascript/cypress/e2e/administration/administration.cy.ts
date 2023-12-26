@@ -2,7 +2,7 @@ import { userManagementPageHeadingSelector, swaggerPageSelector, swaggerFrameSel
 
 describe('/admin', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'jaimelebeurre';
 
   beforeEach(() => {
     cy.login(username, password);
