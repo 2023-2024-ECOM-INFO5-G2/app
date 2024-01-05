@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="g2ecomApp.mesureEPA.home.createOrEditLabel"
+          id="ecom02App.mesureEPA.home.createOrEditLabel"
           data-cy="MesureEPACreateUpdateHeading"
-          v-text="t$('g2ecomApp.mesureEPA.home.createOrEditLabel')"
+          v-text="t$('ecom02App.mesureEPA.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="mesureEPA.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="mesureEPA.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesureEPA.valeur')" for="mesure-epa-valeur"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesureEPA.valeur')" for="mesure-epa-valeur"></label>
             <input
               type="number"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesureEPA.date')" for="mesure-epa-date"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesureEPA.date')" for="mesure-epa-date"></label>
             <div class="d-flex">
               <input
                 id="mesure-epa-date"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesureEPA.patient')" for="mesure-epa-patient"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesureEPA.patient')" for="mesure-epa-patient"></label>
             <select class="form-control" id="mesure-epa-patient" data-cy="patient" name="patient" v-model="mesureEPA.patient">
               <option v-bind:value="null"></option>
               <option

@@ -60,8 +60,8 @@ export default defineComponent({
     const validationRules = {
       valeur: {
         required: validations.required(t$('entity.validation.required').toString()),
-        minValue: validations.minValue(t$('entity.validation.min', { min: 2 }).toString(), 2),
-        maxValue: validations.maxValue(t$('entity.validation.max', { max: 50 }).toString(), 50),
+        min: validations.minValue(t$('entity.validation.min', { min: 0 }).toString(), 0),
+        max: validations.maxValue(t$('entity.validation.max', { max: 100 }).toString(), 100),
       },
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
@@ -94,7 +94,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2ecomApp.mesureAlbumine.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.mesureAlbumine.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -106,7 +106,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2ecomApp.mesureAlbumine.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.mesureAlbumine.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

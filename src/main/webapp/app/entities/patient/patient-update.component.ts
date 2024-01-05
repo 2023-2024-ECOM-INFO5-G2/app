@@ -69,23 +69,22 @@ export default defineComponent({
       prenom: {
         required: validations.required(t$('entity.validation.required').toString()),
         minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
-        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
         minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
-        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       sexe: {
         required: validations.required(t$('entity.validation.required').toString()),
         minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
-        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 50 }).toString(), 50),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       taille: {
         required: validations.required(t$('entity.validation.required').toString()),
-        numeric: validations.numeric(t$('entity.validation.number').toString()),
-        minValue: validations.minValue(t$('entity.validation.min', { min: 40 }).toString(), 40),
-        maxValue: validations.maxValue(t$('entity.validation.max', { max: 251 }).toString(), 251),
+        min: validations.minValue(t$('entity.validation.min', { min: 45 }).toString(), 45),
+        max: validations.maxValue(t$('entity.validation.max', { max: 290 }).toString(), 290),
       },
       dateDeNaissance: {
         required: validations.required(t$('entity.validation.required').toString()),
@@ -97,7 +96,9 @@ export default defineComponent({
       dateArrivee: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      infosComplementaires: {},
+      infoComplementaires: {
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 1024 }).toString(), 1024),
+      },
       alertes: {},
       rappels: {},
       mesurePoids: {},
@@ -136,7 +137,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2ecomApp.patient.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.patient.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -148,7 +149,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2ecomApp.patient.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.patient.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

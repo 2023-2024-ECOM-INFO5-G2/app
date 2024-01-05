@@ -1,26 +1,36 @@
 {
   "applications": "*",
-  "changelogDate": "20231205144230",
+  "changelogDate": "20231219130012",
   "entityTableName": "etablissement",
   "fields": [
     {
       "fieldName": "nom",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "64",
+      "fieldValidateRulesMinlength": "3"
     },
     {
       "fieldName": "adresse",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "128",
+      "fieldValidateRulesMinlength": "3"
     },
     {
       "fieldName": "ville",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "64",
+      "fieldValidateRulesMinlength": "3"
     },
     {
       "fieldName": "codePostal",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMaxlength": "5",
+      "fieldValidateRulesMinlength": "5",
+      "fieldValidateRulesPattern": "^\\d{5}$"
     }
   ],
   "name": "Etablissement",

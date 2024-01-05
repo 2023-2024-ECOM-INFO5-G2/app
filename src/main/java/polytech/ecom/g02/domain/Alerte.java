@@ -26,12 +26,17 @@ public class Alerte implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "description", nullable = false)
+    @Size(min = 3, max = 512)
+    @Column(name = "description", length = 512, nullable = false)
     private String description;
 
     @NotNull
     @Column(name = "date", nullable = false)
     private ZonedDateTime date;
+
+    @NotNull
+    @Column(name = "severe", nullable = false)
+    private Boolean severe;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
@@ -81,6 +86,19 @@ public class Alerte implements Serializable {
         this.date = date;
     }
 
+    public Boolean getSevere() {
+        return this.severe;
+    }
+
+    public Alerte severe(Boolean severe) {
+        this.setSevere(severe);
+        return this;
+    }
+
+    public void setSevere(Boolean severe) {
+        this.severe = severe;
+    }
+
     public Patient getPatient() {
         return this.patient;
     }
@@ -120,6 +138,7 @@ public class Alerte implements Serializable {
             "id=" + getId() +
             ", description='" + getDescription() + "'" +
             ", date='" + getDate() + "'" +
+            ", severe='" + getSevere() + "'" +
             "}";
     }
 }

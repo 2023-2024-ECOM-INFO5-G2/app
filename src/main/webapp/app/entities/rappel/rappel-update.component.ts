@@ -38,6 +38,7 @@ export default defineComponent({
       try {
         const res = await rappelService().find(rappelId);
         res.date = new Date(res.date);
+        res.echeance = new Date(res.echeance);
         rappel.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -69,16 +70,21 @@ export default defineComponent({
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      frequenceJour: {
-        required: validations.required(t$('entity.validation.required').toString()),
-        numeric: validations.numeric(t$('entity.validation.number').toString()),
-        maxValue: validations.maxValue(t$('entity.validation.max', { min: 120 }).toString(), 120),
-        minValue: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
-      },
       echeance: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
+      intervaleJours: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        min: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        max: validations.maxValue(t$('entity.validation.max', { max: 366 }).toString(), 366),
+      },
       tache: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
+      },
+      feeDansLetang: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
       users: {},
@@ -113,7 +119,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2ecomApp.rappel.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.rappel.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -125,7 +131,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2ecomApp.rappel.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.rappel.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

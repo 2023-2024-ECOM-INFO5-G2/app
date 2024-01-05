@@ -1,5 +1,5 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: g2ecom
+name: ecom02
 services:
   sonar:
     container_name: sonarqube
@@ -11,5 +11,5 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:9001:9000
-      - 127.0.0.1:9000:9000
+      - 9001:9000
+      - 9000:9000

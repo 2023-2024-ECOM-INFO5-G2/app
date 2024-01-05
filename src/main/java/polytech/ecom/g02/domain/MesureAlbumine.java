@@ -26,6 +26,8 @@ public class MesureAlbumine implements Serializable {
     private Long id;
 
     @NotNull
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "100")
     @Column(name = "valeur", nullable = false)
     private Float valeur;
 

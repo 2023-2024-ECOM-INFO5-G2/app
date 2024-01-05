@@ -16,10 +16,11 @@ describe('Rappel e2e test', () => {
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const rappelSample = {
-    date: '2023-12-05T11:52:02.861Z',
-    frequenceJour: 4317,
-    echeance: '2023-12-05',
-    tache: 'bien que de façon à à même',
+    date: '2023-12-18T16:52:03.072Z',
+    echeance: '2023-12-19T08:11:29.037Z',
+    intervaleJours: 110,
+    tache: 'commis premièrement antagoniste',
+    feeDansLetang: false,
   };
 
   let rappel;
@@ -127,6 +128,16 @@ describe('Rappel e2e test', () => {
         cy.url().should('match', rappelPageUrlPattern);
       });
 
+      it('edit button click should load edit Rappel page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('Rappel');
+        cy.get(entityCreateSaveButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.url().should('match', rappelPageUrlPattern);
+      });
+
       it('last delete button click should delete instance of Rappel', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('rappel').should('exist');
@@ -152,19 +163,23 @@ describe('Rappel e2e test', () => {
     });
 
     it('should create an instance of Rappel', () => {
-      cy.get(`[data-cy="date"]`).type('2023-12-05T10:42');
+      cy.get(`[data-cy="date"]`).type('2023-12-19T05:21');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T10:42');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-19T05:21');
 
-      cy.get(`[data-cy="frequenceJour"]`).type('2');
-      cy.get(`[data-cy="frequenceJour"]`).should('have.value', '2');
-
-      cy.get(`[data-cy="echeance"]`).type('2023-12-05');
+      cy.get(`[data-cy="echeance"]`).type('2023-12-18T19:41');
       cy.get(`[data-cy="echeance"]`).blur();
-      cy.get(`[data-cy="echeance"]`).should('have.value', '2023-12-05');
+      cy.get(`[data-cy="echeance"]`).should('have.value', '2023-12-18T19:41');
 
-      cy.get(`[data-cy="tache"]`).type('croâ ramener efficace');
-      cy.get(`[data-cy="tache"]`).should('have.value', 'croâ ramener efficace');
+      cy.get(`[data-cy="intervaleJours"]`).type('360');
+      cy.get(`[data-cy="intervaleJours"]`).should('have.value', '360');
+
+      cy.get(`[data-cy="tache"]`).type('aussi quand presque');
+      cy.get(`[data-cy="tache"]`).should('have.value', 'aussi quand presque');
+
+      cy.get(`[data-cy="feeDansLetang"]`).should('not.be.checked');
+      cy.get(`[data-cy="feeDansLetang"]`).click();
+      cy.get(`[data-cy="feeDansLetang"]`).should('be.checked');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

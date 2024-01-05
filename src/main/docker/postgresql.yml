@@ -1,13 +1,13 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: g2ecom
+name: ecom02
 services:
   postgresql:
     image: postgres:16.0
     # volumes:
-    #   - ~/volumes/jhipster/g2ecom/postgresql/:/var/lib/postgresql/data/
+    #   - ~/volumes/jhipster/ecom02/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=g2ecom
-      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=ecom02
+      - POSTGRES_PASSWORD=ecom02
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
@@ -17,4 +17,4 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:5432:5432
+      - 5432:5432

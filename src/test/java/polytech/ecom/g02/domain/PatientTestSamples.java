@@ -12,11 +12,11 @@ public class PatientTestSamples {
     private static final AtomicInteger intCount = new AtomicInteger(random.nextInt() + (2 * Short.MAX_VALUE));
 
     public static Patient getPatientSample1() {
-        return new Patient().id(1L).prenom("prenom1").nom("nom1").sexe("sexe1").numChambre(1).infosComplementaires("infosComplementaires1");
+        return new Patient().id(1L).prenom("prenom1").nom("nom1").sexe("sexe1").numChambre(1).infoComplementaires("infoComplementaires1");
     }
 
     public static Patient getPatientSample2() {
-        return new Patient().id(2L).prenom("prenom2").nom("nom2").sexe("sexe2").numChambre(2).infosComplementaires("infosComplementaires2");
+        return new Patient().id(2L).prenom("prenom2").nom("nom2").sexe("sexe2").numChambre(2).infoComplementaires("infoComplementaires2");
     }
 
     public static Patient getPatientRandomSampleGenerator() {
@@ -26,6 +26,6 @@ public class PatientTestSamples {
             .nom(UUID.randomUUID().toString())
             .sexe(UUID.randomUUID().toString())
             .numChambre(intCount.incrementAndGet())
-            .infosComplementaires(UUID.randomUUID().toString());
+            .infoComplementaires(UUID.randomUUID().toString());
     }
 }

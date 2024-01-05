@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="g2ecomApp.mesurePoids.home.createOrEditLabel"
+          id="ecom02App.mesurePoids.home.createOrEditLabel"
           data-cy="MesurePoidsCreateUpdateHeading"
-          v-text="t$('g2ecomApp.mesurePoids.home.createOrEditLabel')"
+          v-text="t$('ecom02App.mesurePoids.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="mesurePoids.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="mesurePoids.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesurePoids.valeur')" for="mesure-poids-valeur"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesurePoids.valeur')" for="mesure-poids-valeur"></label>
             <input
               type="number"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesurePoids.date')" for="mesure-poids-date"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesurePoids.date')" for="mesure-poids-date"></label>
             <div class="d-flex">
               <input
                 id="mesure-poids-date"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.mesurePoids.patient')" for="mesure-poids-patient"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.mesurePoids.patient')" for="mesure-poids-patient"></label>
             <select class="form-control" id="mesure-poids-patient" data-cy="patient" name="patient" v-model="mesurePoids.patient">
               <option v-bind:value="null"></option>
               <option

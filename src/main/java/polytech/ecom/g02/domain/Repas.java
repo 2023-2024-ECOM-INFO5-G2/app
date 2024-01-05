@@ -26,20 +26,26 @@ public class Repas implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "nom", nullable = false)
+    @Size(min = 3, max = 64)
+    @Column(name = "nom", length = 64, nullable = false)
     private String nom;
 
     @NotNull
     @Column(name = "date", nullable = false)
     private ZonedDateTime date;
 
+    @DecimalMin(value = "1")
+    @DecimalMax(value = "5000")
     @Column(name = "apport_calorique")
     private Float apportCalorique;
 
+    @DecimalMin(value = "1")
+    @DecimalMax(value = "5000")
     @Column(name = "poids_consomme")
     private Float poidsConsomme;
 
-    @Column(name = "description")
+    @Size(min = 3, max = 512)
+    @Column(name = "description", length = 512)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

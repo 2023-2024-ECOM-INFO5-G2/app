@@ -128,14 +128,17 @@ public class RappelResource {
                 if (rappel.getDate() != null) {
                     existingRappel.setDate(rappel.getDate());
                 }
-                if (rappel.getFrequenceJour() != null) {
-                    existingRappel.setFrequenceJour(rappel.getFrequenceJour());
-                }
                 if (rappel.getEcheance() != null) {
                     existingRappel.setEcheance(rappel.getEcheance());
                 }
+                if (rappel.getIntervaleJours() != null) {
+                    existingRappel.setIntervaleJours(rappel.getIntervaleJours());
+                }
                 if (rappel.getTache() != null) {
                     existingRappel.setTache(rappel.getTache());
+                }
+                if (rappel.getFeeDansLetang() != null) {
+                    existingRappel.setFeeDansLetang(rappel.getFeeDansLetang());
                 }
 
                 return existingRappel;

@@ -84,7 +84,7 @@ public class PatientGatlingTest extends Simulation {
                                 ", \"dateDeNaissance\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"numChambre\": 0" +
                                 ", \"dateArrivee\": \"2020-01-01T00:00:00.000Z\"" +
-                                ", \"infosComplementaires\": \"SAMPLE_TEXT\"" +
+                                ", \"infoComplementaires\": \"SAMPLE_TEXT\"" +
                                 "}"
                             )
                         )

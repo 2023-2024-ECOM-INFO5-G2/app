@@ -106,7 +106,7 @@ describe('Service Tests', () => {
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
             numChambre: 1,
             dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            infosComplementaires: 'BBBBBB',
+            infoComplementaires: 'BBBBBB',
           },
           elemDefault,
         );
@@ -185,7 +185,7 @@ describe('Service Tests', () => {
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
             numChambre: 1,
             dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            infosComplementaires: 'BBBBBB',
+            infoComplementaires: 'BBBBBB',
           },
           elemDefault,
         );

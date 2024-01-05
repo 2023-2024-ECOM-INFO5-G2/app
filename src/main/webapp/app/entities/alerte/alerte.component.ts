@@ -53,7 +53,7 @@ export default defineComponent({
     const removeAlerte = async () => {
       try {
         await alerteService().delete(removeId.value);
-        const message = t$('g2ecomApp.alerte.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.alerte.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveAlertes();

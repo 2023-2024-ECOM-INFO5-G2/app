@@ -56,7 +56,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await retrievePatients();
-      await retrieveEtablissements(); //FIXME : à supprimer ???
+      await retrieveEtablissements();
     });
 
     const removeId: Ref<number> = ref(null);
@@ -71,7 +71,7 @@ export default defineComponent({
     const removePatient = async () => {
       try {
         await patientService().delete(removeId.value);
-        const message = t$('g2ecomApp.patient.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.patient.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrievePatients();

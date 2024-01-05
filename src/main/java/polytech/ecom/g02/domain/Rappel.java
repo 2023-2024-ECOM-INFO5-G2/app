@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,16 +32,23 @@ public class Rappel implements Serializable {
     private ZonedDateTime date;
 
     @NotNull
-    @Column(name = "frequence_jour", nullable = false)
-    private Integer frequenceJour;
-
-    @NotNull
     @Column(name = "echeance", nullable = false)
-    private LocalDate echeance;
+    private ZonedDateTime echeance;
 
     @NotNull
-    @Column(name = "tache", nullable = false)
+    @Min(value = 1)
+    @Max(value = 366)
+    @Column(name = "intervale_jours", nullable = false)
+    private Integer intervaleJours;
+
+    @NotNull
+    @Size(min = 3, max = 512)
+    @Column(name = "tache", length = 512, nullable = false)
     private String tache;
+
+    @NotNull
+    @Column(name = "fee_dans_letang", nullable = false)
+    private Boolean feeDansLetang;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rel_rappel__user", joinColumns = @JoinColumn(name = "rappel_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -84,30 +90,30 @@ public class Rappel implements Serializable {
         this.date = date;
     }
 
-    public Integer getFrequenceJour() {
-        return this.frequenceJour;
-    }
-
-    public Rappel frequenceJour(Integer frequenceJour) {
-        this.setFrequenceJour(frequenceJour);
-        return this;
-    }
-
-    public void setFrequenceJour(Integer frequenceJour) {
-        this.frequenceJour = frequenceJour;
-    }
-
-    public LocalDate getEcheance() {
+    public ZonedDateTime getEcheance() {
         return this.echeance;
     }
 
-    public Rappel echeance(LocalDate echeance) {
+    public Rappel echeance(ZonedDateTime echeance) {
         this.setEcheance(echeance);
         return this;
     }
 
-    public void setEcheance(LocalDate echeance) {
+    public void setEcheance(ZonedDateTime echeance) {
         this.echeance = echeance;
+    }
+
+    public Integer getIntervaleJours() {
+        return this.intervaleJours;
+    }
+
+    public Rappel intervaleJours(Integer intervaleJours) {
+        this.setIntervaleJours(intervaleJours);
+        return this;
+    }
+
+    public void setIntervaleJours(Integer intervaleJours) {
+        this.intervaleJours = intervaleJours;
     }
 
     public String getTache() {
@@ -121,6 +127,19 @@ public class Rappel implements Serializable {
 
     public void setTache(String tache) {
         this.tache = tache;
+    }
+
+    public Boolean getFeeDansLetang() {
+        return this.feeDansLetang;
+    }
+
+    public Rappel feeDansLetang(Boolean feeDansLetang) {
+        this.setFeeDansLetang(feeDansLetang);
+        return this;
+    }
+
+    public void setFeeDansLetang(Boolean feeDansLetang) {
+        this.feeDansLetang = feeDansLetang;
     }
 
     public Set<User> getUsers() {
@@ -184,9 +203,10 @@ public class Rappel implements Serializable {
         return "Rappel{" +
             "id=" + getId() +
             ", date='" + getDate() + "'" +
-            ", frequenceJour=" + getFrequenceJour() +
             ", echeance='" + getEcheance() + "'" +
+            ", intervaleJours=" + getIntervaleJours() +
             ", tache='" + getTache() + "'" +
+            ", feeDansLetang='" + getFeeDansLetang() + "'" +
             "}";
     }
 }

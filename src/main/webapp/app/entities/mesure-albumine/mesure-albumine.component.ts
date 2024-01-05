@@ -53,7 +53,7 @@ export default defineComponent({
     const removeMesureAlbumine = async () => {
       try {
         await mesureAlbumineService().delete(removeId.value);
-        const message = t$('g2ecomApp.mesureAlbumine.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.mesureAlbumine.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveMesureAlbumines();

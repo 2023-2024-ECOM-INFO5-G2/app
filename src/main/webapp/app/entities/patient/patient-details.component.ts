@@ -87,7 +87,7 @@ export default defineComponent({
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
-        const res = await patientService().find(Number(patientId));
+        const res = await patientService().find(patientId);
         patient.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -198,26 +198,6 @@ export default defineComponent({
       }
     };
 
-    const addMeal = async () => {
-      try {
-        if (Number(mealCal.value) <= 0) alertService.showError('Donnée incorrecte, calories doit être positif');
-        else {
-          // Create a new EPA entry object
-          const newMeal = {
-            nom: mealName.value,
-            description: mealDesc.value,
-            apportCalorique: mealCal.value,
-            patients: [patient.value],
-          };
-
-          await repasService().create(newMeal);
-          await retrievePatientMeals(patient.value.id);
-        }
-      } catch (error: any) {
-        alertService.showHttpError(error.response);
-      }
-    };
-
     const calculIMC = (patientHeight: string, patientWeight: string) => {
       return Math.round(Number(patientWeight) / (((Number(patientHeight) / 100) * Number(patientHeight)) / 100));
     };
@@ -278,20 +258,6 @@ export default defineComponent({
 
         poidsPatient.value.sort((a: IMesurePoids, b: IMesurePoids) => +new Date(a.date) - +new Date(b.date));
         EPAPatient.value.sort((a: IMesureEPA, b: IMesureEPA) => +new Date(a.date) - +new Date(b.date));
-      } catch (error: any) {
-        alertService.showHttpError(error.response);
-      }
-    };
-
-    const retrievePatientMeals = async (patientId: string | string[]) => {
-      try {
-        const res = await repasService().retrieve();
-        patientMeals.value = [];
-        for (const meal of res.data) {
-          if (meal.patients.filter((patient: IPatient) => patient.id === Number(patientId)).length === 0) continue;
-          delete meal.patients;
-          patientMeals.value.push(meal);
-        }
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }

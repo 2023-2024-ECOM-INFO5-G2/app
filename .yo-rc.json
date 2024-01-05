@@ -8,8 +8,8 @@
     "clientFramework": "vue",
     "clientTestFrameworks": ["cypress"],
     "clientTheme": "none",
-    "creationTimestamp": 1701787230549,
-    "cypressAudit": true,
+    "creationTimestamp": 1702990692871,
+    "cypressAudit": false,
     "cypressCoverage": null,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
@@ -21,9 +21,9 @@
     "entities": ["Patient", "Etablissement", "Repas", "Rappel", "Alerte", "MesurePoids", "MesureEPA", "MesureAlbumine"],
     "gradleEnterpriseHost": null,
     "jhipsterVersion": "8.0.0",
-    "jwtSecretKey": "ODY0ZmY4NzMyOWI5YTBjNzM1NTg2NjQ0ODYxY2ZhYjNlNzU5NmI3NDVmZWE1YmFiOTBkYzkxMjNjMWI0MzhjNDRkNjNjZTVmNjNhOTU2OTlkMGNiYWM2NmFjNmQ4MTc0MjlkYzNhNWVjYTg5YjA2NzU3NTEyMjZjZjJhM2JkMzY=",
+    "jwtSecretKey": "NzY5ZWZmMzFhNTI0MzQ3Y2JlMzRjNDIyZjYwOGJhN2NjY2QzMzhmZGQwOWUyZjMzZDRmMWM5NDViODM1ZjZiZjQ2MzA5Zjc4ODU0MDQyYWE1N2U1ZDVmMGUzNjI5NjRmMWVjZWQ3MmQxNDc5ZGE5OWU3NjEzZjllNzJkOGQ3M2M=",
     "languages": ["fr", "en"],
-    "lastLiquibaseTimestamp": 1701787710000,
+    "lastLiquibaseTimestamp": 1702991172000,
     "messageBroker": false,
     "microfrontend": null,
     "microfrontends": [],
@@ -37,6 +37,6 @@
     "serviceDiscoveryType": false,
     "testFrameworks": ["gatling", "cucumber", "cypress"],
     "websocket": false,
-    "withAdminUi": true
+    "withAdminUi": false
   }
 }

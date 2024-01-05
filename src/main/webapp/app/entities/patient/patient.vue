@@ -68,10 +68,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="g2ecomApp.patient.delete.question" data-cy="patientDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="ecom02App.patient.delete.question" data-cy="patientDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-patient-heading" v-text="t$('g2ecomApp.patient.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-patient-heading" v-text="t$('ecom02App.patient.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

@@ -15,7 +15,7 @@ describe('Repas e2e test', () => {
   const repasPageUrlPattern = new RegExp('/repas(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const repasSample = { nom: 'au dépens de quitte à', date: '2023-12-04T15:49:48.860Z' };
+  const repasSample = { nom: 'au dépens de quitte à', date: '2023-12-18T14:07:30.860Z' };
 
   let repas;
 
@@ -160,15 +160,15 @@ describe('Repas e2e test', () => {
       cy.get(`[data-cy="nom"]`).type('conseil municipal apparemment dans');
       cy.get(`[data-cy="nom"]`).should('have.value', 'conseil municipal apparemment dans');
 
-      cy.get(`[data-cy="date"]`).type('2023-12-05T00:50');
+      cy.get(`[data-cy="date"]`).type('2023-12-18T23:08');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T00:50');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-18T23:08');
 
-      cy.get(`[data-cy="apportCalorique"]`).type('120.84');
-      cy.get(`[data-cy="apportCalorique"]`).should('have.value', '120.84');
+      cy.get(`[data-cy="apportCalorique"]`).type('3665.06');
+      cy.get(`[data-cy="apportCalorique"]`).should('have.value', '3665.06');
 
-      cy.get(`[data-cy="poidsConsomme"]`).type('120.47');
-      cy.get(`[data-cy="poidsConsomme"]`).should('have.value', '120.47');
+      cy.get(`[data-cy="poidsConsomme"]`).type('4710.97');
+      cy.get(`[data-cy="poidsConsomme"]`).should('have.value', '4710.97');
 
       cy.get(`[data-cy="description"]`).type('horrible');
       cy.get(`[data-cy="description"]`).should('have.value', 'horrible');

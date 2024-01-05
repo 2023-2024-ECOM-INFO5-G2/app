@@ -1,12 +1,14 @@
 {
   "applications": "*",
-  "changelogDate": "20231205144830",
+  "changelogDate": "20231219130612",
   "entityTableName": "mesure_albumine",
   "fields": [
     {
       "fieldName": "valeur",
       "fieldType": "Float",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "100",
+      "fieldValidateRulesMin": "0"
     },
     {
       "fieldName": "date",

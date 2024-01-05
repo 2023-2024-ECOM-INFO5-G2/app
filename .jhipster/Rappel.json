@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20231205144430",
+  "changelogDate": "20231219130212",
   "entityTableName": "rappel",
   "fields": [
     {
@@ -9,18 +9,27 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "frequenceJour",
-      "fieldType": "Integer",
+      "fieldName": "echeance",
+      "fieldType": "ZonedDateTime",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "echeance",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
+      "fieldName": "intervaleJours",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "366",
+      "fieldValidateRulesMin": "1"
     },
     {
       "fieldName": "tache",
       "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "512",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "feeDansLetang",
+      "fieldType": "Boolean",
       "fieldValidateRules": ["required"]
     }
   ],

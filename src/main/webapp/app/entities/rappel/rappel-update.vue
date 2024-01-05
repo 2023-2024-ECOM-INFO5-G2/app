@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="g2ecomApp.rappel.home.createOrEditLabel"
+          id="ecom02App.rappel.home.createOrEditLabel"
           data-cy="RappelCreateUpdateHeading"
-          v-text="t$('g2ecomApp.rappel.home.createOrEditLabel')"
+          v-text="t$('ecom02App.rappel.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="rappel.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="rappel.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.date')" for="rappel-date"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.date')" for="rappel-date"></label>
             <div class="d-flex">
               <input
                 id="rappel-date"
@@ -32,55 +32,42 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.frequenceJour')" for="rappel-frequenceJour"></label>
-            <input
-              type="number"
-              class="form-control"
-              name="frequenceJour"
-              id="rappel-frequenceJour"
-              data-cy="frequenceJour"
-              :class="{ valid: !v$.frequenceJour.$invalid, invalid: v$.frequenceJour.$invalid }"
-              v-model.number="v$.frequenceJour.$model"
-              required
-            />
-            <div v-if="v$.frequenceJour.$anyDirty && v$.frequenceJour.$invalid">
-              <small class="form-text text-danger" v-for="error of v$.frequenceJour.$errors" :key="error.$uid">{{ error.$message }}</small>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.echeance')" for="rappel-echeance"></label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="rappel-echeance"
-                  v-model="v$.echeance.$model"
-                  name="echeance"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.echeance')" for="rappel-echeance"></label>
+            <div class="d-flex">
+              <input
                 id="rappel-echeance"
                 data-cy="echeance"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="echeance"
                 :class="{ valid: !v$.echeance.$invalid, invalid: v$.echeance.$invalid }"
-                v-model="v$.echeance.$model"
                 required
+                :value="convertDateTimeFromServer(v$.echeance.$model)"
+                @change="updateZonedDateTimeField('echeance', $event)"
               />
-            </b-input-group>
+            </div>
             <div v-if="v$.echeance.$anyDirty && v$.echeance.$invalid">
               <small class="form-text text-danger" v-for="error of v$.echeance.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.tache')" for="rappel-tache"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.intervaleJours')" for="rappel-intervaleJours"></label>
+            <input
+              type="number"
+              class="form-control"
+              name="intervaleJours"
+              id="rappel-intervaleJours"
+              data-cy="intervaleJours"
+              :class="{ valid: !v$.intervaleJours.$invalid, invalid: v$.intervaleJours.$invalid }"
+              v-model.number="v$.intervaleJours.$model"
+              required
+            />
+            <div v-if="v$.intervaleJours.$anyDirty && v$.intervaleJours.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.intervaleJours.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.tache')" for="rappel-tache"></label>
             <input
               type="text"
               class="form-control"
@@ -96,7 +83,23 @@
             </div>
           </div>
           <div class="form-group">
-            <label v-text="t$('g2ecomApp.rappel.user')" for="rappel-user"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.feeDansLetang')" for="rappel-feeDansLetang"></label>
+            <input
+              type="checkbox"
+              class="form-check"
+              name="feeDansLetang"
+              id="rappel-feeDansLetang"
+              data-cy="feeDansLetang"
+              :class="{ valid: !v$.feeDansLetang.$invalid, invalid: v$.feeDansLetang.$invalid }"
+              v-model="v$.feeDansLetang.$model"
+              required
+            />
+            <div v-if="v$.feeDansLetang.$anyDirty && v$.feeDansLetang.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.feeDansLetang.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label v-text="t$('ecom02App.rappel.user')" for="rappel-user"></label>
             <select
               class="form-control"
               id="rappel-users"
@@ -112,7 +115,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.rappel.patient')" for="rappel-patient"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.patient')" for="rappel-patient"></label>
             <select class="form-control" id="rappel-patient" data-cy="patient" name="patient" v-model="rappel.patient">
               <option v-bind:value="null"></option>
               <option

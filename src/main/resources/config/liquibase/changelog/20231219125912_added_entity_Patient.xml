@@ -9,18 +9,18 @@
     <!--
         Added the entity Patient.
     -->
-    <changeSet id="20231205144130-1" author="jhipster">
+    <changeSet id="20231219125912-1" author="jhipster">
         <createTable tableName="patient">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="prenom" type="varchar(255)">
+            <column name="prenom" type="varchar(64)">
                 <constraints nullable="false" />
             </column>
-            <column name="nom" type="varchar(255)">
+            <column name="nom" type="varchar(64)">
                 <constraints nullable="false" />
             </column>
-            <column name="sexe" type="varchar(255)">
+            <column name="sexe" type="varchar(64)">
                 <constraints nullable="false" />
             </column>
             <column name="taille" type="${floatType}">
@@ -35,7 +35,7 @@
             <column name="date_arrivee" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="infos_complementaires" type="varchar(255)">
+            <column name="info_complementaires" type="varchar(1024)">
                 <constraints nullable="true" />
             </column>
             <column name="etablissement_id" type="bigint">
@@ -46,7 +46,7 @@
         <dropDefaultValue tableName="patient" columnName="date_arrivee" columnDataType="${datetimeType}"/>
     </changeSet>
 
-    <changeSet id="20231205144130-1-relations" author="jhipster">
+    <changeSet id="20231219125912-1-relations" author="jhipster">
 
         <createTable tableName="rel_patient__user">
             <column name="user_id" type="bigint">
@@ -70,7 +70,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20231205144130-1-data" author="jhipster" context="faker">
+    <changeSet id="20231219125912-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/patient.csv"
                   separator=";"
@@ -84,7 +84,7 @@
             <column name="date_de_naissance" type="date"/>
             <column name="num_chambre" type="numeric"/>
             <column name="date_arrivee" type="date"/>
-            <column name="infos_complementaires" type="string"/>
+            <column name="info_complementaires" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

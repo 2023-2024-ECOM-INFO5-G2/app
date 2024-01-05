@@ -9,7 +9,6 @@ import static polytech.ecom.g02.web.rest.TestUtil.sameInstant;
 
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -46,14 +45,17 @@ class RappelResourceIT {
     private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final Integer DEFAULT_FREQUENCE_JOUR = 1;
-    private static final Integer UPDATED_FREQUENCE_JOUR = 2;
+    private static final ZonedDateTime DEFAULT_ECHEANCE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_ECHEANCE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final LocalDate DEFAULT_ECHEANCE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ECHEANCE = LocalDate.now(ZoneId.systemDefault());
+    private static final Integer DEFAULT_INTERVALE_JOURS = 1;
+    private static final Integer UPDATED_INTERVALE_JOURS = 2;
 
     private static final String DEFAULT_TACHE = "AAAAAAAAAA";
     private static final String UPDATED_TACHE = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_FEE_DANS_LETANG = false;
+    private static final Boolean UPDATED_FEE_DANS_LETANG = true;
 
     private static final String ENTITY_API_URL = "/api/rappels";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -84,9 +86,10 @@ class RappelResourceIT {
     public static Rappel createEntity(EntityManager em) {
         Rappel rappel = new Rappel()
             .date(DEFAULT_DATE)
-            .frequenceJour(DEFAULT_FREQUENCE_JOUR)
             .echeance(DEFAULT_ECHEANCE)
-            .tache(DEFAULT_TACHE);
+            .intervaleJours(DEFAULT_INTERVALE_JOURS)
+            .tache(DEFAULT_TACHE)
+            .feeDansLetang(DEFAULT_FEE_DANS_LETANG);
         return rappel;
     }
 
@@ -99,9 +102,10 @@ class RappelResourceIT {
     public static Rappel createUpdatedEntity(EntityManager em) {
         Rappel rappel = new Rappel()
             .date(UPDATED_DATE)
-            .frequenceJour(UPDATED_FREQUENCE_JOUR)
             .echeance(UPDATED_ECHEANCE)
-            .tache(UPDATED_TACHE);
+            .intervaleJours(UPDATED_INTERVALE_JOURS)
+            .tache(UPDATED_TACHE)
+            .feeDansLetang(UPDATED_FEE_DANS_LETANG);
         return rappel;
     }
 
@@ -124,9 +128,10 @@ class RappelResourceIT {
         assertThat(rappelList).hasSize(databaseSizeBeforeCreate + 1);
         Rappel testRappel = rappelList.get(rappelList.size() - 1);
         assertThat(testRappel.getDate()).isEqualTo(DEFAULT_DATE);
-        assertThat(testRappel.getFrequenceJour()).isEqualTo(DEFAULT_FREQUENCE_JOUR);
         assertThat(testRappel.getEcheance()).isEqualTo(DEFAULT_ECHEANCE);
+        assertThat(testRappel.getIntervaleJours()).isEqualTo(DEFAULT_INTERVALE_JOURS);
         assertThat(testRappel.getTache()).isEqualTo(DEFAULT_TACHE);
+        assertThat(testRappel.getFeeDansLetang()).isEqualTo(DEFAULT_FEE_DANS_LETANG);
     }
 
     @Test
@@ -166,10 +171,10 @@ class RappelResourceIT {
 
     @Test
     @Transactional
-    void checkFrequenceJourIsRequired() throws Exception {
+    void checkEcheanceIsRequired() throws Exception {
         int databaseSizeBeforeTest = rappelRepository.findAll().size();
         // set the field null
-        rappel.setFrequenceJour(null);
+        rappel.setEcheance(null);
 
         // Create the Rappel, which fails.
 
@@ -183,10 +188,10 @@ class RappelResourceIT {
 
     @Test
     @Transactional
-    void checkEcheanceIsRequired() throws Exception {
+    void checkIntervaleJoursIsRequired() throws Exception {
         int databaseSizeBeforeTest = rappelRepository.findAll().size();
         // set the field null
-        rappel.setEcheance(null);
+        rappel.setIntervaleJours(null);
 
         // Create the Rappel, which fails.
 
@@ -217,6 +222,23 @@ class RappelResourceIT {
 
     @Test
     @Transactional
+    void checkFeeDansLetangIsRequired() throws Exception {
+        int databaseSizeBeforeTest = rappelRepository.findAll().size();
+        // set the field null
+        rappel.setFeeDansLetang(null);
+
+        // Create the Rappel, which fails.
+
+        restRappelMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(rappel)))
+            .andExpect(status().isBadRequest());
+
+        List<Rappel> rappelList = rappelRepository.findAll();
+        assertThat(rappelList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllRappels() throws Exception {
         // Initialize the database
         rappelRepository.saveAndFlush(rappel);
@@ -228,9 +250,10 @@ class RappelResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rappel.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))))
-            .andExpect(jsonPath("$.[*].frequenceJour").value(hasItem(DEFAULT_FREQUENCE_JOUR)))
-            .andExpect(jsonPath("$.[*].echeance").value(hasItem(DEFAULT_ECHEANCE.toString())))
-            .andExpect(jsonPath("$.[*].tache").value(hasItem(DEFAULT_TACHE)));
+            .andExpect(jsonPath("$.[*].echeance").value(hasItem(sameInstant(DEFAULT_ECHEANCE))))
+            .andExpect(jsonPath("$.[*].intervaleJours").value(hasItem(DEFAULT_INTERVALE_JOURS)))
+            .andExpect(jsonPath("$.[*].tache").value(hasItem(DEFAULT_TACHE)))
+            .andExpect(jsonPath("$.[*].feeDansLetang").value(hasItem(DEFAULT_FEE_DANS_LETANG.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -263,9 +286,10 @@ class RappelResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(rappel.getId().intValue()))
             .andExpect(jsonPath("$.date").value(sameInstant(DEFAULT_DATE)))
-            .andExpect(jsonPath("$.frequenceJour").value(DEFAULT_FREQUENCE_JOUR))
-            .andExpect(jsonPath("$.echeance").value(DEFAULT_ECHEANCE.toString()))
-            .andExpect(jsonPath("$.tache").value(DEFAULT_TACHE));
+            .andExpect(jsonPath("$.echeance").value(sameInstant(DEFAULT_ECHEANCE)))
+            .andExpect(jsonPath("$.intervaleJours").value(DEFAULT_INTERVALE_JOURS))
+            .andExpect(jsonPath("$.tache").value(DEFAULT_TACHE))
+            .andExpect(jsonPath("$.feeDansLetang").value(DEFAULT_FEE_DANS_LETANG.booleanValue()));
     }
 
     @Test
@@ -287,7 +311,12 @@ class RappelResourceIT {
         Rappel updatedRappel = rappelRepository.findById(rappel.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedRappel are not directly saved in db
         em.detach(updatedRappel);
-        updatedRappel.date(UPDATED_DATE).frequenceJour(UPDATED_FREQUENCE_JOUR).echeance(UPDATED_ECHEANCE).tache(UPDATED_TACHE);
+        updatedRappel
+            .date(UPDATED_DATE)
+            .echeance(UPDATED_ECHEANCE)
+            .intervaleJours(UPDATED_INTERVALE_JOURS)
+            .tache(UPDATED_TACHE)
+            .feeDansLetang(UPDATED_FEE_DANS_LETANG);
 
         restRappelMockMvc
             .perform(
@@ -302,9 +331,10 @@ class RappelResourceIT {
         assertThat(rappelList).hasSize(databaseSizeBeforeUpdate);
         Rappel testRappel = rappelList.get(rappelList.size() - 1);
         assertThat(testRappel.getDate()).isEqualTo(UPDATED_DATE);
-        assertThat(testRappel.getFrequenceJour()).isEqualTo(UPDATED_FREQUENCE_JOUR);
         assertThat(testRappel.getEcheance()).isEqualTo(UPDATED_ECHEANCE);
+        assertThat(testRappel.getIntervaleJours()).isEqualTo(UPDATED_INTERVALE_JOURS);
         assertThat(testRappel.getTache()).isEqualTo(UPDATED_TACHE);
+        assertThat(testRappel.getFeeDansLetang()).isEqualTo(UPDATED_FEE_DANS_LETANG);
     }
 
     @Test
@@ -375,7 +405,7 @@ class RappelResourceIT {
         Rappel partialUpdatedRappel = new Rappel();
         partialUpdatedRappel.setId(rappel.getId());
 
-        partialUpdatedRappel.date(UPDATED_DATE).frequenceJour(UPDATED_FREQUENCE_JOUR).echeance(UPDATED_ECHEANCE).tache(UPDATED_TACHE);
+        partialUpdatedRappel.date(UPDATED_DATE).echeance(UPDATED_ECHEANCE).intervaleJours(UPDATED_INTERVALE_JOURS).tache(UPDATED_TACHE);
 
         restRappelMockMvc
             .perform(
@@ -390,9 +420,10 @@ class RappelResourceIT {
         assertThat(rappelList).hasSize(databaseSizeBeforeUpdate);
         Rappel testRappel = rappelList.get(rappelList.size() - 1);
         assertThat(testRappel.getDate()).isEqualTo(UPDATED_DATE);
-        assertThat(testRappel.getFrequenceJour()).isEqualTo(UPDATED_FREQUENCE_JOUR);
         assertThat(testRappel.getEcheance()).isEqualTo(UPDATED_ECHEANCE);
+        assertThat(testRappel.getIntervaleJours()).isEqualTo(UPDATED_INTERVALE_JOURS);
         assertThat(testRappel.getTache()).isEqualTo(UPDATED_TACHE);
+        assertThat(testRappel.getFeeDansLetang()).isEqualTo(DEFAULT_FEE_DANS_LETANG);
     }
 
     @Test
@@ -407,7 +438,12 @@ class RappelResourceIT {
         Rappel partialUpdatedRappel = new Rappel();
         partialUpdatedRappel.setId(rappel.getId());
 
-        partialUpdatedRappel.date(UPDATED_DATE).frequenceJour(UPDATED_FREQUENCE_JOUR).echeance(UPDATED_ECHEANCE).tache(UPDATED_TACHE);
+        partialUpdatedRappel
+            .date(UPDATED_DATE)
+            .echeance(UPDATED_ECHEANCE)
+            .intervaleJours(UPDATED_INTERVALE_JOURS)
+            .tache(UPDATED_TACHE)
+            .feeDansLetang(UPDATED_FEE_DANS_LETANG);
 
         restRappelMockMvc
             .perform(
@@ -422,9 +458,10 @@ class RappelResourceIT {
         assertThat(rappelList).hasSize(databaseSizeBeforeUpdate);
         Rappel testRappel = rappelList.get(rappelList.size() - 1);
         assertThat(testRappel.getDate()).isEqualTo(UPDATED_DATE);
-        assertThat(testRappel.getFrequenceJour()).isEqualTo(UPDATED_FREQUENCE_JOUR);
         assertThat(testRappel.getEcheance()).isEqualTo(UPDATED_ECHEANCE);
+        assertThat(testRappel.getIntervaleJours()).isEqualTo(UPDATED_INTERVALE_JOURS);
         assertThat(testRappel.getTache()).isEqualTo(UPDATED_TACHE);
+        assertThat(testRappel.getFeeDansLetang()).isEqualTo(UPDATED_FEE_DANS_LETANG);
     }
 
     @Test

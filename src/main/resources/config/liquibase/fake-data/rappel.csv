@@ -1,11 +1,11 @@
-id;date;frequence_jour;echeance;tache
-1;2023-12-05T14:14:03;8134;2023-12-04;souvent
-2;2023-12-05T06:51:24;24536;2023-12-05;incorporer de façon que
-3;2023-12-04T18:56:14;5696;2023-12-04;frémir svelte spécialiste
-4;2023-12-04T18:59:23;25611;2023-12-05;raide à défaut de  délégation
-5;2023-12-05T12:47:57;30092;2023-12-05;sincère jamais ronron
-6;2023-12-05T01:41:13;2025;2023-12-05;calme blablabla
-7;2023-12-05T10:53:30;16131;2023-12-05;avare
-8;2023-12-04T16:37:23;20133;2023-12-05;au-dessus de lunatique dans la mesure où
-9;2023-12-05T04:24:49;20601;2023-12-05;miam pauvre cocorico
-10;2023-12-04T22:41:29;18636;2023-12-05;installer assurer
+id;date;echeance;intervale_jours;tache;fee_dans_letang
+1;2023-12-19T12:31:45;2023-12-19T07:04:43;307;souvent;true
+2;2023-12-18T19:03:55;2023-12-19T07:55:35;176;à condition que sitôt que;true
+3;2023-12-18T21:40:43;2023-12-18T13:29:19;286;coin-coin être;false
+4;2023-12-19T09:33:52;2023-12-18T13:58:11;235;rectangulaire circulaire;true
+5;2023-12-18T16:06:21;2023-12-19T03:32:53;148;bang hi;false
+6;2023-12-18T14:30:11;2023-12-18T17:51:47;118;du fait que contre;true
+7;2023-12-19T02:59:37;2023-12-18T19:57:48;344;environ comment;true
+8;2023-12-19T03:48:05;2023-12-19T04:19:47;315;tandis que au-dessus de lunatique;false
+9;2023-12-19T12:36:09;2023-12-19T06:35:37;308;adorable clac;true
+10;2023-12-18T19:56:41;2023-12-19T06:20:47;281;réfléchir toc-toc exprès;true

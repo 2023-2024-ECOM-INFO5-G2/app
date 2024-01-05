@@ -60,8 +60,13 @@ export default defineComponent({
     const validationRules = {
       description: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
       },
       date: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
+      severe: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
       patient: {},
@@ -82,9 +87,7 @@ export default defineComponent({
       t$,
     };
   },
-  created(): void {
-    this.alerte.patients = [];
-  },
+  created(): void {},
   methods: {
     save(): void {
       this.isSaving = true;
@@ -94,7 +97,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2ecomApp.alerte.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.alerte.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -106,20 +109,13 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2ecomApp.alerte.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.alerte.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;
             this.alertService.showHttpError(error.response);
           });
       }
-    },
-
-    getSelected(selectedVals, option): any {
-      if (selectedVals) {
-        return selectedVals.find(value => option.id === value.id) ?? option;
-      }
-      return option;
     },
   },
 });

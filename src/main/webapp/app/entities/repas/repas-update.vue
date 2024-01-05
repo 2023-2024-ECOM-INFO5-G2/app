@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="g2ecomApp.repas.home.createOrEditLabel"
+          id="ecom02App.repas.home.createOrEditLabel"
           data-cy="RepasCreateUpdateHeading"
-          v-text="t$('g2ecomApp.repas.home.createOrEditLabel')"
+          v-text="t$('ecom02App.repas.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="repas.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="repas.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.nom')" for="repas-nom"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.nom')" for="repas-nom"></label>
             <input
               type="text"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.date')" for="repas-date"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.date')" for="repas-date"></label>
             <div class="d-flex">
               <input
                 id="repas-date"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.apportCalorique')" for="repas-apportCalorique"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.apportCalorique')" for="repas-apportCalorique"></label>
             <input
               type="number"
               class="form-control"
@@ -58,9 +58,14 @@
               :class="{ valid: !v$.apportCalorique.$invalid, invalid: v$.apportCalorique.$invalid }"
               v-model.number="v$.apportCalorique.$model"
             />
+            <div v-if="v$.apportCalorique.$anyDirty && v$.apportCalorique.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.apportCalorique.$errors" :key="error.$uid">{{
+                error.$message
+              }}</small>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.poidsConsomme')" for="repas-poidsConsomme"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.poidsConsomme')" for="repas-poidsConsomme"></label>
             <input
               type="number"
               class="form-control"
@@ -70,9 +75,12 @@
               :class="{ valid: !v$.poidsConsomme.$invalid, invalid: v$.poidsConsomme.$invalid }"
               v-model.number="v$.poidsConsomme.$model"
             />
+            <div v-if="v$.poidsConsomme.$anyDirty && v$.poidsConsomme.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.poidsConsomme.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.description')" for="repas-description"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.description')" for="repas-description"></label>
             <input
               type="text"
               class="form-control"
@@ -82,9 +90,12 @@
               :class="{ valid: !v$.description.$invalid, invalid: v$.description.$invalid }"
               v-model="v$.description.$model"
             />
+            <div v-if="v$.description.$anyDirty && v$.description.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.description.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2ecomApp.repas.patient')" for="repas-patient"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.repas.patient')" for="repas-patient"></label>
             <select class="form-control" id="repas-patient" data-cy="patient" name="patient" v-model="repas.patient">
               <option v-bind:value="null"></option>
               <option

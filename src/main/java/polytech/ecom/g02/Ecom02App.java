@@ -32,7 +32,7 @@ public class Ecom02App {
     }
 
     /**
-     * Initializes g2ecom.
+     * Initializes ecom02.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>

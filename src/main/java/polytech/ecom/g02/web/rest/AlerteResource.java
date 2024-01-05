@@ -131,6 +131,9 @@ public class AlerteResource {
                 if (alerte.getDate() != null) {
                     existingAlerte.setDate(alerte.getDate());
                 }
+                if (alerte.getSevere() != null) {
+                    existingAlerte.setSevere(alerte.getSevere());
+                }
 
                 return existingAlerte;
             })

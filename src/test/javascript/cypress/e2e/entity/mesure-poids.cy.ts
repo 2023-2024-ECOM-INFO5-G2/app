@@ -15,7 +15,7 @@ describe('MesurePoids e2e test', () => {
   const mesurePoidsPageUrlPattern = new RegExp('/mesure-poids(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const mesurePoidsSample = { valeur: 19077.12, date: '2023-12-05T09:18:58.352Z' };
+  const mesurePoidsSample = { valeur: 370.54, date: '2023-12-19T07:36:40.352Z' };
 
   let mesurePoids;
 
@@ -122,6 +122,16 @@ describe('MesurePoids e2e test', () => {
         cy.url().should('match', mesurePoidsPageUrlPattern);
       });
 
+      it('edit button click should load edit MesurePoids page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('MesurePoids');
+        cy.get(entityCreateSaveButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.url().should('match', mesurePoidsPageUrlPattern);
+      });
+
       it('last delete button click should delete instance of MesurePoids', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('mesurePoids').should('exist');
@@ -147,12 +157,12 @@ describe('MesurePoids e2e test', () => {
     });
 
     it('should create an instance of MesurePoids', () => {
-      cy.get(`[data-cy="valeur"]`).type('120.78');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '120.78');
+      cy.get(`[data-cy="valeur"]`).type('458.29');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '458.29');
 
-      cy.get(`[data-cy="date"]`).type('2023-12-05T12:51');
+      cy.get(`[data-cy="date"]`).type('2023-12-19T11:08');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T12:51');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-19T11:08');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

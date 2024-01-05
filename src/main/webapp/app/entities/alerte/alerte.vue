@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="AlerteHeading">
-      <span v-text="t$('g2ecomApp.alerte.home.title')" id="alerte-heading"></span>
+      <span v-text="t$('ecom02App.alerte.home.title')" id="alerte-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('g2ecomApp.alerte.home.refreshListLabel')"></span>
+          <span v-text="t$('ecom02App.alerte.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'AlerteCreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,23 +15,24 @@
             class="btn btn-primary jh-create-entity create-alerte"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('g2ecomApp.alerte.home.createLabel')"></span>
+            <span v-text="t$('ecom02App.alerte.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && alertes && alertes.length === 0">
-      <span v-text="t$('g2ecomApp.alerte.home.notFound')"></span>
+      <span v-text="t$('ecom02App.alerte.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="alertes && alertes.length > 0">
       <table class="table table-striped" aria-describedby="alertes">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('g2ecomApp.alerte.description')"></span></th>
-            <th scope="row"><span v-text="t$('g2ecomApp.alerte.date')"></span></th>
-            <th scope="row"><span v-text="t$('g2ecomApp.alerte.patient')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.description')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.date')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.severe')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.patient')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -42,6 +43,7 @@
             </td>
             <td>{{ alerte.description }}</td>
             <td>{{ formatDateShort(alerte.date) || '' }}</td>
+            <td>{{ alerte.severe }}</td>
             <td>
               <div v-if="alerte.patient">
                 <router-link :to="{ name: 'PatientView', params: { patientId: alerte.patient.id } }">{{ alerte.patient.id }}</router-link>
@@ -79,10 +81,10 @@
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
-        <span id="g2ecomApp.alerte.delete.question" data-cy="alerteDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+        <span id="ecom02App.alerte.delete.question" data-cy="alerteDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-alerte-heading" v-text="t$('g2ecomApp.alerte.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-alerte-heading" v-text="t$('ecom02App.alerte.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

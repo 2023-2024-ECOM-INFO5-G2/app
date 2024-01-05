@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: g2ecom
+    name: ecom02
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -53,9 +53,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'g2ecomApp'
+    name: 'ecom02App'
   mail:
-    from: g2ecom@localhost.com
+    from: ecom02@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -69,7 +69,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: ODY0ZmY4NzMyOWI5YTBjNzM1NTg2NjQ0ODYxY2ZhYjNlNzU5NmI3NDVmZWE1YmFiOTBkYzkxMjNjMWI0MzhjNDRkNjNjZTVmNjNhOTU2OTlkMGNiYWM2NmFjNmQ4MTc0MjlkYzNhNWVjYTg5YjA2NzU3NTEyMjZjZjJhM2JkMzY=
+        base64-secret: NzY5ZWZmMzFhNTI0MzQ3Y2JlMzRjNDIyZjYwOGJhN2NjY2QzMzhmZGQwOWUyZjMzZDRmMWM5NDViODM1ZjZiZjQ2MzA5Zjc4ODU0MDQyYWE1N2U1ZDVmMGUzNjI5NjRmMWVjZWQ3MmQxNDc5ZGE5OWU3NjEzZjllNzJkOGQ3M2M=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 86400

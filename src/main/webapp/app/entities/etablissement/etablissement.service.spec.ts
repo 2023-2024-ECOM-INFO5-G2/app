@@ -111,8 +111,7 @@ describe('Service Tests', () => {
       it('should partial update a Etablissement', async () => {
         const patchObject = Object.assign(
           {
-            adresse: 'BBBBBB',
-            codePostal: 'BBBBBB',
+            nom: 'BBBBBB',
           },
           new Etablissement(),
         );

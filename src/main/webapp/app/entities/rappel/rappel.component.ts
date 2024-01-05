@@ -53,7 +53,7 @@ export default defineComponent({
     const removeRappel = async () => {
       try {
         await rappelService().delete(removeId.value);
-        const message = t$('g2ecomApp.rappel.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.rappel.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveRappels();

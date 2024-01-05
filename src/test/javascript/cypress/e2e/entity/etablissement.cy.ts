@@ -15,7 +15,7 @@ describe('Etablissement e2e test', () => {
   const etablissementPageUrlPattern = new RegExp('/etablissement(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const etablissementSample = { adresse: 'commissionnaire', ville: 'assez absolument après', codePostal: 'corps enseignant' };
+  const etablissementSample = { adresse: 'à bas de aigre', ville: 'grâce à assez absolument', codePostal: '94459' };
 
   let etablissement;
 
@@ -122,6 +122,16 @@ describe('Etablissement e2e test', () => {
         cy.url().should('match', etablissementPageUrlPattern);
       });
 
+      it('edit button click should load edit Etablissement page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('Etablissement');
+        cy.get(entityCreateSaveButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.url().should('match', etablissementPageUrlPattern);
+      });
+
       it('last delete button click should delete instance of Etablissement', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('etablissement').should('exist');
@@ -147,17 +157,17 @@ describe('Etablissement e2e test', () => {
     });
 
     it('should create an instance of Etablissement', () => {
-      cy.get(`[data-cy="nom"]`).type('aussitôt que de la part de');
-      cy.get(`[data-cy="nom"]`).should('have.value', 'aussitôt que de la part de');
+      cy.get(`[data-cy="nom"]`).type('marron');
+      cy.get(`[data-cy="nom"]`).should('have.value', 'marron');
 
-      cy.get(`[data-cy="adresse"]`).type('plaire amorcer accumuler');
-      cy.get(`[data-cy="adresse"]`).should('have.value', 'plaire amorcer accumuler');
+      cy.get(`[data-cy="adresse"]`).type('moyennant de façon que');
+      cy.get(`[data-cy="adresse"]`).should('have.value', 'moyennant de façon que');
 
-      cy.get(`[data-cy="ville"]`).type('grss');
-      cy.get(`[data-cy="ville"]`).should('have.value', 'grss');
+      cy.get(`[data-cy="ville"]`).type("derechef d'entre");
+      cy.get(`[data-cy="ville"]`).should('have.value', "derechef d'entre");
 
-      cy.get(`[data-cy="codePostal"]`).type('64160');
-      cy.get(`[data-cy="codePostal"]`).should('have.value', '64160');
+      cy.get(`[data-cy="codePostal"]`).type('70474');
+      cy.get(`[data-cy="codePostal"]`).should('have.value', '70474');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

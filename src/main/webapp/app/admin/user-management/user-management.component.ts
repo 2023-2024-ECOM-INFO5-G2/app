@@ -114,8 +114,8 @@ export default defineComponent({
         .remove(this.removeId)
         .then(res => {
           this.alertService.showInfo(
-            this.t$(res.headers['x-g2ecomapp-alert'].toString(), {
-              param: decodeURIComponent(res.headers['x-g2ecomapp-params'].replace(/\+/g, ' ')),
+            this.t$(res.headers['x-ecom02app-alert'].toString(), {
+              param: decodeURIComponent(res.headers['x-ecom02app-params'].replace(/\+/g, ' ')),
             }),
             { variant: 'danger' },
           );

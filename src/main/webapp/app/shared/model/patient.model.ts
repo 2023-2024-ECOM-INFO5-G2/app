@@ -16,7 +16,7 @@ export interface IPatient {
   dateDeNaissance?: Date;
   numChambre?: number;
   dateArrivee?: Date;
-  infosComplementaires?: string | null;
+  infoComplementaires?: string | null;
   alertes?: IAlerte[] | null;
   rappels?: IRappel[] | null;
   mesurePoids?: IMesurePoids[] | null;
@@ -37,7 +37,7 @@ export class Patient implements IPatient {
     public dateDeNaissance?: Date,
     public numChambre?: number,
     public dateArrivee?: Date,
-    public infosComplementaires?: string | null,
+    public infoComplementaires?: string | null,
     public alertes?: IAlerte[] | null,
     public rappels?: IRappel[] | null,
     public mesurePoids?: IMesurePoids[] | null,

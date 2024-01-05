@@ -15,7 +15,7 @@ describe('MesureAlbumine e2e test', () => {
   const mesureAlbuminePageUrlPattern = new RegExp('/mesure-albumine(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const mesureAlbumineSample = { valeur: 24317.12, date: '2023-12-04T14:49:36.545Z' };
+  const mesureAlbumineSample = { valeur: 74.21, date: '2023-12-18T13:07:18.545Z' };
 
   let mesureAlbumine;
 
@@ -122,6 +122,16 @@ describe('MesureAlbumine e2e test', () => {
         cy.url().should('match', mesureAlbuminePageUrlPattern);
       });
 
+      it('edit button click should load edit MesureAlbumine page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('MesureAlbumine');
+        cy.get(entityCreateSaveButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.url().should('match', mesureAlbuminePageUrlPattern);
+      });
+
       it('last delete button click should delete instance of MesureAlbumine', () => {
         cy.get(entityDeleteButtonSelector).last().click();
         cy.getEntityDeleteDialogHeading('mesureAlbumine').should('exist');
@@ -147,12 +157,12 @@ describe('MesureAlbumine e2e test', () => {
     });
 
     it('should create an instance of MesureAlbumine', () => {
-      cy.get(`[data-cy="valeur"]`).type('10.91');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '10.91');
+      cy.get(`[data-cy="valeur"]`).type('56.66');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '56.66');
 
-      cy.get(`[data-cy="date"]`).type('2023-12-05T08:59');
+      cy.get(`[data-cy="date"]`).type('2023-12-19T07:17');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-05T08:59');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-19T07:17');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

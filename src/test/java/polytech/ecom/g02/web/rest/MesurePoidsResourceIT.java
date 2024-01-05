@@ -34,8 +34,8 @@ import polytech.ecom.g02.repository.MesurePoidsRepository;
 @WithMockUser
 class MesurePoidsResourceIT {
 
-    private static final Float DEFAULT_VALEUR = 1F;
-    private static final Float UPDATED_VALEUR = 2F;
+    private static final Float DEFAULT_VALEUR = 2F;
+    private static final Float UPDATED_VALEUR = 3F;
 
     private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);

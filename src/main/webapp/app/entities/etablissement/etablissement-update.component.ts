@@ -55,23 +55,23 @@ export default defineComponent({
     const validations = useValidation();
     const validationRules = {
       nom: {
-        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
-        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       adresse: {
         required: validations.required(t$('entity.validation.required').toString()),
-        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
-        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 128 }).toString(), 128),
       },
       ville: {
         required: validations.required(t$('entity.validation.required').toString()),
-        minLength: validations.minLength(t$('entity.validation.minlength', { min: 2 }).toString(), 2),
-        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 50 }).toString(), 50),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       codePostal: {
         required: validations.required(t$('entity.validation.required').toString()),
         minLength: validations.minLength(t$('entity.validation.minlength', { min: 5 }).toString(), 5),
-        maxLength: validations.maxLength(t$('entity.validation.minlength', { max: 5 }).toString(), 5),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 5 }).toString(), 5),
       },
       patients: {},
       users: {},
@@ -103,7 +103,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2ecomApp.etablissement.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.etablissement.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -115,7 +115,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2ecomApp.etablissement.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.etablissement.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

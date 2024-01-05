@@ -1,5 +1,5 @@
 {
-  "g2ecomApp": {
+  "ecom02App": {
     "patient": {
       "home": {
         "title": "Patients",
@@ -25,7 +25,7 @@
       "dateDeNaissance": "Date De Naissance",
       "numChambre": "Num Chambre",
       "dateArrivee": "Date Arrivee",
-      "infosComplementaires": "Infos Complementaires",
+      "infoComplementaires": "Info Complementaires",
       "alerte": "Alerte",
       "rappel": "Rappel",
       "mesurePoids": "Mesure Poids",
