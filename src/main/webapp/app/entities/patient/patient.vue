@@ -26,18 +26,22 @@
   <div class="row mt-5">
     <div class="col">
       <h2 id="page-heading" data-cy="PatientHeading">
-        <span id="patient-heading" v-text="t$('g2ecomApp.patient.home.title')"></span>
+        <span id="patient-heading" v-text="t$('ecom02App.patient.home.title')"></span>
       </h2>
     </div>
   </div>
   <div class="row mt-5">
     <div class="col">
-      <table aria-describedby="patients" class="table table-striped table-hover">
+      <table
+        aria-describedby="patients"
+        class="table table-striped table-hover"
+        v-if="patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id).length > 0"
+      >
         <thead>
           <tr>
-            <th scope="row"><span v-text="t$('g2ecomApp.patient.prenom')"></span></th>
-            <th scope="row"><span v-text="t$('g2ecomApp.patient.nom')"></span></th>
-            <th scope="row"><span v-text="t$('g2ecomApp.patient.numChambre')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.nom')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.numChambre')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -65,6 +69,9 @@
           </template>
         </tbody>
       </table>
+      <div class="alert alert-warning" v-else>
+        <span v-text="t$('ecom02App.patient.home.notFound')"></span>
+      </div>
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
