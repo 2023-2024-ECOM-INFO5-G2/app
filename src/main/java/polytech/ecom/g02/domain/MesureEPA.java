@@ -26,6 +26,8 @@ public class MesureEPA implements Serializable {
     private Long id;
 
     @NotNull
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "10")
     @Column(name = "valeur", nullable = false)
     private Float valeur;
 

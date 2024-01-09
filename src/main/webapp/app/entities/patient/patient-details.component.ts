@@ -21,7 +21,6 @@ import MesureEPAService from '../mesure-epa/mesure-epa.service';
 import MesurePoidsService from '../mesure-poids/mesure-poids.service';
 import MesureAlbumineService from '../mesure-albumine/mesure-albumine.service';
 import { useDateFormat } from '@/shared/composables';
-import RepasService from '../repas/repas.service';
 // @ts-ignore
 import useDataUtils from '@/shared/data/data-utils.service';
 // @ts-ignore
@@ -35,9 +34,13 @@ import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 // @ts-ignore
 import { type IRepas } from '@/shared/model/repas.model';
 // @ts-ignore
+import { type IRepas } from '@/shared/model/repas.model';
+// @ts-ignore
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { useValidation } from '../../shared/composables';
+import { useVuelidate } from '@vuelidate/core';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
@@ -99,10 +102,11 @@ export default defineComponent({
     const mealName: Ref<String> = ref('');
     const mealDesc: Ref<String> = ref('');
     const mealCal: Ref<Number> = ref(0);
+    const { t: t$ } = useI18n();
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
-        const res = await patientService().find(Number(patientId));
+        const res = await patientService().find(patientId);
         patient.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -110,8 +114,11 @@ export default defineComponent({
     };
 
     const addAlbuValue = async () => {
+      // TODO: add validation using vuelidate
+
       try {
-        if (Number(newAlbuValue.value) <= 0 || newAlbuValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newAlbuValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newAlbuValue.value) <= 0 || Number(newAlbuValue.value) >= 50) alertService.showError('Albumine (0 - 50)');
         else {
           // Create a new Albu entry object
           const newAlbuEntry = {
@@ -138,7 +145,8 @@ export default defineComponent({
 
     const addPoidsValue = async () => {
       try {
-        if (Number(newWeightValue.value) <= 0 || newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newWeightValue.value) <= 0 || Number(newWeightValue.value) >= 500) alertService.showError('Poids (0 - 500)');
         else {
           // Create a new Poids entry object
           const newPoidsEntry = {
@@ -164,7 +172,8 @@ export default defineComponent({
 
     const addEPAValue = async () => {
       try {
-        if (Number(newEPAValue.value) <= 0 || newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newEPAValue.value) <= 0 || Number(newEPAValue.value) >= 10) alertService.showError('EPA (0 - 10)');
         else {
           // Create a new EPA entry object
           const newEPAEntry = {
@@ -319,7 +328,6 @@ export default defineComponent({
       mealName,
       mealDesc,
       mealCal,
-
       ...dataUtils,
 
       previousState,

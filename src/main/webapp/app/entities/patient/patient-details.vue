@@ -40,7 +40,6 @@
       <span class="h6">{{ new Date(patient.dateArrivee).toLocaleDateString() }}</span>
     </div>
   </div>
-
   <div class="row justify-content-center mt-5">
     <div class="col-lg-6 col-12">
       <div v-if="chartDataLoaded">
@@ -149,7 +148,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" v-text="t$('ecom02App.patient.infosComplementaires')"></h4>
+          <h4 class="card-title" v-text="t$('g2ecomApp.patient.infosComplementaires')"></h4>
           <p class="card-text">
             {{ patient.infosComplementaires }}
           </p>

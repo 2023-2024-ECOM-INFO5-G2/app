@@ -13,22 +13,28 @@
             <span v-if="rappel.date">{{ formatDateLong(rappel.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('ecom02App.rappel.frequenceJour')"></span>
-          </dt>
-          <dd>
-            <span>{{ rappel.frequenceJour }}</span>
-          </dd>
-          <dt>
             <span v-text="t$('ecom02App.rappel.echeance')"></span>
           </dt>
           <dd>
-            <span>{{ rappel.echeance }}</span>
+            <span v-if="rappel.echeance">{{ formatDateLong(rappel.echeance) }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.rappel.intervaleJours')"></span>
+          </dt>
+          <dd>
+            <span>{{ rappel.intervaleJours }}</span>
           </dd>
           <dt>
             <span v-text="t$('ecom02App.rappel.tache')"></span>
           </dt>
           <dd>
             <span>{{ rappel.tache }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.rappel.feeDansLetang')"></span>
+          </dt>
+          <dd>
+            <span>{{ rappel.feeDansLetang }}</span>
           </dd>
           <dt>
             <span v-text="t$('ecom02App.rappel.user')"></span>

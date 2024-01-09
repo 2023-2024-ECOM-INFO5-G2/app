@@ -40,6 +40,9 @@ class AlerteResourceIT {
     private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
+    private static final Boolean DEFAULT_SEVERE = false;
+    private static final Boolean UPDATED_SEVERE = true;
+
     private static final String ENTITY_API_URL = "/api/alertes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -64,7 +67,7 @@ class AlerteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Alerte createEntity(EntityManager em) {
-        Alerte alerte = new Alerte().description(DEFAULT_DESCRIPTION).date(DEFAULT_DATE);
+        Alerte alerte = new Alerte().description(DEFAULT_DESCRIPTION).date(DEFAULT_DATE).severe(DEFAULT_SEVERE);
         return alerte;
     }
 
@@ -75,7 +78,7 @@ class AlerteResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Alerte createUpdatedEntity(EntityManager em) {
-        Alerte alerte = new Alerte().description(UPDATED_DESCRIPTION).date(UPDATED_DATE);
+        Alerte alerte = new Alerte().description(UPDATED_DESCRIPTION).date(UPDATED_DATE).severe(UPDATED_SEVERE);
         return alerte;
     }
 
@@ -99,6 +102,7 @@ class AlerteResourceIT {
         Alerte testAlerte = alerteList.get(alerteList.size() - 1);
         assertThat(testAlerte.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testAlerte.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testAlerte.getSevere()).isEqualTo(DEFAULT_SEVERE);
     }
 
     @Test
@@ -155,6 +159,23 @@ class AlerteResourceIT {
 
     @Test
     @Transactional
+    void checkSevereIsRequired() throws Exception {
+        int databaseSizeBeforeTest = alerteRepository.findAll().size();
+        // set the field null
+        alerte.setSevere(null);
+
+        // Create the Alerte, which fails.
+
+        restAlerteMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(alerte)))
+            .andExpect(status().isBadRequest());
+
+        List<Alerte> alerteList = alerteRepository.findAll();
+        assertThat(alerteList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllAlertes() throws Exception {
         // Initialize the database
         alerteRepository.saveAndFlush(alerte);
@@ -166,7 +187,8 @@ class AlerteResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(alerte.getId().intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))));
+            .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))))
+            .andExpect(jsonPath("$.[*].severe").value(hasItem(DEFAULT_SEVERE.booleanValue())));
     }
 
     @Test
@@ -182,7 +204,8 @@ class AlerteResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(alerte.getId().intValue()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.date").value(sameInstant(DEFAULT_DATE)));
+            .andExpect(jsonPath("$.date").value(sameInstant(DEFAULT_DATE)))
+            .andExpect(jsonPath("$.severe").value(DEFAULT_SEVERE.booleanValue()));
     }
 
     @Test
@@ -204,7 +227,7 @@ class AlerteResourceIT {
         Alerte updatedAlerte = alerteRepository.findById(alerte.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedAlerte are not directly saved in db
         em.detach(updatedAlerte);
-        updatedAlerte.description(UPDATED_DESCRIPTION).date(UPDATED_DATE);
+        updatedAlerte.description(UPDATED_DESCRIPTION).date(UPDATED_DATE).severe(UPDATED_SEVERE);
 
         restAlerteMockMvc
             .perform(
@@ -220,6 +243,7 @@ class AlerteResourceIT {
         Alerte testAlerte = alerteList.get(alerteList.size() - 1);
         assertThat(testAlerte.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testAlerte.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testAlerte.getSevere()).isEqualTo(UPDATED_SEVERE);
     }
 
     @Test
@@ -306,6 +330,7 @@ class AlerteResourceIT {
         Alerte testAlerte = alerteList.get(alerteList.size() - 1);
         assertThat(testAlerte.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testAlerte.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testAlerte.getSevere()).isEqualTo(DEFAULT_SEVERE);
     }
 
     @Test
@@ -320,7 +345,7 @@ class AlerteResourceIT {
         Alerte partialUpdatedAlerte = new Alerte();
         partialUpdatedAlerte.setId(alerte.getId());
 
-        partialUpdatedAlerte.description(UPDATED_DESCRIPTION).date(UPDATED_DATE);
+        partialUpdatedAlerte.description(UPDATED_DESCRIPTION).date(UPDATED_DATE).severe(UPDATED_SEVERE);
 
         restAlerteMockMvc
             .perform(
@@ -336,6 +361,7 @@ class AlerteResourceIT {
         Alerte testAlerte = alerteList.get(alerteList.size() - 1);
         assertThat(testAlerte.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testAlerte.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testAlerte.getSevere()).isEqualTo(UPDATED_SEVERE);
     }
 
     @Test

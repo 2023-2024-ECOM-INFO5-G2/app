@@ -30,9 +30,10 @@
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.rappel.date')"></span></th>
-            <th scope="row"><span v-text="t$('ecom02App.rappel.frequenceJour')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.rappel.echeance')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.rappel.intervaleJours')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.rappel.tache')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.rappel.feeDansLetang')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.rappel.user')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.rappel.patient')"></span></th>
             <th scope="row"></th>
@@ -44,9 +45,10 @@
               <router-link :to="{ name: 'RappelView', params: { rappelId: rappel.id } }">{{ rappel.id }}</router-link>
             </td>
             <td>{{ formatDateShort(rappel.date) || '' }}</td>
-            <td>{{ rappel.frequenceJour }}</td>
-            <td>{{ rappel.echeance }}</td>
+            <td>{{ formatDateShort(rappel.echeance) || '' }}</td>
+            <td>{{ rappel.intervaleJours }}</td>
             <td>{{ rappel.tache }}</td>
+            <td>{{ rappel.feeDansLetang }}</td>
             <td>
               <span v-for="(user, i) in rappel.users" :key="user.id"
                 >{{ i > 0 ? ', ' : '' }}

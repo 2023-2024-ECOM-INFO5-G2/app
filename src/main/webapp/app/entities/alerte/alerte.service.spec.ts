@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new AlerteService();
       currentDate = new Date();
-      elemDefault = new Alerte(123, 'AAAAAAA', currentDate);
+      elemDefault = new Alerte(123, 'AAAAAAA', currentDate, false);
     });
 
     describe('Service methods', () => {
@@ -98,6 +98,7 @@ describe('Service Tests', () => {
           {
             description: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            severe: true,
           },
           elemDefault,
         );
@@ -129,6 +130,7 @@ describe('Service Tests', () => {
       it('should partial update a Alerte', async () => {
         const patchObject = Object.assign(
           {
+            description: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new Alerte(),
@@ -164,6 +166,7 @@ describe('Service Tests', () => {
           {
             description: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            severe: true,
           },
           elemDefault,
         );

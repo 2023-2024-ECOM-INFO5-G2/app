@@ -74,7 +74,7 @@ export default class AlertService {
         if (errorMessage && entityKey) {
           errorMessage = this.i18n.t(errorMessage, { entityName: this.i18n.t(`global.menu.entities.${entityKey}`) }).toString();
         } else if (!errorMessage) {
-          errorMessage = this.i18n.t(httpErrorResponse.data.message).toString();
+          errorMessage = this.i18n.t(httpErrorResponse?.data.message)?.toString();
         }
         break;
       }

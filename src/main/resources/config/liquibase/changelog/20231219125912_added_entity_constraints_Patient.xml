@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Patient.
     -->
-    <changeSet id="20231205144130-2" author="jhipster">
+    <changeSet id="20231219125912-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="patient_id"
                                  baseTableName="rel_patient__user"

@@ -29,18 +29,23 @@ public class Patient implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "prenom", nullable = false)
+    @Size(min = 3, max = 64)
+    @Column(name = "prenom", length = 64, nullable = false)
     private String prenom;
 
     @NotNull
-    @Column(name = "nom", nullable = false)
+    @Size(min = 3, max = 64)
+    @Column(name = "nom", length = 64, nullable = false)
     private String nom;
 
     @NotNull
-    @Column(name = "sexe", nullable = false)
+    @Size(min = 3, max = 64)
+    @Column(name = "sexe", length = 64, nullable = false)
     private String sexe;
 
     @NotNull
+    @DecimalMin(value = "45")
+    @DecimalMax(value = "290")
     @Column(name = "taille", nullable = false)
     private Float taille;
 
@@ -56,8 +61,9 @@ public class Patient implements Serializable {
     @Column(name = "date_arrivee", nullable = false)
     private ZonedDateTime dateArrivee;
 
-    @Column(name = "infos_complementaires")
-    private String infosComplementaires;
+    @Size(max = 1024)
+    @Column(name = "info_complementaires", length = 1024)
+    private String infoComplementaires;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -208,17 +214,17 @@ public class Patient implements Serializable {
         this.dateArrivee = dateArrivee;
     }
 
-    public String getInfosComplementaires() {
-        return this.infosComplementaires;
+    public String getInfoComplementaires() {
+        return this.infoComplementaires;
     }
 
-    public Patient infosComplementaires(String infosComplementaires) {
-        this.setInfosComplementaires(infosComplementaires);
+    public Patient infoComplementaires(String infoComplementaires) {
+        this.setInfoComplementaires(infoComplementaires);
         return this;
     }
 
-    public void setInfosComplementaires(String infosComplementaires) {
-        this.infosComplementaires = infosComplementaires;
+    public void setInfoComplementaires(String infoComplementaires) {
+        this.infoComplementaires = infoComplementaires;
     }
 
     public Set<Alerte> getAlertes() {
@@ -474,7 +480,7 @@ public class Patient implements Serializable {
             ", dateDeNaissance='" + getDateDeNaissance() + "'" +
             ", numChambre=" + getNumChambre() +
             ", dateArrivee='" + getDateArrivee() + "'" +
-            ", infosComplementaires='" + getInfosComplementaires() + "'" +
+            ", infoComplementaires='" + getInfoComplementaires() + "'" +
             "}";
     }
 }

@@ -10,7 +10,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/ecom02
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/ecom02
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
     healthcheck:
       test:
         - CMD

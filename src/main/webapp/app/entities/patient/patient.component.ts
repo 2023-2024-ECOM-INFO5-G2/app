@@ -56,7 +56,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await retrievePatients();
-      await retrieveEtablissements(); //FIXME : à supprimer ???
+      await retrieveEtablissements();
     });
 
     const removeId: Ref<number> = ref(null);

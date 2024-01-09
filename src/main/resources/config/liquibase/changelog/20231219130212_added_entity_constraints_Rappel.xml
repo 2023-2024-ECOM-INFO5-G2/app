@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Rappel.
     -->
-    <changeSet id="20231205144430-2" author="jhipster">
+    <changeSet id="20231219130212-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="rappel_id"
                                  baseTableName="rel_rappel__user"

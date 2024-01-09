@@ -32,51 +32,38 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('ecom02App.rappel.frequenceJour')" for="rappel-frequenceJour"></label>
-            <input
-              type="number"
-              class="form-control"
-              name="frequenceJour"
-              id="rappel-frequenceJour"
-              data-cy="frequenceJour"
-              :class="{ valid: !v$.frequenceJour.$invalid, invalid: v$.frequenceJour.$invalid }"
-              v-model.number="v$.frequenceJour.$model"
-              required
-            />
-            <div v-if="v$.frequenceJour.$anyDirty && v$.frequenceJour.$invalid">
-              <small class="form-text text-danger" v-for="error of v$.frequenceJour.$errors" :key="error.$uid">{{ error.$message }}</small>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.rappel.echeance')" for="rappel-echeance"></label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="rappel-echeance"
-                  v-model="v$.echeance.$model"
-                  name="echeance"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <div class="d-flex">
+              <input
                 id="rappel-echeance"
                 data-cy="echeance"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="echeance"
                 :class="{ valid: !v$.echeance.$invalid, invalid: v$.echeance.$invalid }"
-                v-model="v$.echeance.$model"
                 required
+                :value="convertDateTimeFromServer(v$.echeance.$model)"
+                @change="updateZonedDateTimeField('echeance', $event)"
               />
-            </b-input-group>
+            </div>
             <div v-if="v$.echeance.$anyDirty && v$.echeance.$invalid">
               <small class="form-text text-danger" v-for="error of v$.echeance.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.intervaleJours')" for="rappel-intervaleJours"></label>
+            <input
+              type="number"
+              class="form-control"
+              name="intervaleJours"
+              id="rappel-intervaleJours"
+              data-cy="intervaleJours"
+              :class="{ valid: !v$.intervaleJours.$invalid, invalid: v$.intervaleJours.$invalid }"
+              v-model.number="v$.intervaleJours.$model"
+              required
+            />
+            <div v-if="v$.intervaleJours.$anyDirty && v$.intervaleJours.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.intervaleJours.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
           <div class="form-group">
@@ -93,6 +80,22 @@
             />
             <div v-if="v$.tache.$anyDirty && v$.tache.$invalid">
               <small class="form-text text-danger" v-for="error of v$.tache.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.rappel.feeDansLetang')" for="rappel-feeDansLetang"></label>
+            <input
+              type="checkbox"
+              class="form-check"
+              name="feeDansLetang"
+              id="rappel-feeDansLetang"
+              data-cy="feeDansLetang"
+              :class="{ valid: !v$.feeDansLetang.$invalid, invalid: v$.feeDansLetang.$invalid }"
+              v-model="v$.feeDansLetang.$model"
+              required
+            />
+            <div v-if="v$.feeDansLetang.$anyDirty && v$.feeDansLetang.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.feeDansLetang.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
           <div class="form-group">

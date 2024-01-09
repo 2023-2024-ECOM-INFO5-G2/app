@@ -58,6 +58,11 @@
               :class="{ valid: !v$.apportCalorique.$invalid, invalid: v$.apportCalorique.$invalid }"
               v-model.number="v$.apportCalorique.$model"
             />
+            <div v-if="v$.apportCalorique.$anyDirty && v$.apportCalorique.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.apportCalorique.$errors" :key="error.$uid">{{
+                error.$message
+              }}</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.repas.poidsConsomme')" for="repas-poidsConsomme"></label>
@@ -70,6 +75,9 @@
               :class="{ valid: !v$.poidsConsomme.$invalid, invalid: v$.poidsConsomme.$invalid }"
               v-model.number="v$.poidsConsomme.$model"
             />
+            <div v-if="v$.poidsConsomme.$anyDirty && v$.poidsConsomme.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.poidsConsomme.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.repas.description')" for="repas-description"></label>
@@ -82,6 +90,9 @@
               :class="{ valid: !v$.description.$invalid, invalid: v$.description.$invalid }"
               v-model="v$.description.$model"
             />
+            <div v-if="v$.description.$anyDirty && v$.description.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.description.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.repas.patient')" for="repas-patient"></label>

@@ -26,6 +26,8 @@ public class MesurePoids implements Serializable {
     private Long id;
 
     @NotNull
+    @DecimalMin(value = "2")
+    @DecimalMax(value = "635")
     @Column(name = "valeur", nullable = false)
     private Float valeur;
 

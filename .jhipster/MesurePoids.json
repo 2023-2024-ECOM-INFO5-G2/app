@@ -1,12 +1,14 @@
 {
   "applications": "*",
-  "changelogDate": "20231205144630",
+  "changelogDate": "20231219130412",
   "entityTableName": "mesure_poids",
   "fields": [
     {
       "fieldName": "valeur",
       "fieldType": "Float",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "635",
+      "fieldValidateRulesMin": "2"
     },
     {
       "fieldName": "date",

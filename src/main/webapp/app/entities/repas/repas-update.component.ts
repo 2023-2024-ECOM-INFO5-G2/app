@@ -60,13 +60,24 @@ export default defineComponent({
     const validationRules = {
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      apportCalorique: {},
-      poidsConsomme: {},
-      description: {},
+      apportCalorique: {
+        min: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        max: validations.maxValue(t$('entity.validation.max', { max: 5000 }).toString(), 5000),
+      },
+      poidsConsomme: {
+        min: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        max: validations.maxValue(t$('entity.validation.max', { max: 5000 }).toString(), 5000),
+      },
+      description: {
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
+      },
       patient: {},
     };
     const v$ = useVuelidate(validationRules, repas as any);
@@ -85,9 +96,7 @@ export default defineComponent({
       t$,
     };
   },
-  created(): void {
-    this.repas.patients = [];
-  },
+  created(): void {},
   methods: {
     save(): void {
       this.isSaving = true;
@@ -116,13 +125,6 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
-    },
-
-    getSelected(selectedVals, option): any {
-      if (selectedVals) {
-        return selectedVals.find(value => option.id === value.id) ?? option;
-      }
-      return option;
     },
   },
 });

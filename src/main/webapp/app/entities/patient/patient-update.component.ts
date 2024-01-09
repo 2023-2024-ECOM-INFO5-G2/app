@@ -68,15 +68,23 @@ export default defineComponent({
     const validationRules = {
       prenom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       sexe: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       taille: {
         required: validations.required(t$('entity.validation.required').toString()),
+        min: validations.minValue(t$('entity.validation.min', { min: 45 }).toString(), 45),
+        max: validations.maxValue(t$('entity.validation.max', { max: 290 }).toString(), 290),
       },
       dateDeNaissance: {
         required: validations.required(t$('entity.validation.required').toString()),
@@ -88,7 +96,9 @@ export default defineComponent({
       dateArrivee: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      infosComplementaires: {},
+      infoComplementaires: {
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 1024 }).toString(), 1024),
+      },
       alertes: {},
       rappels: {},
       mesurePoids: {},

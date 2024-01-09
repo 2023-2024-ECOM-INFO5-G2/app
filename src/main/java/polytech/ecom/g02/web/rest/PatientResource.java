@@ -146,8 +146,8 @@ public class PatientResource {
                 if (patient.getDateArrivee() != null) {
                     existingPatient.setDateArrivee(patient.getDateArrivee());
                 }
-                if (patient.getInfosComplementaires() != null) {
-                    existingPatient.setInfosComplementaires(patient.getInfosComplementaires());
+                if (patient.getInfoComplementaires() != null) {
+                    existingPatient.setInfoComplementaires(patient.getInfoComplementaires());
                 }
 
                 return existingPatient;

@@ -52,8 +52,8 @@ class PatientResourceIT {
     private static final String DEFAULT_SEXE = "AAAAAAAAAA";
     private static final String UPDATED_SEXE = "BBBBBBBBBB";
 
-    private static final Float DEFAULT_TAILLE = 1F;
-    private static final Float UPDATED_TAILLE = 2F;
+    private static final Float DEFAULT_TAILLE = 45F;
+    private static final Float UPDATED_TAILLE = 46F;
 
     private static final LocalDate DEFAULT_DATE_DE_NAISSANCE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_DE_NAISSANCE = LocalDate.now(ZoneId.systemDefault());
@@ -64,8 +64,8 @@ class PatientResourceIT {
     private static final ZonedDateTime DEFAULT_DATE_ARRIVEE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DATE_ARRIVEE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final String DEFAULT_INFOS_COMPLEMENTAIRES = "AAAAAAAAAA";
-    private static final String UPDATED_INFOS_COMPLEMENTAIRES = "BBBBBBBBBB";
+    private static final String DEFAULT_INFO_COMPLEMENTAIRES = "AAAAAAAAAA";
+    private static final String UPDATED_INFO_COMPLEMENTAIRES = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/patients";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -102,7 +102,7 @@ class PatientResourceIT {
             .dateDeNaissance(DEFAULT_DATE_DE_NAISSANCE)
             .numChambre(DEFAULT_NUM_CHAMBRE)
             .dateArrivee(DEFAULT_DATE_ARRIVEE)
-            .infosComplementaires(DEFAULT_INFOS_COMPLEMENTAIRES);
+            .infoComplementaires(DEFAULT_INFO_COMPLEMENTAIRES);
         return patient;
     }
 
@@ -121,7 +121,7 @@ class PatientResourceIT {
             .dateDeNaissance(UPDATED_DATE_DE_NAISSANCE)
             .numChambre(UPDATED_NUM_CHAMBRE)
             .dateArrivee(UPDATED_DATE_ARRIVEE)
-            .infosComplementaires(UPDATED_INFOS_COMPLEMENTAIRES);
+            .infoComplementaires(UPDATED_INFO_COMPLEMENTAIRES);
         return patient;
     }
 
@@ -150,7 +150,7 @@ class PatientResourceIT {
         assertThat(testPatient.getDateDeNaissance()).isEqualTo(DEFAULT_DATE_DE_NAISSANCE);
         assertThat(testPatient.getNumChambre()).isEqualTo(DEFAULT_NUM_CHAMBRE);
         assertThat(testPatient.getDateArrivee()).isEqualTo(DEFAULT_DATE_ARRIVEE);
-        assertThat(testPatient.getInfosComplementaires()).isEqualTo(DEFAULT_INFOS_COMPLEMENTAIRES);
+        assertThat(testPatient.getInfoComplementaires()).isEqualTo(DEFAULT_INFO_COMPLEMENTAIRES);
     }
 
     @Test
@@ -309,7 +309,7 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.[*].dateDeNaissance").value(hasItem(DEFAULT_DATE_DE_NAISSANCE.toString())))
             .andExpect(jsonPath("$.[*].numChambre").value(hasItem(DEFAULT_NUM_CHAMBRE)))
             .andExpect(jsonPath("$.[*].dateArrivee").value(hasItem(sameInstant(DEFAULT_DATE_ARRIVEE))))
-            .andExpect(jsonPath("$.[*].infosComplementaires").value(hasItem(DEFAULT_INFOS_COMPLEMENTAIRES)));
+            .andExpect(jsonPath("$.[*].infoComplementaires").value(hasItem(DEFAULT_INFO_COMPLEMENTAIRES)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -348,7 +348,7 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.dateDeNaissance").value(DEFAULT_DATE_DE_NAISSANCE.toString()))
             .andExpect(jsonPath("$.numChambre").value(DEFAULT_NUM_CHAMBRE))
             .andExpect(jsonPath("$.dateArrivee").value(sameInstant(DEFAULT_DATE_ARRIVEE)))
-            .andExpect(jsonPath("$.infosComplementaires").value(DEFAULT_INFOS_COMPLEMENTAIRES));
+            .andExpect(jsonPath("$.infoComplementaires").value(DEFAULT_INFO_COMPLEMENTAIRES));
     }
 
     @Test
@@ -378,7 +378,7 @@ class PatientResourceIT {
             .dateDeNaissance(UPDATED_DATE_DE_NAISSANCE)
             .numChambre(UPDATED_NUM_CHAMBRE)
             .dateArrivee(UPDATED_DATE_ARRIVEE)
-            .infosComplementaires(UPDATED_INFOS_COMPLEMENTAIRES);
+            .infoComplementaires(UPDATED_INFO_COMPLEMENTAIRES);
 
         restPatientMockMvc
             .perform(
@@ -399,7 +399,7 @@ class PatientResourceIT {
         assertThat(testPatient.getDateDeNaissance()).isEqualTo(UPDATED_DATE_DE_NAISSANCE);
         assertThat(testPatient.getNumChambre()).isEqualTo(UPDATED_NUM_CHAMBRE);
         assertThat(testPatient.getDateArrivee()).isEqualTo(UPDATED_DATE_ARRIVEE);
-        assertThat(testPatient.getInfosComplementaires()).isEqualTo(UPDATED_INFOS_COMPLEMENTAIRES);
+        assertThat(testPatient.getInfoComplementaires()).isEqualTo(UPDATED_INFO_COMPLEMENTAIRES);
     }
 
     @Test
@@ -475,7 +475,7 @@ class PatientResourceIT {
             .nom(UPDATED_NOM)
             .sexe(UPDATED_SEXE)
             .numChambre(UPDATED_NUM_CHAMBRE)
-            .infosComplementaires(UPDATED_INFOS_COMPLEMENTAIRES);
+            .infoComplementaires(UPDATED_INFO_COMPLEMENTAIRES);
 
         restPatientMockMvc
             .perform(
@@ -496,7 +496,7 @@ class PatientResourceIT {
         assertThat(testPatient.getDateDeNaissance()).isEqualTo(DEFAULT_DATE_DE_NAISSANCE);
         assertThat(testPatient.getNumChambre()).isEqualTo(UPDATED_NUM_CHAMBRE);
         assertThat(testPatient.getDateArrivee()).isEqualTo(DEFAULT_DATE_ARRIVEE);
-        assertThat(testPatient.getInfosComplementaires()).isEqualTo(UPDATED_INFOS_COMPLEMENTAIRES);
+        assertThat(testPatient.getInfoComplementaires()).isEqualTo(UPDATED_INFO_COMPLEMENTAIRES);
     }
 
     @Test
@@ -519,7 +519,7 @@ class PatientResourceIT {
             .dateDeNaissance(UPDATED_DATE_DE_NAISSANCE)
             .numChambre(UPDATED_NUM_CHAMBRE)
             .dateArrivee(UPDATED_DATE_ARRIVEE)
-            .infosComplementaires(UPDATED_INFOS_COMPLEMENTAIRES);
+            .infoComplementaires(UPDATED_INFO_COMPLEMENTAIRES);
 
         restPatientMockMvc
             .perform(
@@ -540,7 +540,7 @@ class PatientResourceIT {
         assertThat(testPatient.getDateDeNaissance()).isEqualTo(UPDATED_DATE_DE_NAISSANCE);
         assertThat(testPatient.getNumChambre()).isEqualTo(UPDATED_NUM_CHAMBRE);
         assertThat(testPatient.getDateArrivee()).isEqualTo(UPDATED_DATE_ARRIVEE);
-        assertThat(testPatient.getInfosComplementaires()).isEqualTo(UPDATED_INFOS_COMPLEMENTAIRES);
+        assertThat(testPatient.getInfoComplementaires()).isEqualTo(UPDATED_INFO_COMPLEMENTAIRES);
     }
 
     @Test

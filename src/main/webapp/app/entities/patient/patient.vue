@@ -32,7 +32,11 @@
   </div>
   <div class="row mt-5">
     <div class="col">
-      <table aria-describedby="patients" class="table table-striped table-hover">
+      <table
+        aria-describedby="patients"
+        class="table table-striped table-hover"
+        v-if="patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id).length > 0"
+      >
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
@@ -65,6 +69,9 @@
           </template>
         </tbody>
       </table>
+      <div class="alert alert-warning" v-else>
+        <span v-text="t$('ecom02App.patient.home.notFound')"></span>
+      </div>
     </div>
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>

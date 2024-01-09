@@ -46,8 +46,8 @@ class EtablissementResourceIT {
     private static final String DEFAULT_VILLE = "AAAAAAAAAA";
     private static final String UPDATED_VILLE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CODE_POSTAL = "AAAAAAAAAA";
-    private static final String UPDATED_CODE_POSTAL = "BBBBBBBBBB";
+    private static final String DEFAULT_CODE_POSTAL = "02835";
+    private static final String UPDATED_CODE_POSTAL = "18059";
 
     private static final String ENTITY_API_URL = "/api/etablissements";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -352,7 +352,7 @@ class EtablissementResourceIT {
         Etablissement partialUpdatedEtablissement = new Etablissement();
         partialUpdatedEtablissement.setId(etablissement.getId());
 
-        partialUpdatedEtablissement.nom(UPDATED_NOM).adresse(UPDATED_ADRESSE).codePostal(UPDATED_CODE_POSTAL);
+        partialUpdatedEtablissement.ville(UPDATED_VILLE).codePostal(UPDATED_CODE_POSTAL);
 
         restEtablissementMockMvc
             .perform(
@@ -366,9 +366,9 @@ class EtablissementResourceIT {
         List<Etablissement> etablissementList = etablissementRepository.findAll();
         assertThat(etablissementList).hasSize(databaseSizeBeforeUpdate);
         Etablissement testEtablissement = etablissementList.get(etablissementList.size() - 1);
-        assertThat(testEtablissement.getNom()).isEqualTo(UPDATED_NOM);
-        assertThat(testEtablissement.getAdresse()).isEqualTo(UPDATED_ADRESSE);
-        assertThat(testEtablissement.getVille()).isEqualTo(DEFAULT_VILLE);
+        assertThat(testEtablissement.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testEtablissement.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testEtablissement.getVille()).isEqualTo(UPDATED_VILLE);
         assertThat(testEtablissement.getCodePostal()).isEqualTo(UPDATED_CODE_POSTAL);
     }
 

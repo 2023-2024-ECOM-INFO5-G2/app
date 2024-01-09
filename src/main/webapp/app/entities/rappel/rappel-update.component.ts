@@ -38,6 +38,7 @@ export default defineComponent({
       try {
         const res = await rappelService().find(rappelId);
         res.date = new Date(res.date);
+        res.echeance = new Date(res.echeance);
         rappel.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -69,14 +70,21 @@ export default defineComponent({
       date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      frequenceJour: {
-        required: validations.required(t$('entity.validation.required').toString()),
-        numeric: validations.numeric(t$('entity.validation.number').toString()),
-      },
       echeance: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
+      intervaleJours: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        min: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        max: validations.maxValue(t$('entity.validation.max', { max: 366 }).toString(), 366),
+      },
       tache: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
+      },
+      feeDansLetang: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
       users: {},

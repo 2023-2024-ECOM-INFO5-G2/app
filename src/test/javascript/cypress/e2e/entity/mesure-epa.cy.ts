@@ -15,7 +15,7 @@ describe('MesureEPA e2e test', () => {
   const mesureEPAPageUrlPattern = new RegExp('/mesure-epa(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const mesureEPASample = { valeur: 20252.87, date: '2023-12-04T15:30:14.865Z' };
+  const mesureEPASample = { valeur: 6.18, date: '2023-12-18T13:47:56.865Z' };
 
   let mesureEPA;
 
@@ -157,12 +157,12 @@ describe('MesureEPA e2e test', () => {
     });
 
     it('should create an instance of MesureEPA', () => {
-      cy.get(`[data-cy="valeur"]`).type('6835.44');
-      cy.get(`[data-cy="valeur"]`).should('have.value', '6835.44');
+      cy.get(`[data-cy="valeur"]`).type('2.08');
+      cy.get(`[data-cy="valeur"]`).should('have.value', '2.08');
 
-      cy.get(`[data-cy="date"]`).type('2023-12-04T17:28');
+      cy.get(`[data-cy="date"]`).type('2023-12-18T15:45');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-04T17:28');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-18T15:45');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

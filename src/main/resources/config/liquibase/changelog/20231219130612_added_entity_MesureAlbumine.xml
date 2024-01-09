@@ -7,10 +7,10 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity MesureEPA.
+        Added the entity MesureAlbumine.
     -->
-    <changeSet id="20231205144730-1" author="jhipster">
-        <createTable tableName="mesure_epa">
+    <changeSet id="20231219130612-1" author="jhipster">
+        <createTable tableName="mesure_albumine">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -25,7 +25,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="mesure_epa" columnName="date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="mesure_albumine" columnName="date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -38,11 +38,11 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20231205144730-1-data" author="jhipster" context="faker">
+    <changeSet id="20231219130612-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/mesure_epa.csv"
+                  file="config/liquibase/fake-data/mesure_albumine.csv"
                   separator=";"
-                  tableName="mesure_epa"
+                  tableName="mesure_albumine"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="valeur" type="numeric"/>

@@ -26,19 +26,24 @@ public class Etablissement implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nom")
+    @Size(min = 3, max = 64)
+    @Column(name = "nom", length = 64)
     private String nom;
 
     @NotNull
-    @Column(name = "adresse", nullable = false)
+    @Size(min = 3, max = 128)
+    @Column(name = "adresse", length = 128, nullable = false)
     private String adresse;
 
     @NotNull
-    @Column(name = "ville", nullable = false)
+    @Size(min = 3, max = 64)
+    @Column(name = "ville", length = 64, nullable = false)
     private String ville;
 
     @NotNull
-    @Column(name = "code_postal", nullable = false)
+    @Size(min = 5, max = 5)
+    @Pattern(regexp = "^\\d{5}$")
+    @Column(name = "code_postal", length = 5, nullable = false)
     private String codePostal;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "etablissement")

@@ -60,8 +60,13 @@ export default defineComponent({
     const validationRules = {
       description: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
       },
       date: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
+      severe: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
       patient: {},
@@ -82,9 +87,7 @@ export default defineComponent({
       t$,
     };
   },
-  created(): void {
-    this.alerte.patients = [];
-  },
+  created(): void {},
   methods: {
     save(): void {
       this.isSaving = true;
@@ -113,13 +116,6 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
-    },
-
-    getSelected(selectedVals, option): any {
-      if (selectedVals) {
-        return selectedVals.find(value => option.id === value.id) ?? option;
-      }
-      return option;
     },
   },
 });

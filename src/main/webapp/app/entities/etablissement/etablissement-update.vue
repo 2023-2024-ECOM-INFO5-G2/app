@@ -23,6 +23,9 @@
               :class="{ valid: !v$.nom.$invalid, invalid: v$.nom.$invalid }"
               v-model="v$.nom.$model"
             />
+            <div v-if="v$.nom.$anyDirty && v$.nom.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.nom.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.etablissement.adresse')" for="etablissement-adresse"></label>

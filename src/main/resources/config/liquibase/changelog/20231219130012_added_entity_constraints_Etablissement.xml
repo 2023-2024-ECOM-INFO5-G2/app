@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Etablissement.
     -->
-    <changeSet id="20231205144230-2" author="jhipster">
+    <changeSet id="20231219130012-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="etablissement_id"
                                  baseTableName="rel_etablissement__user"
