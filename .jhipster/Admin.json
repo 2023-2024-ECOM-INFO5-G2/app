@@ -1,0 +1,25 @@
+{
+  "applications": "*",
+  "changelogDate": "20230926122753",
+  "entityTableName": "admin",
+  "fields": [
+    {
+      "fieldName": "idAdmin",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Admin",
+  "relationships": [],
+  "searchEngine": "no"
+}

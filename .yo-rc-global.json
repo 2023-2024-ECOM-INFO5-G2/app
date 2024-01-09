@@ -1,0 +1,8 @@
+{
+  "generator-jhipster:7.9.4": {
+    "promptValues": {
+      "packageName": "polytech.ecom.g02",
+      "nativeLanguage": "fr"
+    }
+  }
+}
