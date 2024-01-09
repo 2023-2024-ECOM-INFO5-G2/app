@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesurePoids;
+import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesurePoidsRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -35,9 +39,88 @@ public class MesurePoidsResource {
     private String applicationName;
 
     private final MesurePoidsRepository mesurePoidsRepository;
+    private final AlerteRepository alerteRepository;
 
-    public MesurePoidsResource(MesurePoidsRepository mesurePoidsRepository) {
+    public MesurePoidsResource(MesurePoidsRepository mesurePoidsRepository, AlerteRepository alerteRepository) {
         this.mesurePoidsRepository = mesurePoidsRepository;
+        this.alerteRepository = alerteRepository;
+    }
+
+    private void check(MesurePoids mesurePoids) {
+        double IMC = mesurePoids.getValeur() / Math.pow(mesurePoids.getPatient().getTaille(), 2);
+        ZonedDateTime currentDate = mesurePoids.getDate();
+
+        if (IMC < 18.5) {
+            Alerte alerte = new Alerte();
+            alerte.setPatient(mesurePoids.getPatient());
+            alerte.setDate(currentDate);
+            if (IMC < 17) {
+                alerte.setSevere(true);
+                alerte.setDescription("Alerte IMC très faible : " + IMC);
+            } else {
+                alerte.setSevere(false);
+                alerte.setDescription("Attention IMC faible : " + IMC);
+            }
+            alerteRepository.save(alerte);
+        }
+
+        List<MesurePoids> poidsList = mesurePoidsRepository.findAll();
+        poidsList.removeIf(poids -> poids.getPatient() == null);
+        poidsList.removeIf(poids -> poids.getPatient().getId().equals(mesurePoids.getPatient().getId()));
+
+        ZonedDateTime startDate1 = currentDate.minusMonths(1).minusDays(3);
+        ZonedDateTime endDate1 = currentDate.minusMonths(1).plusDays(3);
+
+        ZonedDateTime startDate6 = currentDate.minusMonths(6).minusDays(3);
+        ZonedDateTime endDate6 = currentDate.minusMonths(6).plusDays(3);
+
+        List<MesurePoids> filteredPoids1 = new ArrayList<>();
+        List<MesurePoids> filteredPoids6 = new ArrayList<>();
+
+        for (MesurePoids poids : poidsList) {
+            ZonedDateTime date = poids.getDate();
+            if (date.isAfter(startDate1) && date.isBefore(endDate1)) {
+                filteredPoids1.add(poids);
+            }
+            if (date.isAfter(startDate6) && date.isBefore(endDate6)) {
+                filteredPoids6.add(poids);
+            }
+        }
+
+        if (!filteredPoids1.isEmpty()) {
+            float ratio1 = mesurePoids.getValeur() / filteredPoids1.get(filteredPoids1.size() / 2).getValeur();
+            if (ratio1 < 0.95) {
+                Alerte alerte = new Alerte();
+                alerte.setPatient(mesurePoids.getPatient());
+                alerte.setDate(currentDate);
+                if (ratio1 < 0.9) {
+                    alerte.setSevere(true);
+                    alerte.setDescription("Alerte Perte de poids très rapide : " + Math.round(100 - ratio1 * 100) + "% en 1 mois");
+                } else {
+                    alerte.setSevere(false);
+                    alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio1 * 100) + "% en 1 mois");
+                }
+
+                alerteRepository.save(alerte);
+            }
+        }
+
+        if (!filteredPoids6.isEmpty()) {
+            float ratio6 = mesurePoids.getValeur() / filteredPoids6.get(filteredPoids6.size() / 2).getValeur();
+            if (ratio6 < 0.9) {
+                Alerte alerte = new Alerte();
+                alerte.setPatient(mesurePoids.getPatient());
+                alerte.setDate(currentDate);
+                if (ratio6 < 0.85) {
+                    alerte.setSevere(true);
+                    alerte.setDescription("Alerte Perte de poids très rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
+                } else {
+                    alerte.setSevere(false);
+                    alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
+                }
+                alerteRepository.save(alerte);
+            }
+        }
     }
 
     /**
@@ -54,6 +137,8 @@ public class MesurePoidsResource {
             throw new BadRequestAlertException("A new mesurePoids cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
+        check(mesurePoids);
+
         return ResponseEntity
             .created(new URI("/api/mesure-poids/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -88,6 +173,8 @@ public class MesurePoidsResource {
         }
 
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
+        check(mesurePoids);
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mesurePoids.getId().toString()))

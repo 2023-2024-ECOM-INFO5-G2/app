@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureEPA;
+import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureEPARepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -35,9 +37,22 @@ public class MesureEPAResource {
     private String applicationName;
 
     private final MesureEPARepository mesureEPARepository;
+    private final AlerteRepository alerteRepository;
 
-    public MesureEPAResource(MesureEPARepository mesureEPARepository) {
+    public MesureEPAResource(MesureEPARepository mesureEPARepository, AlerteRepository alerteRepository) {
         this.mesureEPARepository = mesureEPARepository;
+        this.alerteRepository = alerteRepository;
+    }
+
+    private void check(MesureEPA mesureEPA) {
+        if (mesureEPA.getValeur() < 7) {
+            Alerte alerte = new Alerte();
+            alerte.setSevere(false);
+            alerte.setPatient(mesureEPA.getPatient());
+            alerte.setDescription("Attention EPA faible : " + mesureEPA.getValeur());
+            alerte.setDate(mesureEPA.getDate());
+            alerteRepository.save(alerte);
+        }
     }
 
     /**
@@ -54,6 +69,10 @@ public class MesureEPAResource {
             throw new BadRequestAlertException("A new mesureEPA cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MesureEPA result = mesureEPARepository.save(mesureEPA);
+
+        // On vérifie si la mesureEPA est en dehors des normes
+        check(mesureEPA);
+
         return ResponseEntity
             .created(new URI("/api/mesure-epas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

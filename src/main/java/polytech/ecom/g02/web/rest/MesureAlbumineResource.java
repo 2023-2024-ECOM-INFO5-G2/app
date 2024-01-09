@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureAlbumine;
+import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureAlbumineRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -35,9 +37,27 @@ public class MesureAlbumineResource {
     private String applicationName;
 
     private final MesureAlbumineRepository mesureAlbumineRepository;
+    private final AlerteRepository alerteRepository;
 
-    public MesureAlbumineResource(MesureAlbumineRepository mesureAlbumineRepository) {
+    public MesureAlbumineResource(MesureAlbumineRepository mesureAlbumineRepository, AlerteRepository alerteRepository) {
         this.mesureAlbumineRepository = mesureAlbumineRepository;
+        this.alerteRepository = alerteRepository;
+    }
+
+    private void check(MesureAlbumine mesureAlbumine) {
+        if (mesureAlbumine.getValeur() < 35) {
+            Alerte alerte = new Alerte();
+            alerte.setPatient(mesureAlbumine.getPatient());
+            alerte.setDate(mesureAlbumine.getDate());
+            if (mesureAlbumine.getValeur() < 30) {
+                alerte.setSevere(true);
+                alerte.setDescription("Alerte Albumine très faible : " + mesureAlbumine.getValeur());
+            } else {
+                alerte.setSevere(false);
+                alerte.setDescription("Attention Albumine faible : " + mesureAlbumine.getValeur());
+            }
+            alerteRepository.save(alerte);
+        }
     }
 
     /**
@@ -55,6 +75,7 @@ public class MesureAlbumineResource {
             throw new BadRequestAlertException("A new mesureAlbumine cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
+        check(mesureAlbumine);
         return ResponseEntity
             .created(new URI("/api/mesure-albumines/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -89,6 +110,8 @@ public class MesureAlbumineResource {
         }
 
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
+        check(mesureAlbumine);
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mesureAlbumine.getId().toString()))
