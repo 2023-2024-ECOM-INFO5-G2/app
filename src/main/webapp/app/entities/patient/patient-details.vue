@@ -148,9 +148,9 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" v-text="t$('g2ecomApp.patient.infosComplementaires')"></h4>
+          <h4 class="card-title" v-text="t$('ecom02App.patient.infoComplementaires')"></h4>
           <p class="card-text">
-            {{ patient.infosComplementaires }}
+            {{ patient.infoComplementaires }}
           </p>
         </div>
       </div>

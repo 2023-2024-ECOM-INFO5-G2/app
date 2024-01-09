@@ -32,15 +32,9 @@ import { type IMesurePoids } from '@/shared/model/mesure-poids.model';
 // @ts-ignore
 import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 // @ts-ignore
-import { type IRepas } from '@/shared/model/repas.model';
-// @ts-ignore
-import { type IRepas } from '@/shared/model/repas.model';
-// @ts-ignore
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { useValidation } from '../../shared/composables';
-import { useVuelidate } from '@vuelidate/core';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
@@ -223,9 +217,9 @@ export default defineComponent({
 
     const updateDanger = () => {
       dangerEPA.value = EPAPatient.value[EPAPatient.value.length - 1]?.valeur < 7;
-      if (+new Date() - +new Date(patient.value.dateArrivee) >= 2 && poidsPatient.value?.length === 0) {
+      if (new Date(+new Date() - +new Date(patient.value.dateArrivee)).getUTCDate() - 1 >= 2 && poidsPatient.value?.length === 0) {
         dangerWeight.value = true;
-      }
+      } else dangerWeight.value = false;
     };
 
     const refreshCharts = () => {
@@ -243,8 +237,6 @@ export default defineComponent({
           y: EPAEntry.valeur,
         });
       }
-      console.log(EPAValues);
-      console.log(weightValues);
       chartData.value = {
         datasets: [
           {
