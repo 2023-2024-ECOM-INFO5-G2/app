@@ -47,6 +47,8 @@ public class MesurePoidsResource {
     }
 
     private void check(MesurePoids mesurePoids) {
+        if (mesurePoids.getPatient() == null) return;
+
         double IMC = mesurePoids.getValeur() / Math.pow(mesurePoids.getPatient().getTaille(), 2);
         ZonedDateTime currentDate = mesurePoids.getDate();
 
