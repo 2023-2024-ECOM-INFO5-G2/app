@@ -1,0 +1,26 @@
+{
+  "ecom02App": {
+    "mesureEPA": {
+      "home": {
+        "title": "Mesure EPAS",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Mesure EPA",
+        "createOrEditLabel": "Create or edit a Mesure EPA",
+        "notFound": "No Mesure EPAS found"
+      },
+      "created": "A new Mesure EPA is created with identifier { param }",
+      "updated": "A Mesure EPA is updated with identifier { param }",
+      "deleted": "A Mesure EPA is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Mesure EPA { id }?"
+      },
+      "detail": {
+        "title": "Mesure EPA"
+      },
+      "id": "ID",
+      "valeur": "Valeur",
+      "date": "Date",
+      "patient": "Patient"
+    }
+  }
+}

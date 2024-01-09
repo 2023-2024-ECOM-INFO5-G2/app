@@ -1,0 +1,26 @@
+{
+  "ecom02App": {
+    "mesureAlbumine": {
+      "home": {
+        "title": "Mesure Albumines",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Mesure Albumine",
+        "createOrEditLabel": "Create or edit a Mesure Albumine",
+        "notFound": "No Mesure Albumines found"
+      },
+      "created": "A new Mesure Albumine is created with identifier { param }",
+      "updated": "A Mesure Albumine is updated with identifier { param }",
+      "deleted": "A Mesure Albumine is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Mesure Albumine { id }?"
+      },
+      "detail": {
+        "title": "Mesure Albumine"
+      },
+      "id": "ID",
+      "valeur": "Valeur",
+      "date": "Date",
+      "patient": "Patient"
+    }
+  }
+}

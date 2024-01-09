@@ -1,0 +1,30 @@
+{
+  "applications": "*",
+  "changelogDate": "20231219130512",
+  "entityTableName": "mesure_epa",
+  "fields": [
+    {
+      "fieldName": "valeur",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "10",
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "MesureEPA",
+  "relationships": [
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "mesureEPA",
+      "relationshipName": "patient",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}

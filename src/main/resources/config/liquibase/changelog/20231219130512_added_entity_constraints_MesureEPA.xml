@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity MesureEPA.
+    -->
+    <changeSet id="20231219130512-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="patient_id"
+                                 baseTableName="mesure_epa"
+                                 constraintName="fk_mesure_epa__patient_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="patient"
+                                 />
+    </changeSet>
+</databaseChangeLog>

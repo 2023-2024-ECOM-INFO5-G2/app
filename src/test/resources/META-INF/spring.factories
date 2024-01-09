@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = polytech.ecom.g02.\
+    config.SqlTestContainersSpringContextCustomizerFactory

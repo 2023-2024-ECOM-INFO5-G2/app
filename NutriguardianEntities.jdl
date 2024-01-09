@@ -1,0 +1,75 @@
+// Classes //
+
+entity Patient {
+    prenom String required minlength(3) maxlength(64)
+    nom String required minlength(3) maxlength(64)
+    sexe String required minlength(3) maxlength(64)
+    taille Float required min(45) max(290) 
+    dateDeNaissance LocalDate required 
+    numChambre Integer required
+    dateArrivee ZonedDateTime required
+    infoComplementaires String maxlength(1024)
+}
+
+entity Etablissement {
+    nom String minlength(3) maxlength(64)
+    adresse String required minlength(3) maxlength(128)
+    ville String required minlength(3) maxlength(64)
+    codePostal String required minlength(5) maxlength(5) pattern(/^\d{5}$/)
+}
+
+entity Repas {
+	nom String required minlength(3) maxlength(64)
+    date ZonedDateTime required 
+    apportCalorique Float min(1) max(5000)
+    poidsConsomme Float min(1) max(5000)
+    description String minlength(3) maxlength(512)
+}
+
+entity Rappel {
+	date ZonedDateTime required
+    echeance ZonedDateTime required
+    intervaleJours Integer required min(1) max(366)
+    tache String required minlength(3) maxlength(512)
+    feeDansLetang Boolean required
+}
+
+entity Alerte {
+    description String required minlength(3) maxlength(512)
+    date ZonedDateTime required
+    severe Boolean required
+}
+
+
+entity MesurePoids{
+    valeur Float required min(2) max(635)
+    date ZonedDateTime required
+}
+
+entity MesureEPA{
+    valeur Float required min(0) max(10)
+    date ZonedDateTime required
+}
+
+entity MesureAlbumine{
+    valeur Float required min(0) max(100)
+    date ZonedDateTime required
+}
+
+// Relations //
+relationship ManyToMany {
+	Etablissement to User with builtInEntity
+    Rappel to User with builtInEntity
+    Patient to User with builtInEntity
+}
+
+relationship OneToMany {
+	Etablissement to Patient
+    Patient to Alerte
+    Patient to Rappel 
+  	Patient to MesurePoids
+    Patient to MesureEPA
+    Patient to MesureAlbumine
+    Patient to Repas
+    
+}
