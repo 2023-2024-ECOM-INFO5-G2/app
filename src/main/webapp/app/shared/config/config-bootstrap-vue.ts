@@ -37,6 +37,7 @@ import {
   BTr,
   BListGroup,
   BListGroupItem,
+  BButtonGroup,
 } from 'bootstrap-vue';
 
 export function initBootstrapVue(vue) {
@@ -79,4 +80,5 @@ export function initBootstrapVue(vue) {
   vue.component('b-toast', BToast);
   vue.component('b-list-group', BListGroup);
   vue.component('b-list-group-item', BListGroupItem);
+  vue.component('b-button-group', BButtonGroup);
 }

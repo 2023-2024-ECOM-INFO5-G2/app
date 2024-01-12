@@ -65,17 +65,21 @@
             header="Poids (kg)"
           >
             <b-card-title>
-              {{ poidsPatient[poidsPatient.length - 1]?.valeur || 'Aucune donnée' }}
+              {{ poidsPatient[0]?.valeur || 'Aucune donnée' }}
             </b-card-title>
 
             <template #footer>
-              <b-button v-b-modal.modal-poids variant="primary">Ajouter une valeur</b-button>
+              <b-button-group vertical>
+                <b-button v-b-modal.modal-poids variant="primary">Ajouter une valeur</b-button>
+                <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids variant="outline-secondary" class="mt-2">
+                  Modifier une ancienne valeur
+                </b-button>
+              </b-button-group>
+
               <b-modal id="modal-poids" title="Ajouter une mesure de Poids" @ok="addPoidsValue">
                 <b-form-input v-model="newWeightValue" placeholder="Valeur mesurée (kg)" type="number"></b-form-input>
               </b-modal>
-              <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids class="ml-2" variant="outline-secondary">
-                Modifier une ancienne valeur
-              </b-button>
+
               <b-modal id="modal-updatePoids" v-model="showWeightModal" size="lg" title="Modifier des mesures de poids">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-5">Date</div>
@@ -121,20 +125,21 @@
             :header-text-variant="dangerEPA ? 'white' : ''"
             align="center"
             header="EPA"
-            header="EPA"
           >
             <b-card-title>
               {{ EPAPatient[0]?.valeur || 'Aucune donnée' }}
             </b-card-title>
 
             <template #footer>
-              <b-button v-b-modal.modal-epa variant="outline-primary">Ajouter une valeur</b-button>
+              <b-button-group vertical>
+                <b-button v-b-modal.modal-epa variant="outline-primary">Ajouter une valeur</b-button>
+                <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA variant="outline-secondary" class="mt-2">
+                  Modifier une ancienne valeur
+                </b-button>
+              </b-button-group>
               <b-modal id="modal-epa" title="Ajouter une mesure EPA" @ok="addEPAValue">
                 <b-form-input v-model="newEPAValue" placeholder="Valeur mesurée" type="number"></b-form-input>
               </b-modal>
-              <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA class="ml-2" variant="outline-secondary">
-                Modifier une ancienne valeur
-              </b-button>
               <b-modal id="modal-updateEPA" v-model="showEPAModal" size="lg" title="Modifier des mesures d'EPA">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-5">Date</div>
@@ -177,13 +182,16 @@
             </b-card-title>
 
             <template #footer>
-              <b-button v-b-modal.modal-albu variant="outline-primary">Ajouter une valeur</b-button>
+              <b-button-group vertical>
+                <b-button v-b-modal.modal-albu variant="outline-primary">Ajouter une valeur</b-button>
+                <b-button v-if="albuPatient.length > 0" v-b-modal.modal-updateAlbu class="mt-2" variant="outline-secondary">
+                  Modifier une ancienne valeur
+                </b-button>
+              </b-button-group>
               <b-modal id="modal-albu" title="Ajouter une mesure d'Albumine" @ok="addAlbuValue">
                 <b-form-input v-model="newAlbuValue" placeholder="Valeur mesurée (g/kg)" type="number"></b-form-input>
               </b-modal>
-              <b-button v-if="albuPatient.length > 0" v-b-modal.modal-updateAlbu class="ml-2" variant="outline-secondary">
-                Modifier une ancienne valeur
-              </b-button>
+
               <b-modal id="modal-updateAlbu" v-model="showAlbuModal" size="lg" title="Modifier des mesures d'Albumine">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-5">Date</div>
