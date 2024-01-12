@@ -3,7 +3,19 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { Line } from 'vue-chartjs';
-import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip,
+} from 'chart.js';
+import 'chartjs-adapter-luxon';
 import PatientService from './patient.service';
 import MesureEPAService from '../mesure-epa/mesure-epa.service';
 import MesurePoidsService from '../mesure-poids/mesure-poids.service';
@@ -19,15 +31,13 @@ import { type IMesureEPA } from '@/shared/model/mesure-epa.model';
 import { type IMesurePoids } from '@/shared/model/mesure-poids.model';
 // @ts-ignore
 import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
-// @ts-ignore
-import { type IRepas } from '@/shared/model/repas.model';
-// @ts-ignore
+
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import RepasService from '../repas/repas.service';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -58,13 +68,20 @@ export default defineComponent({
     const EPAPatient: Ref<Array<IMesureEPA>> = ref([]);
     const albuPatient: Ref<Array<IMesureAlbumine>> = ref([]);
     const patientIMC: Ref<Number> = ref(0);
-    const weightChartData: Ref<Object> = ref({});
-    const EPAChartData: Ref<Object> = ref({});
+    const chartData: Ref<Object> = ref({});
     const chartOptions: Ref<Object> = ref({
       responsive: true,
+      scales: {
+        x: {
+          type: 'time',
+          parsing: false,
+          ticks: {
+            callback: (value: number) => new Date(value).toLocaleString('fr-FR'),
+          },
+        },
+      },
     });
-    const weightChartLoaded: Ref<Boolean> = ref(false);
-    const EPAChartLoaded: Ref<Boolean> = ref(false);
+    const chartDataLoaded: Ref<Boolean> = ref(false);
     const newEPAValue: Ref<Number> = ref(0);
     const newWeightValue: Ref<Number> = ref(0);
     const newAlbuValue: Ref<Number> = ref(0);
@@ -247,7 +264,7 @@ export default defineComponent({
 
     const updateDanger = () => {
       dangerEPA.value = EPAPatient.value[0]?.valeur < 7;
-      if (+new Date() - +new Date(patient.value.dateArrivee) >= 2 && poidsPatient.value?.length === 0) {
+      if (new Date(+new Date() - +new Date(patient.value.dateArrivee)).getUTCDate() - 1 >= 2 && poidsPatient.value?.length === 0) {
         dangerWeight.value = true;
       } else {
         dangerWeight.value = false;
@@ -272,13 +289,13 @@ export default defineComponent({
       const EPAValues = [];
       for (const weightEntry of poidsPatient.value) {
         weightValues.push({
-          x: weightEntry.date,
+          x: Date.parse(weightEntry.date),
           y: weightEntry.valeur,
         });
       }
       for (const EPAEntry of EPAPatient.value) {
         EPAValues.push({
-          x: EPAEntry.date,
+          x: Date.parse(EPAEntry.date),
           y: EPAEntry.valeur,
         });
       }
@@ -286,17 +303,13 @@ export default defineComponent({
       weightValues.sort((a: any, b: any) => +new Date(a.x) - +new Date(b.x));
       EPAValues.sort((a: any, b: any) => +new Date(a.x) - +new Date(b.x));
 
-      weightChartData.value = {
+      chartData.value = {
         datasets: [
           {
             label: 'poids (kg)',
             data: weightValues,
             borderColor: 'rgb(255, 125, 100)',
           },
-        ],
-      };
-      EPAChartData.value = {
-        datasets: [
           {
             label: 'EPA',
             data: EPAValues,
@@ -304,8 +317,7 @@ export default defineComponent({
           },
         ],
       };
-      weightChartLoaded.value = true;
-      EPAChartLoaded.value = true;
+      chartDataLoaded.value = true;
     };
 
     const retrievePatientMesures = async (patientId: string | string[]) => {
@@ -340,7 +352,6 @@ export default defineComponent({
           patientMeals.value.push(meal);
         }
       } catch (error: any) {
-        console.log(error);
         alertService.showHttpError(error.response);
       }
     };
@@ -362,11 +373,9 @@ export default defineComponent({
       poidsPatient,
       EPAPatient,
       patientIMC,
-      weightChartData,
-      EPAChartData,
+      chartData,
       chartOptions,
-      weightChartLoaded,
-      EPAChartLoaded,
+      chartDataLoaded,
       newEPAValue,
       newWeightValue,
       newAlbuValue,
