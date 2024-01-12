@@ -71,7 +71,7 @@
             <template #footer>
               <b-button-group vertical>
                 <b-button v-b-modal.modal-poids variant="primary">Ajouter une valeur</b-button>
-                <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids variant="outline-secondary" class="mt-2">
+                <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids class="mt-2" variant="outline-secondary">
                   Modifier une ancienne valeur
                 </b-button>
               </b-button-group>
@@ -107,8 +107,8 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer</b-button>
-                    <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer</b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer </b-button>
+                    <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer </b-button>
                   </div>
                 </template>
               </b-modal>
@@ -133,7 +133,7 @@
             <template #footer>
               <b-button-group vertical>
                 <b-button v-b-modal.modal-epa variant="outline-primary">Ajouter une valeur</b-button>
-                <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA variant="outline-secondary" class="mt-2">
+                <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA class="mt-2" variant="outline-secondary">
                   Modifier une ancienne valeur
                 </b-button>
               </b-button-group>
@@ -167,7 +167,7 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updateEPAValues"> Enregistrer</b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updateEPAValues"> Enregistrer </b-button>
                     <b-button class="float-right" variant="secondary" @click="showEPAModal = false"> Fermer</b-button>
                   </div>
                 </template>
@@ -219,7 +219,7 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updateAlbuValues"> Enregistrer</b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updateAlbuValues"> Enregistrer </b-button>
                     <b-button class="float-right" variant="secondary" @click="showAlbuModal = false"> Fermer</b-button>
                   </div>
                 </template>
