@@ -1,4 +1,4 @@
-import { defineComponent, inject, ref, provide, type Ref } from 'vue';
+import { defineComponent, inject, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -83,6 +83,8 @@ export default defineComponent({
     const { t: t$ } = useI18n();
 
     const showWeightModal: Ref<boolean> = ref(false);
+    const showEPAModal: Ref<boolean> = ref(false);
+    const showAlbuModal: Ref<boolean> = ref(false);
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
@@ -201,9 +203,41 @@ export default defineComponent({
       showWeightModal.value = false;
     };
 
-    const removePoidsValue = async index => {
+    const removePoidsValue = async (index: number) => {
       const removed: IMesurePoids = poidsPatient.value.splice(index, 1)[0];
       await mesurePoidsService().delete(removed.id);
+      refreshData();
+    };
+
+    const updateEPAValues = async () => {
+      for (const measure of EPAPatient.value) {
+        measure.date = measure.date.concat('Z');
+        await mesureEPAService().update(measure);
+      }
+      await retrievePatientMesures(patient.value.id);
+      refreshData();
+      showEPAModal.value = false;
+    };
+
+    const removeEPAValue = async (index: number) => {
+      const removed: IMesureEPA = EPAPatient.value.splice(index, 1)[0];
+      await mesureEPAService().delete(removed.id);
+      refreshData();
+    };
+
+    const updateAlbuValues = async () => {
+      for (const measure of albuPatient.value) {
+        measure.date = measure.date.concat('Z');
+        await mesureAlbumineService().update(measure);
+      }
+      await retrievePatientMesures(patient.value.id);
+      refreshData();
+      showAlbuModal.value = false;
+    };
+
+    const removeAlbuValue = async (index: number) => {
+      const removed: IMesureAlbumine = albuPatient.value.splice(index, 1)[0];
+      await mesureAlbumineService().delete(removed.id);
       refreshData();
     };
 
@@ -349,6 +383,8 @@ export default defineComponent({
       ...dataUtils,
 
       showWeightModal,
+      showEPAModal,
+      showAlbuModal,
 
       previousState,
       t$: useI18n().t,
@@ -358,6 +394,10 @@ export default defineComponent({
       addMeal,
       updatePoidsValues,
       removePoidsValue,
+      updateEPAValues,
+      removeEPAValue,
+      updateAlbuValues,
+      removeAlbuValue,
     };
   },
 });

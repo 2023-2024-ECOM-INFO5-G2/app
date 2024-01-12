@@ -97,8 +97,8 @@
 
             <template #modal-footer>
               <div class="w-100">
-                <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer </b-button>
-                <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer </b-button>
+                <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer</b-button>
+                <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer</b-button>
               </div>
             </template>
           </b-modal>
@@ -122,6 +122,41 @@
           <b-modal id="modal-epa" title="Ajouter une mesure EPA" @ok="addEPAValue">
             <b-form-input v-model="newEPAValue" placeholder="Valeur mesurée" type="number"></b-form-input>
           </b-modal>
+          <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA class="ml-2" variant="outline-secondary">
+            Modifier une ancienne valeur
+          </b-button>
+          <b-modal id="modal-updateEPA" v-model="showEPAModal" size="lg" title="Modifier des mesures d'EPA">
+            <div class="row justify-content-between px-4 text-center h5">
+              <div class="col-5">Date</div>
+              <div class="col-5">Valeur (kg)</div>
+              <div class="col-2"></div>
+            </div>
+            <b-list-group flush>
+              <b-list-group-item v-for="(epa, index) in EPAPatient" :key="epa.id">
+                <div class="row justify-content-between">
+                  <div class="col-5">
+                    <b-form-input v-model="epa.date" type="datetime-local"></b-form-input>
+                  </div>
+                  <div class="col-5">
+                    <b-form-input v-model="epa.valeur" type="number"></b-form-input>
+                  </div>
+                  <div class="col-2">
+                    <b-button class="btn btn-sm" data-cy="entityDeleteButton" variant="danger" @click="removeEPAValue(index)">
+                      <font-awesome-icon icon="times"></font-awesome-icon>
+                      <span class="d-none d-md-inline" v-text="t$('entity.action.delete')"></span>
+                    </b-button>
+                  </div>
+                </div>
+              </b-list-group-item>
+            </b-list-group>
+
+            <template #modal-footer>
+              <div class="w-100">
+                <b-button class="float-right ml-2" variant="primary" @click="updateEPAValues"> Enregistrer</b-button>
+                <b-button class="float-right" variant="secondary" @click="showEPAModal = false"> Fermer</b-button>
+              </div>
+            </template>
+          </b-modal>
         </template>
       </b-card>
     </div>
@@ -135,6 +170,41 @@
           <b-button v-b-modal.modal-albu variant="outline-primary">Ajouter une valeur</b-button>
           <b-modal id="modal-albu" title="Ajouter une mesure d'Albumine" @ok="addAlbuValue">
             <b-form-input v-model="newAlbuValue" placeholder="Valeur mesurée (g/kg)" type="number"></b-form-input>
+          </b-modal>
+          <b-button v-if="albuPatient.length > 0" v-b-modal.modal-updateAlbu class="ml-2" variant="outline-secondary">
+            Modifier une ancienne valeur
+          </b-button>
+          <b-modal id="modal-updateAlbu" v-model="showAlbuModal" size="lg" title="Modifier des mesures d'Albumine">
+            <div class="row justify-content-between px-4 text-center h5">
+              <div class="col-5">Date</div>
+              <div class="col-5">Valeur (kg)</div>
+              <div class="col-2"></div>
+            </div>
+            <b-list-group flush>
+              <b-list-group-item v-for="(albu, index) in albuPatient" :key="albu.id">
+                <div class="row justify-content-between">
+                  <div class="col-5">
+                    <b-form-input v-model="albu.date" type="datetime-local"></b-form-input>
+                  </div>
+                  <div class="col-5">
+                    <b-form-input v-model="albu.valeur" type="number"></b-form-input>
+                  </div>
+                  <div class="col-2">
+                    <b-button class="btn btn-sm" data-cy="entityDeleteButton" variant="danger" @click="removeAlbuValue(index)">
+                      <font-awesome-icon icon="times"></font-awesome-icon>
+                      <span class="d-none d-md-inline" v-text="t$('entity.action.delete')"></span>
+                    </b-button>
+                  </div>
+                </div>
+              </b-list-group-item>
+            </b-list-group>
+
+            <template #modal-footer>
+              <div class="w-100">
+                <b-button class="float-right ml-2" variant="primary" @click="updateAlbuValues"> Enregistrer</b-button>
+                <b-button class="float-right" variant="secondary" @click="showAlbuModal = false"> Fermer</b-button>
+              </div>
+            </template>
           </b-modal>
         </template>
       </b-card>
