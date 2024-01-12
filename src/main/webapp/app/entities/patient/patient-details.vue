@@ -82,17 +82,17 @@
 
               <b-modal id="modal-updatePoids" v-model="showWeightModal" size="lg" title="Modifier des mesures de poids">
                 <div class="row justify-content-between px-4 text-center h5">
-                  <div class="col-5">Date</div>
-                  <div class="col-5">Valeur (kg)</div>
+                  <div class="col-lg-5 col-7">Date</div>
+                  <div class="col-lg-5 col-3">Valeur (kg)</div>
                   <div class="col-2"></div>
                 </div>
                 <b-list-group flush>
                   <b-list-group-item v-for="(poids, index) in poidsPatient" :key="poids.id">
                     <div class="row justify-content-between">
-                      <div class="col-5">
+                      <div class="col-lg-5 col-7">
                         <b-form-input v-model="poids.date" type="datetime-local"></b-form-input>
                       </div>
-                      <div class="col-5">
+                      <div class="col-lg-5 col-3">
                         <b-form-input v-model="poids.valeur" type="number"></b-form-input>
                       </div>
                       <div class="col-2">
@@ -142,17 +142,17 @@
               </b-modal>
               <b-modal id="modal-updateEPA" v-model="showEPAModal" size="lg" title="Modifier des mesures d'EPA">
                 <div class="row justify-content-between px-4 text-center h5">
-                  <div class="col-5">Date</div>
-                  <div class="col-5">Valeur (kg)</div>
+                  <div class="col-lg-5 col-7">Date</div>
+                  <div class="col-lg-5 col-3">Valeur (kg)</div>
                   <div class="col-2"></div>
                 </div>
                 <b-list-group flush>
                   <b-list-group-item v-for="(epa, index) in EPAPatient" :key="epa.id">
                     <div class="row justify-content-between">
-                      <div class="col-5">
+                      <div class="col-7 col-lg-5">
                         <b-form-input v-model="epa.date" type="datetime-local"></b-form-input>
                       </div>
-                      <div class="col-5">
+                      <div class="col-3 col-lg-5">
                         <b-form-input v-model="epa.valeur" type="number"></b-form-input>
                       </div>
                       <div class="col-2">
@@ -194,17 +194,17 @@
 
               <b-modal id="modal-updateAlbu" v-model="showAlbuModal" size="lg" title="Modifier des mesures d'Albumine">
                 <div class="row justify-content-between px-4 text-center h5">
-                  <div class="col-5">Date</div>
-                  <div class="col-5">Valeur (kg)</div>
+                  <div class="col-lg-5 col-7">Date</div>
+                  <div class="col-lg-5 col-3">Valeur (kg)</div>
                   <div class="col-2"></div>
                 </div>
                 <b-list-group flush>
                   <b-list-group-item v-for="(albu, index) in albuPatient" :key="albu.id">
                     <div class="row justify-content-between">
-                      <div class="col-5">
+                      <div class="col-lg-5 col-7">
                         <b-form-input v-model="albu.date" type="datetime-local"></b-form-input>
                       </div>
-                      <div class="col-5">
+                      <div class="col-lg-5 col-3">
                         <b-form-input v-model="albu.valeur" type="number"></b-form-input>
                       </div>
                       <div class="col-2">
