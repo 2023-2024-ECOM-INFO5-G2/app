@@ -42,7 +42,7 @@
   </div>
   <div class="row justify-content-center mt-5">
     <div class="col-12">
-      <b-card header="IMC" align="center">
+      <b-card align="center" header="IMC">
         <b-card-title>
           {{ patientIMC || 'Aucune donnée' }}
         </b-card-title>
@@ -53,19 +53,54 @@
     <div v-if="poidsPatient" class="col-4">
       <b-card
         :border-variant="dangerWeight ? 'danger' : ''"
-        header="Poids (kg)"
         :header-bg-variant="dangerWeight ? 'danger' : ''"
         :header-text-variant="dangerWeight ? 'white' : ''"
         align="center"
+        header="Poids (kg)"
       >
         <b-card-title>
-          {{ poidsPatient[poidsPatient.length - 1]?.valeur || 'Aucune donnée' }}
+          {{ poidsPatient[0]?.valeur || 'Aucune donnée' }}
         </b-card-title>
 
         <template #footer>
-          <b-button v-b-modal.modal-poids variant="outline-primary">Ajouter une valeur</b-button>
+          <b-button v-b-modal.modal-poids variant="primary">Ajouter une valeur</b-button>
           <b-modal id="modal-poids" title="Ajouter une mesure de Poids" @ok="addPoidsValue">
             <b-form-input v-model="newWeightValue" placeholder="Valeur mesurée (kg)" type="number"></b-form-input>
+          </b-modal>
+          <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids class="ml-2" variant="outline-secondary">
+            Modifier une ancienne valeur
+          </b-button>
+          <b-modal id="modal-updatePoids" v-model="showWeightModal" size="lg" title="Modifier des mesures de poids">
+            <div class="row justify-content-between px-4 text-center h5">
+              <div class="col-5">Date</div>
+              <div class="col-5">Valeur (kg)</div>
+              <div class="col-2"></div>
+            </div>
+            <b-list-group flush>
+              <b-list-group-item v-for="(poids, index) in poidsPatient" :key="poids.id">
+                <div class="row justify-content-between">
+                  <div class="col-5">
+                    <b-form-input v-model="poids.date" type="datetime-local"></b-form-input>
+                  </div>
+                  <div class="col-5">
+                    <b-form-input v-model="poids.valeur" type="number"></b-form-input>
+                  </div>
+                  <div class="col-2">
+                    <b-button class="btn btn-sm" data-cy="entityDeleteButton" variant="danger" @click="removePoidsValue(index)">
+                      <font-awesome-icon icon="times"></font-awesome-icon>
+                      <span class="d-none d-md-inline" v-text="t$('entity.action.delete')"></span>
+                    </b-button>
+                  </div>
+                </div>
+              </b-list-group-item>
+            </b-list-group>
+
+            <template #modal-footer>
+              <div class="w-100">
+                <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer </b-button>
+                <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer </b-button>
+              </div>
+            </template>
           </b-modal>
         </template>
       </b-card>
@@ -73,13 +108,13 @@
     <div v-if="EPAPatient" class="col-4">
       <b-card
         :border-variant="dangerEPA ? 'danger' : ''"
-        header="EPA"
         :header-bg-variant="dangerEPA ? 'danger' : ''"
         :header-text-variant="dangerEPA ? 'white' : ''"
         align="center"
+        header="EPA"
       >
         <b-card-title>
-          {{ EPAPatient[EPAPatient.length - 1]?.valeur || 'Aucune donnée' }}
+          {{ EPAPatient[0]?.valeur || 'Aucune donnée' }}
         </b-card-title>
 
         <template #footer>
@@ -93,7 +128,7 @@
     <div v-if="albuPatient" class="col-4">
       <b-card align="center" header="Albumine (g/kg)">
         <b-card-title>
-          {{ albuPatient[albuPatient.length - 1]?.valeur || 'Aucune donnée' }}
+          {{ albuPatient[0]?.valeur || 'Aucune donnée' }}
         </b-card-title>
 
         <template #footer>
@@ -119,7 +154,7 @@
       <h2>Repas</h2>
     </div>
     <div class="col-12">
-      <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped> </b-table>
+      <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped></b-table>
     </div>
     <div class="col-12">
       <b-pagination
