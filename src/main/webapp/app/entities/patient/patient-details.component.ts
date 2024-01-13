@@ -211,13 +211,13 @@ export default defineComponent({
     };
 
     const updatePoidsValues = async () => {
-      for (const measure of poidsPatient.value) {
-        measure.date = measure.date.concat('Z');
-        try {
+      try {
+        for (const measure of poidsPatient.value) {
+          measure.date = measure.date.concat('Z');
           await mesurePoidsService().update(measure);
-        } catch (error: any) {
-          alertService.showHttpError(error.response);
         }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
       }
       await retrievePatientMesures(patient.value.id);
       refreshData();
@@ -231,13 +231,13 @@ export default defineComponent({
     };
 
     const updateEPAValues = async () => {
-      for (const measure of EPAPatient.value) {
-        measure.date = measure.date.concat('Z');
-        try {
+      try {
+        for (const measure of EPAPatient.value) {
+          measure.date = measure.date.concat('Z');
           await mesureEPAService().update(measure);
-        } catch (error: any) {
-          alertService.showHttpError(error.response);
         }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
       }
       await retrievePatientMesures(patient.value.id);
       refreshData();
@@ -251,13 +251,13 @@ export default defineComponent({
     };
 
     const updateAlbuValues = async () => {
-      for (const measure of albuPatient.value) {
-        measure.date = measure.date.concat('Z');
-        try {
+      try {
+        for (const measure of albuPatient.value) {
+          measure.date = measure.date.concat('Z');
           await mesureAlbumineService().update(measure);
-        } catch (error: any) {
-          alertService.showHttpError(error.response);
         }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
       }
       await retrievePatientMesures(patient.value.id);
       refreshData();
