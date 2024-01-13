@@ -51,7 +51,7 @@
         <div class="col-6">
           <b-card align="center" header="IMC">
             <b-card-title>
-              {{ patientIMC || 'Aucune donnée' }}
+              {{ patientIMC || t$('ecom02App.patient.noData') }}
             </b-card-title>
           </b-card>
         </div>
@@ -65,22 +65,22 @@
             header="Poids (kg)"
           >
             <b-card-title>
-              {{ poidsPatient[0]?.valeur || 'Aucune donnée' }}
+              {{ poidsPatient[0]?.valeur || t$('ecom02App.patient.noData') }}
             </b-card-title>
 
             <template #footer>
               <b-button-group vertical>
-                <b-button v-b-modal.modal-poids variant="primary">Ajouter une valeur</b-button>
+                <b-button v-b-modal.modal-poids variant="primary">{{ t$('ecom02App.patient.addValue') }}</b-button>
                 <b-button v-if="poidsPatient.length > 0" v-b-modal.modal-updatePoids class="mt-2" variant="outline-secondary">
-                  Modifier une ancienne valeur
+                  {{ t$('ecom02App.patient.modify') }}
                 </b-button>
               </b-button-group>
 
-              <b-modal id="modal-poids" title="Ajouter une mesure de Poids" @ok="addPoidsValue">
+              <b-modal id="modal-poids" :title="t$('ecom02App.patient.addWeightMeasure')" @ok="addPoidsValue">
                 <b-form-input v-model="newWeightValue" placeholder="Valeur mesurée (kg)" type="number"></b-form-input>
               </b-modal>
 
-              <b-modal id="modal-updatePoids" v-model="showWeightModal" size="lg" title="Modifier des mesures de poids">
+              <b-modal id="modal-updatePoids" v-model="showWeightModal" size="lg" :title="t$('ecom02App.patient.updateWeightMeasure')">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-lg-5 col-7">Date</div>
                   <div class="col-lg-5 col-3">Valeur (kg)</div>
@@ -107,8 +107,12 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues"> Enregistrer </b-button>
-                    <b-button class="float-right" variant="secondary" @click="showWeightModal = false"> Fermer </b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updatePoidsValues">
+                      {{ t$('ecom02App.patient.save') }}
+                    </b-button>
+                    <b-button class="float-right" variant="secondary" @click="showWeightModal = false">
+                      {{ t$('ecom02App.patient.close') }}
+                    </b-button>
                   </div>
                 </template>
               </b-modal>
@@ -127,20 +131,20 @@
             header="EPA"
           >
             <b-card-title>
-              {{ EPAPatient[0]?.valeur || 'Aucune donnée' }}
+              {{ EPAPatient[0]?.valeur || t$('ecom02App.patient.noData') }}
             </b-card-title>
 
             <template #footer>
               <b-button-group vertical>
-                <b-button v-b-modal.modal-epa variant="outline-primary">Ajouter une valeur</b-button>
+                <b-button v-b-modal.modal-epa variant="outline-primary">{{ t$('ecom02App.patient.addValue') }}</b-button>
                 <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA class="mt-2" variant="outline-secondary">
-                  Modifier une ancienne valeur
+                  {{ t$('ecom02App.patient.modify') }}
                 </b-button>
               </b-button-group>
-              <b-modal id="modal-epa" title="Ajouter une mesure EPA" @ok="addEPAValue">
+              <b-modal id="modal-epa" :title="t$('ecom02App.patient.addEPAMeasure')" @ok="addEPAValue">
                 <b-form-input v-model="newEPAValue" placeholder="Valeur mesurée" type="number"></b-form-input>
               </b-modal>
-              <b-modal id="modal-updateEPA" v-model="showEPAModal" size="lg" title="Modifier des mesures d'EPA">
+              <b-modal id="modal-updateEPA" v-model="showEPAModal" size="lg" :title="t$('ecom02App.patient.updateEPAMeasure')">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-lg-5 col-7">Date</div>
                   <div class="col-lg-5 col-3">Valeur (kg)</div>
@@ -167,8 +171,12 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updateEPAValues"> Enregistrer </b-button>
-                    <b-button class="float-right" variant="secondary" @click="showEPAModal = false"> Fermer</b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updateEPAValues">
+                      {{ t$('ecom02App.patient.save') }}
+                    </b-button>
+                    <b-button class="float-right" variant="secondary" @click="showEPAModal = false">
+                      {{ t$('ecom02App.patient.close') }}</b-button
+                    >
                   </div>
                 </template>
               </b-modal>
@@ -178,21 +186,21 @@
         <div class="col-6">
           <b-card v-if="albuPatient" align="center" header="Albumine (g/kg)">
             <b-card-title>
-              {{ albuPatient[0]?.valeur || 'Aucune donnée' }}
+              {{ albuPatient[0]?.valeur || t$('ecom02App.patient.noData') }}
             </b-card-title>
 
             <template #footer>
               <b-button-group vertical>
-                <b-button v-b-modal.modal-albu variant="outline-primary">Ajouter une valeur</b-button>
+                <b-button v-b-modal.modal-albu variant="outline-primary">{{ t$('ecom02App.patient.addValue') }}</b-button>
                 <b-button v-if="albuPatient.length > 0" v-b-modal.modal-updateAlbu class="mt-2" variant="outline-secondary">
-                  Modifier une ancienne valeur
+                  {{ t$('ecom02App.patient.modify') }}
                 </b-button>
               </b-button-group>
-              <b-modal id="modal-albu" title="Ajouter une mesure d'Albumine" @ok="addAlbuValue">
+              <b-modal id="modal-albu" :title="t$('ecom02App.patient.addAlbuMeasure')" @ok="addAlbuValue">
                 <b-form-input v-model="newAlbuValue" placeholder="Valeur mesurée (g/kg)" type="number"></b-form-input>
               </b-modal>
 
-              <b-modal id="modal-updateAlbu" v-model="showAlbuModal" size="lg" title="Modifier des mesures d'Albumine">
+              <b-modal id="modal-updateAlbu" v-model="showAlbuModal" size="lg" :title="t$('ecom02App.patient.updateAlbuMeasure')">
                 <div class="row justify-content-between px-4 text-center h5">
                   <div class="col-lg-5 col-7">Date</div>
                   <div class="col-lg-5 col-3">Valeur (kg)</div>
@@ -219,8 +227,12 @@
 
                 <template #modal-footer>
                   <div class="w-100">
-                    <b-button class="float-right ml-2" variant="primary" @click="updateAlbuValues"> Enregistrer </b-button>
-                    <b-button class="float-right" variant="secondary" @click="showAlbuModal = false"> Fermer</b-button>
+                    <b-button class="float-right ml-2" variant="primary" @click="updateAlbuValues">
+                      {{ t$('ecom02App.patient.save') }}
+                    </b-button>
+                    <b-button class="float-right" variant="secondary" @click="showAlbuModal = false">
+                      {{ t$('ecom02App.patient.close') }}</b-button
+                    >
                   </div>
                 </template>
               </b-modal>
@@ -237,7 +249,7 @@
     </div>
     <div class="col-12">
       <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped></b-table>
-      <span v-if="patientMeals.length === 0"> Aucun repas ou apport enregistré </span>
+      <span v-if="patientMeals.length === 0"> {{ t$('ecom02App.patient.noMeal') }}</span>
     </div>
     <div class="col-12">
       <b-pagination
@@ -249,7 +261,7 @@
       ></b-pagination>
     </div>
     <div class="col-12">
-      <b-button v-b-modal.modal-repas variant="primary">Ajouter un repas</b-button>
+      <b-button v-b-modal.modal-repas variant="primary">{{ t$('ecom02App.patient.addMeal') }}</b-button>
       <b-modal id="modal-repas" title="Ajouter un repas" @ok="addMeal">
         <b-form-input v-model="mealName" placeholder="Repas" type="text"></b-form-input>
         <b-form-input v-model="mealDesc" class="mt-2" placeholder="Description" type="text"></b-form-input>

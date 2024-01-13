@@ -33,7 +33,20 @@
       "mesureAlbumine": "Mesure Albumine",
       "repas": "Repas",
       "user": "User",
-      "etablissement": "Etablissement"
+      "etablissement": "Etablissement",
+      "addValue": "Add measure",
+      "noData": "No data",
+      "modify": "Update a previous measure",
+      "save": "Save",
+      "close": "Close",
+      "addWeightMeasure": "Add weight measure",
+      "updateWeightMeasure": "Update weight measures",
+      "addEPAMeasure": "Add EPA measure",
+      "updateEPAMeasure": "Update EPA measures",
+      "addAlbuMeasure": "Add Albumine measure",
+      "updateAlbuMeasure": "Update Albumine measures",
+      "noMeal": "No meal given",
+      "addMeal": "Add meal"
     }
   }
 }
