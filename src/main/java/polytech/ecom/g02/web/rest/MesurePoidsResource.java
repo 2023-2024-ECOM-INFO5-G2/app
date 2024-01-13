@@ -68,7 +68,7 @@ public class MesurePoidsResource {
 
         List<MesurePoids> poidsList = mesurePoidsRepository.findAll();
         poidsList.removeIf(poids -> poids.getPatient() == null);
-        poidsList.removeIf(poids -> poids.getPatient().getId().equals(mesurePoids.getPatient().getId()));
+        poidsList.removeIf(poids -> !poids.getPatient().getId().equals(mesurePoids.getPatient().getId()));
 
         ZonedDateTime startDate1 = currentDate.minusMonths(1).minusDays(3);
         ZonedDateTime endDate1 = currentDate.minusMonths(1).plusDays(3);
@@ -175,7 +175,7 @@ public class MesurePoidsResource {
         }
 
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
-        check(mesurePoids);
+        check(mesurePoidsRepository.getReferenceById(mesurePoids.getId()));
 
         return ResponseEntity
             .ok()

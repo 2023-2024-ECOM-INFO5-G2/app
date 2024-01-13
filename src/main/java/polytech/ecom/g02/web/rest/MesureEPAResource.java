@@ -107,6 +107,7 @@ public class MesureEPAResource {
         }
 
         MesureEPA result = mesureEPARepository.save(mesureEPA);
+        check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mesureEPA.getId().toString()))

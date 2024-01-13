@@ -110,7 +110,7 @@ public class MesureAlbumineResource {
         }
 
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
-        check(mesureAlbumine);
+        check(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()));
 
         return ResponseEntity
             .ok()
