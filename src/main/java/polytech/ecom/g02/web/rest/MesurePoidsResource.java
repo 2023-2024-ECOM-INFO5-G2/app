@@ -5,10 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +66,7 @@ public class MesurePoidsResource {
         List<MesurePoids> poidsList = mesurePoidsRepository.findAll();
         poidsList.removeIf(poids -> poids.getPatient() == null);
         poidsList.removeIf(poids -> !poids.getPatient().getId().equals(mesurePoids.getPatient().getId()));
+        MesurePoids first = null;
 
         ZonedDateTime startDate1 = currentDate.minusMonths(1).minusDays(3);
         ZonedDateTime endDate1 = currentDate.minusMonths(1).plusDays(3);
@@ -81,6 +79,8 @@ public class MesurePoidsResource {
 
         for (MesurePoids poids : poidsList) {
             ZonedDateTime date = poids.getDate();
+            if (first == null) first = poids;
+            if (first.getDate().isAfter(date)) first = poids;
             if (date.isAfter(startDate1) && date.isBefore(endDate1)) {
                 filteredPoids1.add(poids);
             }
@@ -90,7 +90,8 @@ public class MesurePoidsResource {
         }
 
         if (!filteredPoids1.isEmpty()) {
-            float ratio1 = mesurePoids.getValeur() / filteredPoids1.get(filteredPoids1.size() / 2).getValeur();
+            float ratio1 =
+                mesurePoids.getValeur() / Collections.min(filteredPoids1, Comparator.comparing(MesurePoids::getValeur)).getValeur(); //.get(filteredPoids1.size() / 2).getValeur();
             if (ratio1 < 0.95) {
                 Alerte alerte = new Alerte();
                 alerte.setPatient(mesurePoids.getPatient());
@@ -108,7 +109,8 @@ public class MesurePoidsResource {
         }
 
         if (!filteredPoids6.isEmpty()) {
-            float ratio6 = mesurePoids.getValeur() / filteredPoids6.get(filteredPoids6.size() / 2).getValeur();
+            float ratio6 =
+                mesurePoids.getValeur() / Collections.min(filteredPoids6, Comparator.comparing(MesurePoids::getValeur)).getValeur(); //.get(filteredPoids6.size() / 2).getValeur();
             if (ratio6 < 0.9) {
                 Alerte alerte = new Alerte();
                 alerte.setPatient(mesurePoids.getPatient());
@@ -119,6 +121,27 @@ public class MesurePoidsResource {
                 } else {
                     alerte.setSevere(false);
                     alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
+                }
+                alerteRepository.save(alerte);
+            }
+        }
+
+        if (first != null && !filteredPoids1.contains(first) && !filteredPoids6.contains(first)) {
+            float ratio = mesurePoids.getValeur() / first.getValeur();
+            if (ratio < 0.9) {
+                Alerte alerte = new Alerte();
+                alerte.setPatient(mesurePoids.getPatient());
+                alerte.setDate(currentDate);
+                if (ratio < 0.85) {
+                    alerte.setSevere(true);
+                    alerte.setDescription(
+                        "Alerte Perte de poids très importante : " + Math.round(100 - ratio * 100) + "% depuis la première prise de poids"
+                    );
+                } else {
+                    alerte.setSevere(false);
+                    alerte.setDescription(
+                        "Attention Perte de poids importante : " + Math.round(100 - ratio * 100) + "% depuis la première prise de poids"
+                    );
                 }
                 alerteRepository.save(alerte);
             }
