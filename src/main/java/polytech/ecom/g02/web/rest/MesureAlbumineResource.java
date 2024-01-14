@@ -93,6 +93,7 @@ public class MesureAlbumineResource {
             for (Alerte alerte : alertes) {
                 if (alerte.getMesureAlbumine() != null) {
                     alerteRepository.deleteById(alerte.getId());
+                    patientRepository.save(mesureAlbumine.getPatient().removeAlerte(alerte));
                 }
             }
         }
