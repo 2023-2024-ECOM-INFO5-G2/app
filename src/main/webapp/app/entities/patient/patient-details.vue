@@ -136,7 +136,7 @@
 
             <template #footer>
               <b-button-group vertical>
-                <b-button v-b-modal.modal-epa variant="outline-primary">{{ t$('ecom02App.patient.addValue') }} </b-button>
+                <b-button v-b-modal.modal-epa variant="primary">{{ t$('ecom02App.patient.addValue') }} </b-button>
                 <b-button v-if="EPAPatient.length > 0" v-b-modal.modal-updateEPA class="mt-2" variant="outline-secondary">
                   {{ t$('ecom02App.patient.modify') }}
                 </b-button>
@@ -191,7 +191,7 @@
 
             <template #footer>
               <b-button-group vertical>
-                <b-button v-b-modal.modal-albu variant="outline-primary">{{ t$('ecom02App.patient.addValue') }} </b-button>
+                <b-button v-b-modal.modal-albu variant="primary">{{ t$('ecom02App.patient.addValue') }} </b-button>
                 <b-button v-if="albuPatient.length > 0" v-b-modal.modal-updateAlbu class="mt-2" variant="outline-secondary">
                   {{ t$('ecom02App.patient.modify') }}
                 </b-button>
@@ -243,12 +243,32 @@
     </div>
   </div>
 
+  <div class="row mt-5" v-if="patientAlerts.length > 0">
+    <div class="col-12">
+      <h2>Alertes</h2>
+    </div>
+    <div class="col-12">
+      <b-table id="my-table" :items="patientAlerts" hover striped>
+        <template #cell(date)="data">
+          {{ new Date(data.item.date).toLocaleString('fr-FR') }}
+        </template>
+        <template #cell(severe)="data">
+          {{ data.item.severe ? 'oui' : 'non' }}
+        </template>
+      </b-table>
+    </div>
+  </div>
+
   <div class="row mt-5">
     <div class="col-12">
       <h2>Repas</h2>
     </div>
     <div class="col-12">
-      <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped></b-table>
+      <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped>
+        <template #cell(date)="data">
+          {{ new Date(data.item.date).toLocaleString('fr-FR') }}
+        </template>
+      </b-table>
       <span v-if="patientMeals.length === 0"> {{ t$('ecom02App.patient.noMeal') }}</span>
     </div>
     <div class="col-12">

@@ -20,6 +20,8 @@ import PatientService from './patient.service';
 import MesureEPAService from '../mesure-epa/mesure-epa.service';
 import MesurePoidsService from '../mesure-poids/mesure-poids.service';
 import MesureAlbumineService from '../mesure-albumine/mesure-albumine.service';
+import AlerteService from '../alerte/alerte.service';
+import RepasService from '../repas/repas.service';
 import { useDateFormat } from '@/shared/composables';
 // @ts-ignore
 import useDataUtils from '@/shared/data/data-utils.service';
@@ -35,7 +37,6 @@ import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import RepasService from '../repas/repas.service';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
@@ -55,6 +56,7 @@ export default defineComponent({
     const mesurePoidsService = inject('mesurePoidsService', () => new MesurePoidsService());
     const mesureAlbumineService = inject('mesureAlbumineService', () => new MesureAlbumineService());
     const repasService = inject('repasService', () => new RepasService());
+    const alerteService = inject('alerteService', () => new AlerteService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const dataUtils = useDataUtils();
@@ -102,6 +104,8 @@ export default defineComponent({
     const showWeightModal: Ref<boolean> = ref(false);
     const showEPAModal: Ref<boolean> = ref(false);
     const showAlbuModal: Ref<boolean> = ref(false);
+
+    const patientAlerts: Ref<Array<Object>> = ref([]);
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
@@ -368,10 +372,28 @@ export default defineComponent({
       }
     };
 
+    const checkForAlert = async (patientId: string | string[]) => {
+      try {
+        const res = await alerteService().retrieve();
+        patientAlerts.value = [];
+        for (const alert of res.data) {
+          if (alert.patient?.id === Number(patientId)) {
+            alertService.showError(alert.description);
+            delete alert.patient;
+            patientAlerts.value.push(alert);
+          }
+        }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+    };
+
     if (route.params?.patientId) {
       retrievePatient(route.params.patientId).then(() =>
         retrievePatientMesures(route.params.patientId).then(() => {
-          refreshData();
+          checkForAlert(route.params.patientId).then(() => {
+            refreshData();
+          });
         }),
       );
       retrievePatientMeals(route.params.patientId);
@@ -394,6 +416,7 @@ export default defineComponent({
       dangerEPA,
       dangerWeight,
       toasts,
+      patientAlerts,
 
       patientMeals,
       tableCurrentPage,
