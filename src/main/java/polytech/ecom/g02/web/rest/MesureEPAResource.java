@@ -109,6 +109,7 @@ public class MesureEPAResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
         MesureEPA result = mesureEPARepository.save(mesureEPA);
         check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
         return ResponseEntity
@@ -206,6 +207,7 @@ public class MesureEPAResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureEPA(@PathVariable Long id) {
         log.debug("REST request to delete MesureEPA : {}", id);
+        alerteRepository.deleteById(mesureEPARepository.getReferenceById(id).getAlerte().getId());
         mesureEPARepository.deleteById(id);
         return ResponseEntity
             .noContent()
