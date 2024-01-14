@@ -49,7 +49,13 @@
     <div class="col-lg-6 col-12">
       <div class="row justify-content-center">
         <div class="col-6">
-          <b-card align="center" header="IMC">
+          <b-card
+            align="center"
+            header="IMC"
+            :border-variant="dangerIMC"
+            :header-bg-variant="dangerIMC"
+            :header-text-variant="dangerIMC !== 'default' ? 'white' : ''"
+          >
             <b-card-title>
               {{ patientIMC || t$('ecom02App.patient.noData') }}
             </b-card-title>
@@ -58,9 +64,9 @@
         <div class="col-6">
           <b-card
             v-if="poidsPatient"
-            :border-variant="dangerWeight ? 'danger' : ''"
-            :header-bg-variant="dangerWeight ? 'danger' : ''"
-            :header-text-variant="dangerWeight ? 'white' : ''"
+            :border-variant="dangerWeight"
+            :header-bg-variant="dangerWeight"
+            :header-text-variant="dangerWeight !== 'default' ? 'white' : ''"
             align="center"
             header="Poids (kg)"
           >
@@ -124,9 +130,9 @@
         <div class="col-6">
           <b-card
             v-if="EPAPatient"
-            :border-variant="dangerEPA ? 'danger' : ''"
-            :header-bg-variant="dangerEPA ? 'danger' : ''"
-            :header-text-variant="dangerEPA ? 'white' : ''"
+            :border-variant="dangerEPA"
+            :header-bg-variant="dangerEPA"
+            :header-text-variant="dangerEPA !== 'default' ? 'white' : ''"
             align="center"
             header="EPA"
           >
@@ -184,7 +190,14 @@
           </b-card>
         </div>
         <div class="col-6">
-          <b-card v-if="albuPatient" align="center" header="Albumine (g/kg)">
+          <b-card
+            v-if="albuPatient"
+            align="center"
+            header="Albumine (g/kg)"
+            :border-variant="dangerAlbu"
+            :header-bg-variant="dangerAlbu"
+            :header-text-variant="dangerAlbu !== 'default' ? 'white' : ''"
+          >
             <b-card-title>
               {{ albuPatient[0]?.valeur || t$('ecom02App.patient.noData') }}
             </b-card-title>
@@ -248,7 +261,7 @@
       <h2>Alertes</h2>
     </div>
     <div class="col-12">
-      <b-table id="my-table" :items="patientAlerts" hover striped>
+      <b-table id="my-table" :items="patientAlerts" hover striped :fields="['description', 'Date', 'Severe']">
         <template #cell(date)="data">
           {{ new Date(data.item.date).toLocaleString('fr-FR') }}
         </template>
@@ -264,7 +277,15 @@
       <h2>Repas</h2>
     </div>
     <div class="col-12">
-      <b-table id="my-table" :current-page="tableCurrentPage" :items="patientMeals" :per-page="itemsPerPageTable" hover striped>
+      <b-table
+        id="my-table"
+        :current-page="tableCurrentPage"
+        :items="patientMeals"
+        :per-page="itemsPerPageTable"
+        hover
+        striped
+        :fields="['nom', 'date', 'apportCalorique', 'poidsConsomme', 'description']"
+      >
         <template #cell(date)="data">
           {{ new Date(data.item.date).toLocaleString('fr-FR') }}
         </template>

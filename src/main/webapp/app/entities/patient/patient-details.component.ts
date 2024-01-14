@@ -88,8 +88,10 @@ export default defineComponent({
     const newWeightValue: Ref<Number> = ref(0);
     const newAlbuValue: Ref<Number> = ref(0);
 
-    const dangerEPA: Ref<Boolean> = ref(false);
-    const dangerWeight: Ref<Boolean> = ref(false);
+    const dangerEPA: Ref<string> = ref('default');
+    const dangerWeight: Ref<string> = ref('default');
+    const dangerIMC: Ref<string> = ref('default');
+    const dangerAlbu: Ref<string> = ref('default');
 
     const toasts: Ref<Array<Object>> = ref([]);
 
@@ -279,11 +281,36 @@ export default defineComponent({
     };
 
     const updateDanger = () => {
-      dangerEPA.value = EPAPatient.value[0]?.valeur < 7;
-      if (new Date(+new Date() - +new Date(patient.value.dateArrivee)).getUTCDate() - 1 >= 2 && poidsPatient.value?.length === 0) {
-        dangerWeight.value = true;
-      } else {
-        dangerWeight.value = false;
+      dangerWeight.value = 'default';
+      dangerIMC.value = 'default';
+      dangerAlbu.value = 'default';
+      dangerWeight.value = 'default';
+      for (const alert of patientAlerts.value) {
+        switch (alert.code) {
+          case 10:
+          case 11:
+          case 12:
+          case 13:
+          case 14:
+          case 15:
+            dangerWeight.value = 'warning';
+            break;
+          case 20:
+            dangerIMC.value = 'warning';
+            break;
+          case 21:
+            dangerIMC.value = 'danger';
+            break;
+          case 30:
+            dangerAlbu.value = 'warning';
+            break;
+          case 31:
+            dangerAlbu.value = 'danger';
+            break;
+          case 40:
+            dangerEPA.value = 'warning';
+            break;
+        }
       }
     };
 
@@ -294,10 +321,12 @@ export default defineComponent({
     };
 
     const refreshData = () => {
-      patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[0]?.valeur);
-      sortArrays();
-      refreshCharts();
-      updateDanger();
+      checkForAlert(patient.value.id).then(() => {
+        patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[0]?.valeur);
+        sortArrays();
+        refreshCharts();
+        updateDanger();
+      });
     };
 
     const refreshCharts = () => {
@@ -378,8 +407,7 @@ export default defineComponent({
         patientAlerts.value = [];
         for (const alert of res.data) {
           if (alert.patient?.id === Number(patientId)) {
-            alertService.showError(alert.description);
-            delete alert.patient;
+            alertService.showRed('Alerte', alert.description);
             patientAlerts.value.push(alert);
           }
         }
@@ -391,9 +419,7 @@ export default defineComponent({
     if (route.params?.patientId) {
       retrievePatient(route.params.patientId).then(() =>
         retrievePatientMesures(route.params.patientId).then(() => {
-          checkForAlert(route.params.patientId).then(() => {
-            refreshData();
-          });
+          refreshData();
         }),
       );
       retrievePatientMeals(route.params.patientId);
@@ -415,6 +441,8 @@ export default defineComponent({
       newAlbuValue,
       dangerEPA,
       dangerWeight,
+      dangerIMC,
+      dangerAlbu,
       toasts,
       patientAlerts,
 

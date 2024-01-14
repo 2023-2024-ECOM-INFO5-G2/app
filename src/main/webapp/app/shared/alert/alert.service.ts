@@ -54,6 +54,16 @@ export default class AlertService {
     });
   }
 
+  public showRed(toastTitle: string, toastMessage: string) {
+    this.bvToast.toast(toastMessage, {
+      toaster: 'b-toaster-top-center',
+      title: toastTitle,
+      variant: 'danger',
+      solid: true,
+      autoHideDelay: 5000,
+    });
+  }
+
   public showHttpError(httpErrorResponse: any) {
     let errorMessage: string | null = null;
     switch (httpErrorResponse?.status) {
