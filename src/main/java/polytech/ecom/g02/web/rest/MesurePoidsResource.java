@@ -16,6 +16,7 @@ import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesurePoids;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesurePoidsRepository;
+import polytech.ecom.g02.repository.PatientRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -37,16 +38,22 @@ public class MesurePoidsResource {
 
     private final MesurePoidsRepository mesurePoidsRepository;
     private final AlerteRepository alerteRepository;
+    private final PatientRepository patientRepository;
 
-    public MesurePoidsResource(MesurePoidsRepository mesurePoidsRepository, AlerteRepository alerteRepository) {
+    public MesurePoidsResource(
+        MesurePoidsRepository mesurePoidsRepository,
+        AlerteRepository alerteRepository,
+        PatientRepository patientRepository
+    ) {
         this.mesurePoidsRepository = mesurePoidsRepository;
         this.alerteRepository = alerteRepository;
+        this.patientRepository = patientRepository;
     }
 
     private void check(MesurePoids mesurePoids) {
         if (mesurePoids.getPatient() == null) return;
 
-        double IMC = mesurePoids.getValeur() / Math.pow(mesurePoids.getPatient().getTaille(), 2);
+        double IMC = mesurePoids.getValeur() / Math.pow(mesurePoids.getPatient().getTaille() / 100, 2);
         ZonedDateTime currentDate = mesurePoids.getDate();
 
         if (IMC < 18.5) {
@@ -63,6 +70,7 @@ public class MesurePoidsResource {
                 alerte.setCode(20);
                 alerte.setDescription("Attention IMC faible : " + IMC);
             }
+            patientRepository.save(mesurePoids.getPatient().addAlerte(alerte));
             alerteRepository.save(alerte);
         }
 
@@ -109,7 +117,7 @@ public class MesurePoidsResource {
                     alerte.setCode(10);
                     alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio1 * 100) + "% en 1 mois");
                 }
-
+                patientRepository.save(mesurePoids.getPatient().addAlerte(alerte));
                 alerteRepository.save(alerte);
             }
         }
@@ -131,6 +139,7 @@ public class MesurePoidsResource {
                     alerte.setCode(12);
                     alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
                 }
+                patientRepository.save(mesurePoids.getPatient().addAlerte(alerte));
                 alerteRepository.save(alerte);
             }
         }
@@ -155,6 +164,7 @@ public class MesurePoidsResource {
                         "Attention Perte de poids importante : " + Math.round(100 - ratio * 100) + "% depuis la première prise de poids"
                     );
                 }
+                patientRepository.save(mesurePoids.getPatient().addAlerte(alerte));
                 alerteRepository.save(alerte);
             }
         }
@@ -172,6 +182,15 @@ public class MesurePoidsResource {
         log.debug("REST request to save MesurePoids : {}", mesurePoids);
         if (mesurePoids.getId() != null) {
             throw new BadRequestAlertException("A new mesurePoids cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+
+        Set<Alerte> alertes = patientRepository.getReferenceById(mesurePoids.getPatient().getId()).getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesurePoids() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                }
+            }
         }
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
         check(mesurePoids);
@@ -216,7 +235,6 @@ public class MesurePoidsResource {
         } catch (Exception e) {
             // Nothing to do here
         }
-
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
         check(mesurePoidsRepository.getReferenceById(mesurePoids.getId()));
         return ResponseEntity
