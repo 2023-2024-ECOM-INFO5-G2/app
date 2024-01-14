@@ -209,9 +209,14 @@ public class MesurePoidsResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        for (Alerte alerte : mesurePoidsRepository.getReferenceById(mesurePoids.getId()).getAlertes()) {
-            alerteRepository.deleteById(alerte.getId());
+        try {
+            for (Alerte alerte : mesurePoidsRepository.getReferenceById(mesurePoids.getId()).getAlertes()) {
+                alerteRepository.deleteById(alerte.getId());
+            }
+        } catch (Exception e) {
+            // Nothing to do here
         }
+
         MesurePoids result = mesurePoidsRepository.save(mesurePoids);
         check(mesurePoidsRepository.getReferenceById(mesurePoids.getId()));
         return ResponseEntity
@@ -301,8 +306,12 @@ public class MesurePoidsResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesurePoids(@PathVariable Long id) {
         log.debug("REST request to delete MesurePoids : {}", id);
-        for (Alerte alerte : mesurePoidsRepository.getReferenceById(id).getAlertes()) {
-            alerteRepository.deleteById(alerte.getId());
+        try {
+            for (Alerte alerte : mesurePoidsRepository.getReferenceById(id).getAlertes()) {
+                alerteRepository.deleteById(alerte.getId());
+            }
+        } catch (Exception e) {
+            // Nothing to do here
         }
         mesurePoidsRepository.deleteById(id);
         return ResponseEntity

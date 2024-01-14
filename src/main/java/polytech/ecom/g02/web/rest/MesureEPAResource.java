@@ -108,7 +108,11 @@ public class MesureEPAResource {
         if (!mesureEPARepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+        try {
+            alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            //Nothing to do here
+        }
         alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
         MesureEPA result = mesureEPARepository.save(mesureEPA);
         check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
@@ -207,7 +211,11 @@ public class MesureEPAResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureEPA(@PathVariable Long id) {
         log.debug("REST request to delete MesureEPA : {}", id);
-        alerteRepository.deleteById(mesureEPARepository.getReferenceById(id).getAlerte().getId());
+        try {
+            alerteRepository.deleteById(mesureEPARepository.getReferenceById(id).getAlerte().getId());
+        } catch (Exception e) {
+            //Nothing to do here
+        }
         mesureEPARepository.deleteById(id);
         return ResponseEntity
             .noContent()

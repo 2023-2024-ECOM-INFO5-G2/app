@@ -114,7 +114,11 @@ public class MesureAlbumineResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()).getAlerte().getId());
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
         check(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()));
 
@@ -213,7 +217,11 @@ public class MesureAlbumineResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureAlbumine(@PathVariable Long id) {
         log.debug("REST request to delete MesureAlbumine : {}", id);
-        alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(id).getAlerte().getId());
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(id).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
         mesureAlbumineRepository.deleteById(id);
         return ResponseEntity
             .noContent()
