@@ -189,6 +189,7 @@ public class MesurePoidsResource {
             for (Alerte alerte : alertes) {
                 if (alerte.getMesurePoids() != null) {
                     alerteRepository.deleteById(alerte.getId());
+                    patientRepository.save(mesurePoids.getPatient().removeAlerte(alerte));
                 }
             }
         }

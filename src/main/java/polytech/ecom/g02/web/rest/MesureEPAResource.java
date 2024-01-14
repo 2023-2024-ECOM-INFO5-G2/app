@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,15 +82,13 @@ public class MesureEPAResource {
 
         Set<Alerte> alertes = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).getAlertes();
         if (alertes != null) {
-            System.out.println("C'est pas vide wolah");
             for (Alerte alerte : alertes) {
                 System.out.println(alerte.getMesureEPA());
                 if (alerte.getMesureEPA() != null) {
                     alerteRepository.deleteById(alerte.getId());
+                    patientRepository.save(alerte.getPatient().removeAlerte(alerte));
                 }
             }
-        } else {
-            System.out.println("C'est vide wolah");
         }
         check(mesureEPA);
 
@@ -101,6 +96,18 @@ public class MesureEPAResource {
             .created(new URI("/api/mesure-epas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    private boolean isNewest(MesureEPA mesure) {
+        List<MesureEPA> mesures = mesureEPARepository.findAll();
+        for (MesureEPA mesureEPA : mesures) {
+            if (mesureEPA.getPatient().getId() == mesure.getPatient().getId()) {
+                if (mesureEPA.getDate().isAfter(mesure.getDate())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -136,7 +143,9 @@ public class MesureEPAResource {
             //Nothing to do here
         }
         MesureEPA result = mesureEPARepository.save(mesureEPA);
-        check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
+
+        if (isNewest(mesureEPA)) check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mesureEPA.getId().toString()))
