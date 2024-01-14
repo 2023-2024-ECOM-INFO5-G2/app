@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,8 +48,10 @@ public class MesureEPAResource {
     private void check(MesureEPA mesureEPA) {
         if (mesureEPA.getValeur() < 7) {
             Alerte alerte = new Alerte();
+            alerte.setMesureEPA(mesureEPA);
             alerte.setSevere(false);
             alerte.setPatient(mesureEPA.getPatient());
+            alerte.setCode(40);
             alerte.setDescription("Attention EPA faible : " + mesureEPA.getValeur());
             alerte.setDate(mesureEPA.getDate());
             alerteRepository.save(alerte);
@@ -165,10 +168,18 @@ public class MesureEPAResource {
     /**
      * {@code GET  /mesure-epas} : get all the mesureEPAS.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mesureEPAS in body.
      */
     @GetMapping("")
-    public List<MesureEPA> getAllMesureEPAS() {
+    public List<MesureEPA> getAllMesureEPAS(@RequestParam(required = false) String filter) {
+        if ("alerte-is-null".equals(filter)) {
+            log.debug("REST request to get all MesureEPAs where alerte is null");
+            return StreamSupport
+                .stream(mesureEPARepository.findAll().spliterator(), false)
+                .filter(mesureEPA -> mesureEPA.getAlerte() == null)
+                .toList();
+        }
         log.debug("REST request to get all MesureEPAS");
         return mesureEPARepository.findAll();
     }

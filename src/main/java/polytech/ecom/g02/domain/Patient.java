@@ -67,7 +67,7 @@ public class Patient implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "mesureEPA", "mesureAlbumine", "mesurePoids" }, allowSetters = true)
     private Set<Alerte> alertes = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
@@ -77,17 +77,17 @@ public class Patient implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alertes" }, allowSetters = true)
     private Set<MesurePoids> mesurePoids = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
     private Set<MesureEPA> mesureEPAS = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
     private Set<MesureAlbumine> mesureAlbumines = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")

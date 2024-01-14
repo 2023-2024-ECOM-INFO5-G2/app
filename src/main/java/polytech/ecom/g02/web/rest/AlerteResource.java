@@ -134,6 +134,9 @@ public class AlerteResource {
                 if (alerte.getSevere() != null) {
                     existingAlerte.setSevere(alerte.getSevere());
                 }
+                if (alerte.getCode() != null) {
+                    existingAlerte.setCode(alerte.getCode());
+                }
 
                 return existingAlerte;
             })

@@ -53,11 +53,14 @@ public class MesurePoidsResource {
             Alerte alerte = new Alerte();
             alerte.setPatient(mesurePoids.getPatient());
             alerte.setDate(currentDate);
+            alerte.setMesurePoids(mesurePoids);
             if (IMC < 17) {
                 alerte.setSevere(true);
+                alerte.setCode(21);
                 alerte.setDescription("Alerte IMC très faible : " + IMC);
             } else {
                 alerte.setSevere(false);
+                alerte.setCode(20);
                 alerte.setDescription("Attention IMC faible : " + IMC);
             }
             alerteRepository.save(alerte);
@@ -94,13 +97,16 @@ public class MesurePoidsResource {
                 mesurePoids.getValeur() / Collections.min(filteredPoids1, Comparator.comparing(MesurePoids::getValeur)).getValeur(); //.get(filteredPoids1.size() / 2).getValeur();
             if (ratio1 < 0.95) {
                 Alerte alerte = new Alerte();
+                alerte.setMesurePoids(mesurePoids);
                 alerte.setPatient(mesurePoids.getPatient());
                 alerte.setDate(currentDate);
                 if (ratio1 < 0.9) {
                     alerte.setSevere(true);
+                    alerte.setCode(11);
                     alerte.setDescription("Alerte Perte de poids très rapide : " + Math.round(100 - ratio1 * 100) + "% en 1 mois");
                 } else {
                     alerte.setSevere(false);
+                    alerte.setCode(10);
                     alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio1 * 100) + "% en 1 mois");
                 }
 
@@ -113,13 +119,16 @@ public class MesurePoidsResource {
                 mesurePoids.getValeur() / Collections.min(filteredPoids6, Comparator.comparing(MesurePoids::getValeur)).getValeur(); //.get(filteredPoids6.size() / 2).getValeur();
             if (ratio6 < 0.9) {
                 Alerte alerte = new Alerte();
+                alerte.setMesurePoids(mesurePoids);
                 alerte.setPatient(mesurePoids.getPatient());
                 alerte.setDate(currentDate);
                 if (ratio6 < 0.85) {
                     alerte.setSevere(true);
+                    alerte.setCode(13);
                     alerte.setDescription("Alerte Perte de poids très rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
                 } else {
                     alerte.setSevere(false);
+                    alerte.setCode(12);
                     alerte.setDescription("Attention Perte de poids rapide : " + Math.round(100 - ratio6 * 100) + "% en 6 mois");
                 }
                 alerteRepository.save(alerte);
@@ -130,15 +139,18 @@ public class MesurePoidsResource {
             float ratio = mesurePoids.getValeur() / first.getValeur();
             if (ratio < 0.9) {
                 Alerte alerte = new Alerte();
+                alerte.setMesurePoids(mesurePoids);
                 alerte.setPatient(mesurePoids.getPatient());
                 alerte.setDate(currentDate);
                 if (ratio < 0.85) {
                     alerte.setSevere(true);
+                    alerte.setCode(15);
                     alerte.setDescription(
                         "Alerte Perte de poids très importante : " + Math.round(100 - ratio * 100) + "% depuis la première prise de poids"
                     );
                 } else {
                     alerte.setSevere(false);
+                    alerte.setCode(14);
                     alerte.setDescription(
                         "Attention Perte de poids importante : " + Math.round(100 - ratio * 100) + "% depuis la première prise de poids"
                     );

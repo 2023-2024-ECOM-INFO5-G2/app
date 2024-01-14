@@ -11,6 +11,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/composables/date-format';
 import AlertService from '@/shared/alert/alert.service';
 
 import PatientService from '@/entities/patient/patient.service';
+import MesureEPAService from '@/entities/mesure-epa/mesure-epa.service';
+import MesureAlbumineService from '@/entities/mesure-albumine/mesure-albumine.service';
+import MesurePoidsService from '@/entities/mesure-poids/mesure-poids.service';
 
 type AlerteUpdateComponentType = InstanceType<typeof AlerteUpdate>;
 
@@ -57,6 +60,18 @@ describe('Component Tests', () => {
           alerteService: () => alerteServiceStub,
           patientService: () =>
             sinon.createStubInstance<PatientService>(PatientService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+          mesureEPAService: () =>
+            sinon.createStubInstance<MesureEPAService>(MesureEPAService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+          mesureAlbumineService: () =>
+            sinon.createStubInstance<MesureAlbumineService>(MesureAlbumineService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+          mesurePoidsService: () =>
+            sinon.createStubInstance<MesurePoidsService>(MesurePoidsService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },
