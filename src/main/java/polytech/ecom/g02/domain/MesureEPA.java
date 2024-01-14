@@ -42,6 +42,10 @@ public class MesureEPA implements Serializable {
     )
     private Patient patient;
 
+    @JsonIgnoreProperties(value = { "patient", "mesureEPA", "mesureAlbumine", "mesurePoids" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "mesureEPA")
+    private Alerte alerte;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -93,6 +97,25 @@ public class MesureEPA implements Serializable {
 
     public MesureEPA patient(Patient patient) {
         this.setPatient(patient);
+        return this;
+    }
+
+    public Alerte getAlerte() {
+        return this.alerte;
+    }
+
+    public void setAlerte(Alerte alerte) {
+        if (this.alerte != null) {
+            this.alerte.setMesureEPA(null);
+        }
+        if (alerte != null) {
+            alerte.setMesureEPA(this);
+        }
+        this.alerte = alerte;
+    }
+
+    public MesureEPA alerte(Alerte alerte) {
+        this.setAlerte(alerte);
         return this;
     }
 

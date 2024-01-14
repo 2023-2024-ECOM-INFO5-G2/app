@@ -19,6 +19,11 @@
       "fieldName": "severe",
       "fieldType": "Boolean",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
     }
   ],
   "name": "Alerte",
@@ -28,6 +33,32 @@
       "otherEntityRelationshipName": "alerte",
       "relationshipName": "patient",
       "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "mesureEPA",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesureEPA",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "mesureAlbumine",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesureAlbumine",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "mesurePoids",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesurePoids",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }
   ],

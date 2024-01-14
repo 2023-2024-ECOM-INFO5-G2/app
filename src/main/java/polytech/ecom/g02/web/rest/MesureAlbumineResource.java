@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,9 +52,13 @@ public class MesureAlbumineResource {
             alerte.setDate(mesureAlbumine.getDate());
             if (mesureAlbumine.getValeur() < 30) {
                 alerte.setSevere(true);
+                alerte.setMesureAlbumine(mesureAlbumine);
+                alerte.setCode(31);
                 alerte.setDescription("Alerte Albumine très faible : " + mesureAlbumine.getValeur());
             } else {
                 alerte.setSevere(false);
+                alerte.setMesureAlbumine(mesureAlbumine);
+                alerte.setCode(30);
                 alerte.setDescription("Attention Albumine faible : " + mesureAlbumine.getValeur());
             }
             alerteRepository.save(alerte);
@@ -109,6 +114,11 @@ public class MesureAlbumineResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
         check(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()));
 
@@ -169,10 +179,18 @@ public class MesureAlbumineResource {
     /**
      * {@code GET  /mesure-albumines} : get all the mesureAlbumines.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mesureAlbumines in body.
      */
     @GetMapping("")
-    public List<MesureAlbumine> getAllMesureAlbumines() {
+    public List<MesureAlbumine> getAllMesureAlbumines(@RequestParam(required = false) String filter) {
+        if ("alerte-is-null".equals(filter)) {
+            log.debug("REST request to get all MesureAlbumines where alerte is null");
+            return StreamSupport
+                .stream(mesureAlbumineRepository.findAll().spliterator(), false)
+                .filter(mesureAlbumine -> mesureAlbumine.getAlerte() == null)
+                .toList();
+        }
         log.debug("REST request to get all MesureAlbumines");
         return mesureAlbumineRepository.findAll();
     }
@@ -199,6 +217,11 @@ public class MesureAlbumineResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureAlbumine(@PathVariable Long id) {
         log.debug("REST request to delete MesureAlbumine : {}", id);
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(id).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
         mesureAlbumineRepository.deleteById(id);
         return ResponseEntity
             .noContent()

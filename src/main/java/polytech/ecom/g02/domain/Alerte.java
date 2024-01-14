@@ -38,12 +38,30 @@ public class Alerte implements Serializable {
     @Column(name = "severe", nullable = false)
     private Boolean severe;
 
+    @NotNull
+    @Column(name = "code", nullable = false)
+    private Integer code;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
         value = { "alertes", "rappels", "mesurePoids", "mesureEPAS", "mesureAlbumines", "repas", "users", "etablissement" },
         allowSetters = true
     )
     private Patient patient;
+
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
+    private MesureEPA mesureEPA;
+
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
+    private MesureAlbumine mesureAlbumine;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "patient", "alertes" }, allowSetters = true)
+    private MesurePoids mesurePoids;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -99,6 +117,19 @@ public class Alerte implements Serializable {
         this.severe = severe;
     }
 
+    public Integer getCode() {
+        return this.code;
+    }
+
+    public Alerte code(Integer code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     public Patient getPatient() {
         return this.patient;
     }
@@ -109,6 +140,45 @@ public class Alerte implements Serializable {
 
     public Alerte patient(Patient patient) {
         this.setPatient(patient);
+        return this;
+    }
+
+    public MesureEPA getMesureEPA() {
+        return this.mesureEPA;
+    }
+
+    public void setMesureEPA(MesureEPA mesureEPA) {
+        this.mesureEPA = mesureEPA;
+    }
+
+    public Alerte mesureEPA(MesureEPA mesureEPA) {
+        this.setMesureEPA(mesureEPA);
+        return this;
+    }
+
+    public MesureAlbumine getMesureAlbumine() {
+        return this.mesureAlbumine;
+    }
+
+    public void setMesureAlbumine(MesureAlbumine mesureAlbumine) {
+        this.mesureAlbumine = mesureAlbumine;
+    }
+
+    public Alerte mesureAlbumine(MesureAlbumine mesureAlbumine) {
+        this.setMesureAlbumine(mesureAlbumine);
+        return this;
+    }
+
+    public MesurePoids getMesurePoids() {
+        return this.mesurePoids;
+    }
+
+    public void setMesurePoids(MesurePoids mesurePoids) {
+        this.mesurePoids = mesurePoids;
+    }
+
+    public Alerte mesurePoids(MesurePoids mesurePoids) {
+        this.setMesurePoids(mesurePoids);
         return this;
     }
 
@@ -139,6 +209,7 @@ public class Alerte implements Serializable {
             ", description='" + getDescription() + "'" +
             ", date='" + getDate() + "'" +
             ", severe='" + getSevere() + "'" +
+            ", code=" + getCode() +
             "}";
     }
 }

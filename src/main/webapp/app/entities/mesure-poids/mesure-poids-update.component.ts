@@ -67,6 +67,7 @@ export default defineComponent({
         required: validations.required(t$('entity.validation.required').toString()),
       },
       patient: {},
+      alertes: {},
     };
     const v$ = useVuelidate(validationRules, mesurePoids as any);
     v$.value.$validate();

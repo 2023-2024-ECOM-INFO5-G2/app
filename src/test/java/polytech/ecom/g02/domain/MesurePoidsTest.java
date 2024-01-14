@@ -1,9 +1,12 @@
 package polytech.ecom.g02.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static polytech.ecom.g02.domain.AlerteTestSamples.*;
 import static polytech.ecom.g02.domain.MesurePoidsTestSamples.*;
 import static polytech.ecom.g02.domain.PatientTestSamples.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import polytech.ecom.g02.web.rest.TestUtil;
 
@@ -33,5 +36,27 @@ class MesurePoidsTest {
 
         mesurePoids.patient(null);
         assertThat(mesurePoids.getPatient()).isNull();
+    }
+
+    @Test
+    void alerteTest() throws Exception {
+        MesurePoids mesurePoids = getMesurePoidsRandomSampleGenerator();
+        Alerte alerteBack = getAlerteRandomSampleGenerator();
+
+        mesurePoids.addAlerte(alerteBack);
+        assertThat(mesurePoids.getAlertes()).containsOnly(alerteBack);
+        assertThat(alerteBack.getMesurePoids()).isEqualTo(mesurePoids);
+
+        mesurePoids.removeAlerte(alerteBack);
+        assertThat(mesurePoids.getAlertes()).doesNotContain(alerteBack);
+        assertThat(alerteBack.getMesurePoids()).isNull();
+
+        mesurePoids.alertes(new HashSet<>(Set.of(alerteBack)));
+        assertThat(mesurePoids.getAlertes()).containsOnly(alerteBack);
+        assertThat(alerteBack.getMesurePoids()).isEqualTo(mesurePoids);
+
+        mesurePoids.setAlertes(new HashSet<>());
+        assertThat(mesurePoids.getAlertes()).doesNotContain(alerteBack);
+        assertThat(alerteBack.getMesurePoids()).isNull();
     }
 }

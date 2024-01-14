@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new AlerteService();
       currentDate = new Date();
-      elemDefault = new Alerte(123, 'AAAAAAA', currentDate, false);
+      elemDefault = new Alerte(123, 'AAAAAAA', currentDate, false, 0);
     });
 
     describe('Service methods', () => {
@@ -99,6 +99,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
             severe: true,
+            code: 1,
           },
           elemDefault,
         );
@@ -131,7 +132,8 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             description: 'BBBBBB',
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            severe: true,
+            code: 1,
           },
           new Alerte(),
         );
@@ -167,6 +169,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
             severe: true,
+            code: 1,
           },
           elemDefault,
         );

@@ -64,6 +64,22 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.alerte.code')" for="alerte-code"></label>
+            <input
+              type="number"
+              class="form-control"
+              name="code"
+              id="alerte-code"
+              data-cy="code"
+              :class="{ valid: !v$.code.$invalid, invalid: v$.code.$invalid }"
+              v-model.number="v$.code.$model"
+              required
+            />
+            <div v-if="v$.code.$anyDirty && v$.code.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.code.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" v-text="t$('ecom02App.alerte.patient')" for="alerte-patient"></label>
             <select class="form-control" id="alerte-patient" data-cy="patient" name="patient" v-model="alerte.patient">
               <option v-bind:value="null"></option>
@@ -73,6 +89,55 @@
                 :key="patientOption.id"
               >
                 {{ patientOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.alerte.mesureEPA')" for="alerte-mesureEPA"></label>
+            <select class="form-control" id="alerte-mesureEPA" data-cy="mesureEPA" name="mesureEPA" v-model="alerte.mesureEPA">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="alerte.mesureEPA && mesureEPAOption.id === alerte.mesureEPA.id ? alerte.mesureEPA : mesureEPAOption"
+                v-for="mesureEPAOption in mesureEPAS"
+                :key="mesureEPAOption.id"
+              >
+                {{ mesureEPAOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.alerte.mesureAlbumine')" for="alerte-mesureAlbumine"></label>
+            <select
+              class="form-control"
+              id="alerte-mesureAlbumine"
+              data-cy="mesureAlbumine"
+              name="mesureAlbumine"
+              v-model="alerte.mesureAlbumine"
+            >
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="
+                  alerte.mesureAlbumine && mesureAlbumineOption.id === alerte.mesureAlbumine.id
+                    ? alerte.mesureAlbumine
+                    : mesureAlbumineOption
+                "
+                v-for="mesureAlbumineOption in mesureAlbumines"
+                :key="mesureAlbumineOption.id"
+              >
+                {{ mesureAlbumineOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.alerte.mesurePoids')" for="alerte-mesurePoids"></label>
+            <select class="form-control" id="alerte-mesurePoids" data-cy="mesurePoids" name="mesurePoids" v-model="alerte.mesurePoids">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="alerte.mesurePoids && mesurePoidsOption.id === alerte.mesurePoids.id ? alerte.mesurePoids : mesurePoidsOption"
+                v-for="mesurePoidsOption in mesurePoids"
+                :key="mesurePoidsOption.id"
+              >
+                {{ mesurePoidsOption.id }}
               </option>
             </select>
           </div>

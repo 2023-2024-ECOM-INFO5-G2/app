@@ -66,6 +66,7 @@ public class CacheConfiguration {
             createCache(cm, polytech.ecom.g02.domain.MesurePoids.class.getName());
             createCache(cm, polytech.ecom.g02.domain.MesureEPA.class.getName());
             createCache(cm, polytech.ecom.g02.domain.MesureAlbumine.class.getName());
+            createCache(cm, polytech.ecom.g02.domain.MesurePoids.class.getName() + ".alertes");
             // jhipster-needle-ehcache-add-entry
         };
     }

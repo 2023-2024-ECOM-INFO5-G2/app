@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -41,6 +43,11 @@ public class MesurePoids implements Serializable {
         allowSetters = true
     )
     private Patient patient;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mesurePoids")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "patient", "mesureEPA", "mesureAlbumine", "mesurePoids" }, allowSetters = true)
+    private Set<Alerte> alertes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -93,6 +100,37 @@ public class MesurePoids implements Serializable {
 
     public MesurePoids patient(Patient patient) {
         this.setPatient(patient);
+        return this;
+    }
+
+    public Set<Alerte> getAlertes() {
+        return this.alertes;
+    }
+
+    public void setAlertes(Set<Alerte> alertes) {
+        if (this.alertes != null) {
+            this.alertes.forEach(i -> i.setMesurePoids(null));
+        }
+        if (alertes != null) {
+            alertes.forEach(i -> i.setMesurePoids(this));
+        }
+        this.alertes = alertes;
+    }
+
+    public MesurePoids alertes(Set<Alerte> alertes) {
+        this.setAlertes(alertes);
+        return this;
+    }
+
+    public MesurePoids addAlerte(Alerte alerte) {
+        this.alertes.add(alerte);
+        alerte.setMesurePoids(this);
+        return this;
+    }
+
+    public MesurePoids removeAlerte(Alerte alerte) {
+        this.alertes.remove(alerte);
+        alerte.setMesurePoids(null);
         return this;
     }
 
