@@ -98,7 +98,7 @@ public class MesureEPAResource {
             .body(result);
     }
 
-    private boolean isNewest(MesureEPA mesure) {
+    /*private boolean isNewest(MesureEPA mesure) {
         List<MesureEPA> mesures = mesureEPARepository.findAll();
         for (MesureEPA mesureEPA : mesures) {
             if (mesureEPA.getPatient().getId() == mesure.getPatient().getId()) {
@@ -108,7 +108,7 @@ public class MesureEPAResource {
             }
         }
         return true;
-    }
+    }*/
 
     /**
      * {@code PUT  /mesure-epas/:id} : Updates an existing mesureEPA.
@@ -144,7 +144,8 @@ public class MesureEPAResource {
         }
         MesureEPA result = mesureEPARepository.save(mesureEPA);
 
-        if (isNewest(mesureEPA)) check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
+        //if (isNewest(mesureEPA))
+        check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
 
         return ResponseEntity
             .ok()
