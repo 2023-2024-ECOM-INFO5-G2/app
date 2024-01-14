@@ -113,7 +113,11 @@ public class MesureEPAResource {
         } catch (Exception e) {
             //Nothing to do here
         }
-        alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
+        try {
+            alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            //Nothing to do here
+        }
         MesureEPA result = mesureEPARepository.save(mesureEPA);
         check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
         return ResponseEntity
