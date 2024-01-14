@@ -93,12 +93,13 @@ public class MesureAlbumineResource {
             for (Alerte alerte : alertes) {
                 if (alerte.getMesureAlbumine() != null) {
                     alerteRepository.deleteById(alerte.getId());
-                    patientRepository.save(mesureAlbumine.getPatient().removeAlerte(alerte));
+                    alertes.remove(alerte);
                 }
             }
         }
-        MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
         check(mesureAlbumine);
+        MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
+
         return ResponseEntity
             .created(new URI("/api/mesure-albumines/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

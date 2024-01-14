@@ -86,7 +86,7 @@ public class MesureEPAResource {
                 System.out.println(alerte.getMesureEPA());
                 if (alerte.getMesureEPA() != null) {
                     alerteRepository.deleteById(alerte.getId());
-                    patientRepository.save(alerte.getPatient().removeAlerte(alerte));
+                    alertes.remove(alerte);
                 }
             }
         }
