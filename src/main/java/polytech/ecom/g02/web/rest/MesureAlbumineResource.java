@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureAlbumine;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureAlbumineRepository;
+import polytech.ecom.g02.repository.PatientRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -39,10 +41,16 @@ public class MesureAlbumineResource {
 
     private final MesureAlbumineRepository mesureAlbumineRepository;
     private final AlerteRepository alerteRepository;
+    private final PatientRepository patientRepository;
 
-    public MesureAlbumineResource(MesureAlbumineRepository mesureAlbumineRepository, AlerteRepository alerteRepository) {
+    public MesureAlbumineResource(
+        MesureAlbumineRepository mesureAlbumineRepository,
+        AlerteRepository alerteRepository,
+        PatientRepository patientRepository
+    ) {
         this.mesureAlbumineRepository = mesureAlbumineRepository;
         this.alerteRepository = alerteRepository;
+        this.patientRepository = patientRepository;
     }
 
     private void check(MesureAlbumine mesureAlbumine) {
@@ -61,6 +69,7 @@ public class MesureAlbumineResource {
                 alerte.setCode(30);
                 alerte.setDescription("Attention Albumine faible : " + mesureAlbumine.getValeur());
             }
+            patientRepository.save(mesureAlbumine.getPatient().addAlerte(alerte));
             alerteRepository.save(alerte);
         }
     }
@@ -78,6 +87,14 @@ public class MesureAlbumineResource {
         log.debug("REST request to save MesureAlbumine : {}", mesureAlbumine);
         if (mesureAlbumine.getId() != null) {
             throw new BadRequestAlertException("A new mesureAlbumine cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Set<Alerte> alertes = patientRepository.getReferenceById(mesureAlbumine.getPatient().getId()).getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesureAlbumine() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                }
+            }
         }
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
         check(mesureAlbumine);

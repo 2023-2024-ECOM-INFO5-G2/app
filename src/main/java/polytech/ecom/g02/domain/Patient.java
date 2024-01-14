@@ -247,6 +247,10 @@ public class Patient implements Serializable {
     }
 
     public Patient addAlerte(Alerte alerte) {
+        if (this.alertes == null) {
+            this.alertes = new HashSet<>();
+            System.out.println("OUAIIIIIIIIIIS c'est vide");
+        }
         this.alertes.add(alerte);
         alerte.setPatient(this);
         return this;

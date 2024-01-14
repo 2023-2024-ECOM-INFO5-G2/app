@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureEPA;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureEPARepository;
+import polytech.ecom.g02.repository.PatientRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -39,10 +41,16 @@ public class MesureEPAResource {
 
     private final MesureEPARepository mesureEPARepository;
     private final AlerteRepository alerteRepository;
+    private final PatientRepository patientRepository;
 
-    public MesureEPAResource(MesureEPARepository mesureEPARepository, AlerteRepository alerteRepository) {
+    public MesureEPAResource(
+        MesureEPARepository mesureEPARepository,
+        AlerteRepository alerteRepository,
+        PatientRepository patientRepository
+    ) {
         this.mesureEPARepository = mesureEPARepository;
         this.alerteRepository = alerteRepository;
+        this.patientRepository = patientRepository;
     }
 
     private void check(MesureEPA mesureEPA) {
@@ -54,6 +62,8 @@ public class MesureEPAResource {
             alerte.setCode(40);
             alerte.setDescription("Attention EPA faible : " + mesureEPA.getValeur());
             alerte.setDate(mesureEPA.getDate());
+
+            patientRepository.save(mesureEPA.getPatient().addAlerte(alerte));
             alerteRepository.save(alerte);
         }
     }
@@ -73,7 +83,18 @@ public class MesureEPAResource {
         }
         MesureEPA result = mesureEPARepository.save(mesureEPA);
 
-        // On vérifie si la mesureEPA est en dehors des normes
+        Set<Alerte> alertes = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).getAlertes();
+        if (alertes != null) {
+            System.out.println("C'est pas vide wolah");
+            for (Alerte alerte : alertes) {
+                System.out.println(alerte.getMesureEPA());
+                if (alerte.getMesureEPA() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                }
+            }
+        } else {
+            System.out.println("C'est vide wolah");
+        }
         check(mesureEPA);
 
         return ResponseEntity
@@ -108,11 +129,7 @@ public class MesureEPAResource {
         if (!mesureEPARepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        try {
-            alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
-        } catch (Exception e) {
-            //Nothing to do here
-        }
+
         try {
             alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
         } catch (Exception e) {
