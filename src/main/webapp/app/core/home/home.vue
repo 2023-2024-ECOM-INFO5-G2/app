@@ -106,7 +106,7 @@
       <div class="row justify-content-end">
         <div class="col-md-4">
           <div class="card text-center">
-            <h6 class="card-header">{{ 'Laisser une instruction' }}</h6>
+            <h6 class="card-header">Créer un rappel pour un patient</h6>
             <div class="card-body">
               <b-button v-b-modal.modal-instruction variant="primary">+</b-button>
             </div>
@@ -114,8 +114,15 @@
         </div>
       </div>
 
-      <b-modal id="modal-instruction" title="Ajouter une instruction">
-        <b-form-input v-model="newInstruction" placeholder="Type d'instruction" type="number"></b-form-input>
+      <b-modal id="modal-instruction" title="Créer un rappel" @ok="addInstruction">
+        <b-form-input v-model="instructionDesc" placeholder="Description de l'instruction" type="text" class="mt-3"></b-form-input>
+        <div class="mt-3">
+          A réaliser le
+          <b-form-input v-model="instructionEcheance" type="datetime-local"></b-form-input>
+        </div>
+
+        <b-form-input v-model="instructionInterv" placeholder="Intervalle de jours" type="number" class="mt-3"></b-form-input>
+        <b-form-select v-model="instructionPatient" :options="instructionOptions" class="mt-3"></b-form-select>
       </b-modal>
     </div>
   </div>
