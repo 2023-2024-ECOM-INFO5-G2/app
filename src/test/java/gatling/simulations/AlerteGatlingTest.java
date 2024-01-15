@@ -80,6 +80,7 @@ public class AlerteGatlingTest extends Simulation {
                                 "\"description\": \"SAMPLE_TEXT\"" +
                                 ", \"date\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"severe\": null" +
+                                ", \"code\": 0" +
                                 "}"
                             )
                         )

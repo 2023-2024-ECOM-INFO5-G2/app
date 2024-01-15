@@ -32,7 +32,11 @@
             <th scope="row"><span v-text="t$('ecom02App.alerte.description')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.date')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.severe')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.code')"></span></th>
             <th scope="row"><span v-text="t$('ecom02App.alerte.patient')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.mesureEPA')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.mesureAlbumine')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.alerte.mesurePoids')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -44,9 +48,31 @@
             <td>{{ alerte.description }}</td>
             <td>{{ formatDateShort(alerte.date) || '' }}</td>
             <td>{{ alerte.severe }}</td>
+            <td>{{ alerte.code }}</td>
             <td>
               <div v-if="alerte.patient">
                 <router-link :to="{ name: 'PatientView', params: { patientId: alerte.patient.id } }">{{ alerte.patient.id }}</router-link>
+              </div>
+            </td>
+            <td>
+              <div v-if="alerte.mesureEPA">
+                <router-link :to="{ name: 'MesureEPAView', params: { mesureEPAId: alerte.mesureEPA.id } }">{{
+                  alerte.mesureEPA.id
+                }}</router-link>
+              </div>
+            </td>
+            <td>
+              <div v-if="alerte.mesureAlbumine">
+                <router-link :to="{ name: 'MesureAlbumineView', params: { mesureAlbumineId: alerte.mesureAlbumine.id } }">{{
+                  alerte.mesureAlbumine.id
+                }}</router-link>
+              </div>
+            </td>
+            <td>
+              <div v-if="alerte.mesurePoids">
+                <router-link :to="{ name: 'MesurePoidsView', params: { mesurePoidsId: alerte.mesurePoids.id } }">{{
+                  alerte.mesurePoids.id
+                }}</router-link>
               </div>
             </td>
             <td class="text-right">

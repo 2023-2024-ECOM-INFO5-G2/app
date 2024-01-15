@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureAlbumine;
+import polytech.ecom.g02.domain.Patient;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureAlbumineRepository;
+import polytech.ecom.g02.repository.PatientRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -38,26 +40,58 @@ public class MesureAlbumineResource {
 
     private final MesureAlbumineRepository mesureAlbumineRepository;
     private final AlerteRepository alerteRepository;
+    private final PatientRepository patientRepository;
 
-    public MesureAlbumineResource(MesureAlbumineRepository mesureAlbumineRepository, AlerteRepository alerteRepository) {
+    public MesureAlbumineResource(
+        MesureAlbumineRepository mesureAlbumineRepository,
+        AlerteRepository alerteRepository,
+        PatientRepository patientRepository
+    ) {
         this.mesureAlbumineRepository = mesureAlbumineRepository;
         this.alerteRepository = alerteRepository;
+        this.patientRepository = patientRepository;
+    }
+
+    private boolean isNewest(Patient patient, ZonedDateTime date) {
+        Set<MesureAlbumine> mesures = patient.getMesureAlbumines();
+
+        for (MesureAlbumine mesure : mesures) {
+            if (mesure.getDate().isAfter(date)) return false;
+        }
+        return true;
     }
 
     private void check(MesureAlbumine mesureAlbumine) {
+        if (mesureAlbumine.getPatient() == null) return;
+        Patient patient = patientRepository.getReferenceById(mesureAlbumine.getPatient().getId()).addMesureAlbumine(mesureAlbumine);
+        if (!isNewest(patient, mesureAlbumine.getDate())) return;
+        Set<Alerte> alertes = patient.getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesureAlbumine() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                    patient.removeAlerte(alerte);
+                }
+            }
+        }
         if (mesureAlbumine.getValeur() < 35) {
             Alerte alerte = new Alerte();
             alerte.setPatient(mesureAlbumine.getPatient());
             alerte.setDate(mesureAlbumine.getDate());
             if (mesureAlbumine.getValeur() < 30) {
                 alerte.setSevere(true);
+                alerte.setMesureAlbumine(mesureAlbumine);
+                alerte.setCode(31);
                 alerte.setDescription("Alerte Albumine très faible : " + mesureAlbumine.getValeur());
             } else {
                 alerte.setSevere(false);
+                alerte.setMesureAlbumine(mesureAlbumine);
+                alerte.setCode(30);
                 alerte.setDescription("Attention Albumine faible : " + mesureAlbumine.getValeur());
             }
             alerteRepository.save(alerte);
         }
+        patientRepository.save(patient);
     }
 
     /**
@@ -74,8 +108,10 @@ public class MesureAlbumineResource {
         if (mesureAlbumine.getId() != null) {
             throw new BadRequestAlertException("A new mesureAlbumine cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
         check(mesureAlbumine);
+
         return ResponseEntity
             .created(new URI("/api/mesure-albumines/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -109,8 +145,14 @@ public class MesureAlbumineResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
+
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
-        check(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()));
+        check(mesureAlbumine);
 
         return ResponseEntity
             .ok()
@@ -169,10 +211,18 @@ public class MesureAlbumineResource {
     /**
      * {@code GET  /mesure-albumines} : get all the mesureAlbumines.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mesureAlbumines in body.
      */
     @GetMapping("")
-    public List<MesureAlbumine> getAllMesureAlbumines() {
+    public List<MesureAlbumine> getAllMesureAlbumines(@RequestParam(required = false) String filter) {
+        if ("alerte-is-null".equals(filter)) {
+            log.debug("REST request to get all MesureAlbumines where alerte is null");
+            return StreamSupport
+                .stream(mesureAlbumineRepository.findAll().spliterator(), false)
+                .filter(mesureAlbumine -> mesureAlbumine.getAlerte() == null)
+                .toList();
+        }
         log.debug("REST request to get all MesureAlbumines");
         return mesureAlbumineRepository.findAll();
     }
@@ -199,6 +249,11 @@ public class MesureAlbumineResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureAlbumine(@PathVariable Long id) {
         log.debug("REST request to delete MesureAlbumine : {}", id);
+        try {
+            alerteRepository.deleteById(mesureAlbumineRepository.getReferenceById(id).getAlerte().getId());
+        } catch (Exception e) {
+            // Nothing to do here
+        }
         mesureAlbumineRepository.deleteById(id);
         return ResponseEntity
             .noContent()

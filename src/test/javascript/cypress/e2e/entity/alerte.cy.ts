@@ -15,7 +15,7 @@ describe('Alerte e2e test', () => {
   const alertePageUrlPattern = new RegExp('/alerte(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const alerteSample = { description: 'pin-pon ding', date: '2023-12-18T23:24:34.191Z', severe: true };
+  const alerteSample = { description: 'plaisanter orange', date: '2023-12-19T02:36:37.476Z', severe: false, code: 31792 };
 
   let alerte;
 
@@ -157,16 +157,19 @@ describe('Alerte e2e test', () => {
     });
 
     it('should create an instance of Alerte', () => {
-      cy.get(`[data-cy="description"]`).type('chut dessus');
-      cy.get(`[data-cy="description"]`).should('have.value', 'chut dessus');
+      cy.get(`[data-cy="description"]`).type('en face de conformer de par');
+      cy.get(`[data-cy="description"]`).should('have.value', 'en face de conformer de par');
 
-      cy.get(`[data-cy="date"]`).type('2023-12-19T07:07');
+      cy.get(`[data-cy="date"]`).type('2023-12-18T19:55');
       cy.get(`[data-cy="date"]`).blur();
-      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-19T07:07');
+      cy.get(`[data-cy="date"]`).should('have.value', '2023-12-18T19:55');
 
       cy.get(`[data-cy="severe"]`).should('not.be.checked');
       cy.get(`[data-cy="severe"]`).click();
       cy.get(`[data-cy="severe"]`).should('be.checked');
+
+      cy.get(`[data-cy="code"]`).type('24626');
+      cy.get(`[data-cy="code"]`).should('have.value', '24626');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
