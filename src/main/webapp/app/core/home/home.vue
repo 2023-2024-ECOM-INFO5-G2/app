@@ -47,45 +47,49 @@
           <div class="card">
             <h6 class="card-header">{{ 'Cas détectés' }}</h6>
             <div class="card-body">
-              <h5>{{ '0' }}</h5>
+              <h5>{{ getAlertesCount() }}</h5>
             </div>
           </div>
         </div>
         <div class="col-4">
           <div class="card">
-            <h6 class="card-header">{{ 'Staff' }}</h6>
+            <h6 class="card-header">Informations</h6>
             <div class="card-body">
-              <h5>{{ '62 patients ; 10 AS ; 5 infirmières' }}</h5>
+              <h5>
+                {{ patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id).length }} patient(s) au sein de
+                l'établissement
+              </h5>
             </div>
           </div>
         </div>
       </div>
 
       <h1 class="my-4">Liste des patients</h1>
-
       <div class="row mt-5">
         <div class="col">
           <div style="max-height: 300px; overflow-y: auto">
             <table aria-describedby="patients" class="table table-striped table-hover">
               <thead>
                 <tr>
-                  <th scope="row"><span v-text="t$('g2EcomApp.patient.prenom')"></span></th>
-                  <th scope="row"><span v-text="t$('g2EcomApp.patient.nom')"></span></th>
-                  <th scope="row"><span v-text="t$('g2EcomApp.patient.numChambre')"></span></th>
+                  <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
+                  <th scope="row"><span v-text="t$('ecom02App.patient.nom')"></span></th>
+                  <th scope="row" v-if="alertes.length > 0"></th>
+                  <th scope="row"><span v-text="t$('ecom02App.patient.numChambre')"></span></th>
                   <th scope="row"></th>
                 </tr>
               </thead>
               <tbody>
                 <template
-                  v-for="patient in patients.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
+                  v-for="patient in patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
                   :key="patient.id"
                 >
                   <tr data-cy="entityTable">
-                    <!--          <td>-->
-                    <!--            <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>-->
-                    <!--          </td>-->
                     <td>{{ patient.prenom }}</td>
                     <td>{{ patient.nom }}</td>
+                    <td v-if="alertes.filter(a => a.patient.id === patient.id).length > 0">
+                      <b-badge pill variant="danger">Alerte</b-badge>
+                    </td>
+                    <td v-else-if="alertes.length > 0"></td>
                     <td>{{ patient.numChambre }}</td>
                     <td>
                       <router-link v-slot="{ navigate }" :to="{ name: 'PatientView', params: { patientId: patient.id } }" custom>

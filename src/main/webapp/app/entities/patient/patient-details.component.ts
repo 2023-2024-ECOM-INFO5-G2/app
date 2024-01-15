@@ -38,7 +38,6 @@ import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import RepasService from '../repas/repas.service';
 import type { IRappel } from '../../shared/model/rappel.model';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
@@ -300,6 +299,7 @@ export default defineComponent({
       dangerAlbu.value = 'default';
       dangerWeight.value = 'default';
       for (const alert of patientAlerts.value) {
+        console.log(alert);
         switch (alert.code) {
           case 10:
           case 11:

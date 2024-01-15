@@ -1,5 +1,12 @@
 <template>
   <div class="row">
+    <div class="col">
+      <button type="button" id="cancel-save" class="btn btn-secondary" v-on:click="previousState()">
+        <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span>Retour</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mt-4">
     <div class="col-9 col-md-10 py-1 col-lg-11">
       <font-awesome-icon icon="user"></font-awesome-icon>
       <span class="h3">

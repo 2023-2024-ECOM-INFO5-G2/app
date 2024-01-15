@@ -4,11 +4,13 @@ import EtablissementService from '../../entities/etablissement/etablissement.ser
 import type { IEtablissement } from '../../shared/model/etablissement.model';
 import PatientService from '../../entities/patient/patient.service';
 import RappelService from '../../entities/rappel/rappel.service';
+import AlerteService from '../../entities/alerte/alerte.service';
 import { type IPatient } from '../../shared/model/patient.model';
 import { type IRappel } from '../../shared/model/rappel.model';
 import { useAlertService } from '../../shared/alert/alert.service';
 
 import type LoginService from '@/account/login.service';
+import type { IAlerte } from '../../shared/model/alerte.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -19,6 +21,7 @@ export default defineComponent({
     const etablissements: Ref<IEtablissement[]> = ref([]);
     const patientService = inject('patientService', () => new PatientService());
     const rappelService = inject('rappelService', () => new RappelService());
+    const alerteService = inject('alerteService', () => new AlerteService());
     const patients: Ref<IPatient[]> = ref([]);
 
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -36,6 +39,8 @@ export default defineComponent({
         text: 'Selectionner un patient',
       },
     ]);
+
+    const alertes: Ref<Array<IAlerte>> = ref([]);
 
     const retrieveEtablissements = async () => {
       isFetching.value = true;
@@ -68,9 +73,19 @@ export default defineComponent({
       }
     };
 
+    const retrieveAlertes = async () => {
+      try {
+        const res = await alerteService().retrieve();
+        alertes.value = res.data;
+      } catch (err: any) {
+        alertService.showHttpError(err.response);
+      }
+    };
+
     onMounted(async () => {
       await retrieveEtablissements(); //FIXME : à supprimer ???
       await retrievePatients();
+      await retrieveAlertes();
     });
 
     const openLogin = () => {
@@ -97,11 +112,23 @@ export default defineComponent({
       selectedetablissement.value = etablissement;
     };
 
+    const getAlertesCount = () => {
+      const patientsForEta = patients.value?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.value.id);
+      const alertesForEta = alertes.value?.filter(a => a.patient?.id in patientsForEta.map(p => p.id));
+      return (
+        alertesForEta.length +
+        ' alertes pour ' +
+        alertesForEta.reduce((acc, item) => acc.add(item.patient.id), new Set()).size +
+        ' patient(s)'
+      );
+    };
+
     return {
       authenticated,
       username,
       etablissements,
       isFetching,
+      alertes,
       retrievePatients,
       patients,
       selectedetablissement,
@@ -113,6 +140,7 @@ export default defineComponent({
       instructionEcheance,
       instructionInterv,
       addInstruction,
+      getAlertesCount,
       t$: useI18n().t,
     };
   },

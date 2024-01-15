@@ -51,9 +51,6 @@
             :key="patient.id"
           >
             <tr data-cy="entityTable">
-              <!--          <td>-->
-              <!--            <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>-->
-              <!--          </td>-->
               <td>{{ patient.prenom }}</td>
               <td>{{ patient.nom }}</td>
               <td>{{ patient.numChambre }}</td>
