@@ -62,6 +62,7 @@ public class MesureEPAResource {
     }
 
     private void check(MesureEPA mesureEPA) {
+        if (mesureEPA.getPatient() == null) return;
         Patient patient = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).addMesureEPA(mesureEPA);
         if (!isNewest(patient, mesureEPA.getDate())) return;
         Set<Alerte> alertes = patient.getAlertes();

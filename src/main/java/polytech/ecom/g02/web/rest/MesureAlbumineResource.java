@@ -62,6 +62,7 @@ public class MesureAlbumineResource {
     }
 
     private void check(MesureAlbumine mesureAlbumine) {
+        if (mesureAlbumine.getPatient() == null) return;
         Patient patient = patientRepository.getReferenceById(mesureAlbumine.getPatient().getId()).addMesureAlbumine(mesureAlbumine);
         if (!isNewest(patient, mesureAlbumine.getDate())) return;
         Set<Alerte> alertes = patient.getAlertes();

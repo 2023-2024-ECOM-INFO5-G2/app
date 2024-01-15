@@ -61,6 +61,7 @@ public class MesurePoidsResource {
     }
 
     private void check(MesurePoids mesurePoids) {
+        if (mesurePoids.getPatient() == null) return; //Should not happen naturally but exist in tests
         Patient patient = patientRepository.getReferenceById(mesurePoids.getPatient().getId()).addMesurePoids(mesurePoids);
         if (!isNewest(patient, mesurePoids.getDate())) return;
 
