@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.time.ZonedDateTime;
+import java.util.*;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureAlbumine;
+import polytech.ecom.g02.domain.Patient;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureAlbumineRepository;
 import polytech.ecom.g02.repository.PatientRepository;
@@ -53,7 +52,27 @@ public class MesureAlbumineResource {
         this.patientRepository = patientRepository;
     }
 
+    private boolean isNewest(Patient patient, ZonedDateTime date) {
+        Set<MesureAlbumine> mesures = patient.getMesureAlbumines();
+
+        for (MesureAlbumine mesure : mesures) {
+            if (mesure.getDate().isAfter(date)) return false;
+        }
+        return true;
+    }
+
     private void check(MesureAlbumine mesureAlbumine) {
+        Patient patient = patientRepository.getReferenceById(mesureAlbumine.getPatient().getId()).addMesureAlbumine(mesureAlbumine);
+        if (!isNewest(patient, mesureAlbumine.getDate())) return;
+        Set<Alerte> alertes = patient.getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesureAlbumine() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                    patient.removeAlerte(alerte);
+                }
+            }
+        }
         if (mesureAlbumine.getValeur() < 35) {
             Alerte alerte = new Alerte();
             alerte.setPatient(mesureAlbumine.getPatient());
@@ -69,9 +88,9 @@ public class MesureAlbumineResource {
                 alerte.setCode(30);
                 alerte.setDescription("Attention Albumine faible : " + mesureAlbumine.getValeur());
             }
-            patientRepository.save(mesureAlbumine.getPatient().addAlerte(alerte));
             alerteRepository.save(alerte);
         }
+        patientRepository.save(patient);
     }
 
     /**
@@ -88,17 +107,9 @@ public class MesureAlbumineResource {
         if (mesureAlbumine.getId() != null) {
             throw new BadRequestAlertException("A new mesureAlbumine cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Set<Alerte> alertes = patientRepository.getReferenceById(mesureAlbumine.getPatient().getId()).getAlertes();
-        if (alertes != null) {
-            for (Alerte alerte : alertes) {
-                if (alerte.getMesureAlbumine() != null) {
-                    alerteRepository.deleteById(alerte.getId());
-                    alertes.remove(alerte);
-                }
-            }
-        }
-        check(mesureAlbumine);
+
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
+        check(mesureAlbumine);
 
         return ResponseEntity
             .created(new URI("/api/mesure-albumines/" + result.getId()))
@@ -138,8 +149,9 @@ public class MesureAlbumineResource {
         } catch (Exception e) {
             // Nothing to do here
         }
+
         MesureAlbumine result = mesureAlbumineRepository.save(mesureAlbumine);
-        check(mesureAlbumineRepository.getReferenceById(mesureAlbumine.getId()));
+        check(mesureAlbumine);
 
         return ResponseEntity
             .ok()
