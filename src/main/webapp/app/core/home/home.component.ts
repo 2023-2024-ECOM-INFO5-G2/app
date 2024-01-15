@@ -114,7 +114,7 @@ export default defineComponent({
 
     const getAlertesCount = () => {
       const patientsForEta = patients.value?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.value.id);
-      const alertesForEta = alertes.value?.filter(a => a.patient?.id in patientsForEta.map(p => p.id));
+      const alertesForEta = alertes.value?.filter(a => patientsForEta.map(p => p.id).includes(a.patient?.id));
       return (
         alertesForEta.length +
         ' alertes pour ' +
