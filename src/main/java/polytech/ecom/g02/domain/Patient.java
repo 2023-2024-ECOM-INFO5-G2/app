@@ -247,10 +247,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addAlerte(Alerte alerte) {
-        if (this.alertes == null) {
-            this.alertes = new HashSet<>();
-            System.out.println("OUAIIIIIIIIIIS c'est vide");
-        }
+        if (this.alertes == null) this.alertes = new HashSet<>();
         this.alertes.add(alerte);
         alerte.setPatient(this);
         return this;
@@ -313,6 +310,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesurePoids(MesurePoids mesurePoids) {
+        if (this.mesurePoids == null) this.mesurePoids = new HashSet<>();
         this.mesurePoids.add(mesurePoids);
         mesurePoids.setPatient(this);
         return this;
@@ -344,6 +342,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesureEPA(MesureEPA mesureEPA) {
+        if (this.mesureEPAS == null) this.mesureEPAS = new HashSet<>();
         this.mesureEPAS.add(mesureEPA);
         mesureEPA.setPatient(this);
         return this;
@@ -375,6 +374,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesureAlbumine(MesureAlbumine mesureAlbumine) {
+        if (this.mesureAlbumines == null) this.mesureAlbumines = new HashSet<>();
         this.mesureAlbumines.add(mesureAlbumine);
         mesureAlbumine.setPatient(this);
         return this;

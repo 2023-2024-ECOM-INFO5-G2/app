@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureEPA;
+import polytech.ecom.g02.domain.Patient;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureEPARepository;
 import polytech.ecom.g02.repository.PatientRepository;
@@ -50,19 +52,39 @@ public class MesureEPAResource {
         this.patientRepository = patientRepository;
     }
 
+    private boolean isNewest(Patient patient, ZonedDateTime date) {
+        Set<MesureEPA> mesures = patient.getMesureEPAS();
+
+        for (MesureEPA mesure : mesures) {
+            if (mesure.getDate().isAfter(date)) return false;
+        }
+        return true;
+    }
+
     private void check(MesureEPA mesureEPA) {
+        Patient patient = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).addMesureEPA(mesureEPA);
+        if (!isNewest(patient, mesureEPA.getDate())) return;
+        Set<Alerte> alertes = patient.getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesureEPA() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                    patient.removeAlerte(alerte);
+                }
+            }
+        }
         if (mesureEPA.getValeur() < 7) {
             Alerte alerte = new Alerte();
             alerte.setMesureEPA(mesureEPA);
             alerte.setSevere(false);
-            alerte.setPatient(mesureEPA.getPatient());
+            alerte.setPatient(patient);
             alerte.setCode(40);
             alerte.setDescription("Attention EPA faible : " + mesureEPA.getValeur());
             alerte.setDate(mesureEPA.getDate());
-
-            patientRepository.save(mesureEPA.getPatient().addAlerte(alerte));
+            patient.addAlerte(alerte);
             alerteRepository.save(alerte);
         }
+        patientRepository.save(patient);
     }
 
     /**
@@ -78,18 +100,8 @@ public class MesureEPAResource {
         if (mesureEPA.getId() != null) {
             throw new BadRequestAlertException("A new mesureEPA cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MesureEPA result = mesureEPARepository.save(mesureEPA);
 
-        Set<Alerte> alertes = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).getAlertes();
-        if (alertes != null) {
-            for (Alerte alerte : alertes) {
-                System.out.println(alerte.getMesureEPA());
-                if (alerte.getMesureEPA() != null) {
-                    alerteRepository.deleteById(alerte.getId());
-                    alertes.remove(alerte);
-                }
-            }
-        }
+        MesureEPA result = mesureEPARepository.save(mesureEPA);
         check(mesureEPA);
 
         return ResponseEntity
@@ -97,18 +109,6 @@ public class MesureEPAResource {
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
-
-    /*private boolean isNewest(MesureEPA mesure) {
-        List<MesureEPA> mesures = mesureEPARepository.findAll();
-        for (MesureEPA mesureEPA : mesures) {
-            if (mesureEPA.getPatient().getId() == mesure.getPatient().getId()) {
-                if (mesureEPA.getDate().isAfter(mesure.getDate())) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }*/
 
     /**
      * {@code PUT  /mesure-epas/:id} : Updates an existing mesureEPA.
@@ -142,10 +142,9 @@ public class MesureEPAResource {
         } catch (Exception e) {
             //Nothing to do here
         }
-        MesureEPA result = mesureEPARepository.save(mesureEPA);
 
-        //if (isNewest(mesureEPA))
-        check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
+        MesureEPA result = mesureEPARepository.save(mesureEPA);
+        check(mesureEPA);
 
         return ResponseEntity
             .ok()
