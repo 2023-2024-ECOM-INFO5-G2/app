@@ -1,0 +1,66 @@
+{
+  "applications": "*",
+  "changelogDate": "20231219130312",
+  "entityTableName": "alerte",
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "512",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "severe",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Alerte",
+  "relationships": [
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "patient",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "mesureEPA",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesureEPA",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "mesureAlbumine",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesureAlbumine",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "mesurePoids",
+      "otherEntityRelationshipName": "alerte",
+      "relationshipName": "mesurePoids",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}

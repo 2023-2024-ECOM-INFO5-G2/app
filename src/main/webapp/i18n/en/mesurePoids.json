@@ -1,0 +1,27 @@
+{
+  "ecom02App": {
+    "mesurePoids": {
+      "home": {
+        "title": "Mesure Poids",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Mesure Poids",
+        "createOrEditLabel": "Create or edit a Mesure Poids",
+        "notFound": "No Mesure Poids found"
+      },
+      "created": "A new Mesure Poids is created with identifier { param }",
+      "updated": "A Mesure Poids is updated with identifier { param }",
+      "deleted": "A Mesure Poids is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Mesure Poids { id }?"
+      },
+      "detail": {
+        "title": "Mesure Poids"
+      },
+      "id": "ID",
+      "valeur": "Valeur",
+      "date": "Date",
+      "patient": "Patient",
+      "alerte": "Alerte"
+    }
+  }
+}
