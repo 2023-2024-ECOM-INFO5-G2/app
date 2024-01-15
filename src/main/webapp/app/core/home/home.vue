@@ -64,7 +64,24 @@
         </div>
       </div>
 
-      <h1 class="my-4">Liste des patients</h1>
+      <div class="row align-items-center">
+        <div class="col-7 col-lg-3">
+          <h1 class="my-4">Liste des patients</h1>
+        </div>
+        <div class="col-3">
+          <router-link :to="{ name: 'PatientCreate' }" custom v-slot="{ navigate }">
+            <button
+              @click="navigate"
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+              class="btn btn-primary jh-create-entity create-patient"
+            >
+              <font-awesome-icon icon="plus"></font-awesome-icon>
+              <span> Ajouter un patient</span>
+            </button>
+          </router-link>
+        </div>
+      </div>
       <div class="row mt-5">
         <div class="col">
           <div style="max-height: 300px; overflow-y: auto">
