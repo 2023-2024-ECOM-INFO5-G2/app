@@ -18,6 +18,17 @@
           <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span v-text="t$('entity.action.edit')"></span>
         </button>
       </router-link>
+
+      <b-button v-b-modal.modal-instruction variant="primary" class="mt-2">Ajouter un rappel</b-button>
+      <b-modal id="modal-instruction" title="Créer un rappel pour ce patient" @ok="addInstruction">
+        <b-form-input v-model="instructionDesc" placeholder="Description de l'instruction" type="text" class="mt-3"></b-form-input>
+        <div class="mt-3">
+          A réaliser le
+          <b-form-input v-model="instructionEcheance" type="datetime-local"></b-form-input>
+        </div>
+
+        <b-form-input v-model="instructionInterv" placeholder="Intervalle de jours" type="number" class="mt-3"></b-form-input>
+      </b-modal>
     </div>
     <div class="col-6 py-1">
       <font-awesome-icon :icon="['fas', 'cake-candles']" />

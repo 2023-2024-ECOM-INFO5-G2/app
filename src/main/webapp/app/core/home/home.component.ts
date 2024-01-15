@@ -78,7 +78,6 @@ export default defineComponent({
     };
 
     const addInstruction = async () => {
-      console.log(new Date().toISOString());
       const rappel: IRappel = {
         date: new Date().toISOString(),
         echeance: new Date(instructionEcheance.value).toISOString(),
