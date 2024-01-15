@@ -22,6 +22,7 @@ import {
   BModal,
   VBModal,
   BFormDatepicker,
+  BFormSelect,
   BInputGroup,
   BInputGroupPrepend,
   ToastPlugin,
@@ -81,4 +82,5 @@ export function initBootstrapVue(vue) {
   vue.component('b-list-group', BListGroup);
   vue.component('b-list-group-item', BListGroupItem);
   vue.component('b-button-group', BButtonGroup);
+  vue.component('b-form-select', BFormSelect);
 }

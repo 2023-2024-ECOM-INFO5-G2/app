@@ -22,6 +22,7 @@ import MesurePoidsService from '../mesure-poids/mesure-poids.service';
 import MesureAlbumineService from '../mesure-albumine/mesure-albumine.service';
 import AlerteService from '../alerte/alerte.service';
 import RepasService from '../repas/repas.service';
+import RappelService from '../rappel/rappel.service';
 import { useDateFormat } from '@/shared/composables';
 // @ts-ignore
 import useDataUtils from '@/shared/data/data-utils.service';
@@ -37,6 +38,7 @@ import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import type { IRappel } from '../../shared/model/rappel.model';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
@@ -55,6 +57,7 @@ export default defineComponent({
     const mesureEPAService = inject('mesureEPAService', () => new MesureEPAService());
     const mesurePoidsService = inject('mesurePoidsService', () => new MesurePoidsService());
     const mesureAlbumineService = inject('mesureAlbumineService', () => new MesureAlbumineService());
+    const rappelService = inject('rappelService', () => new RappelService());
     const repasService = inject('repasService', () => new RepasService());
     const alerteService = inject('alerteService', () => new AlerteService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -106,6 +109,16 @@ export default defineComponent({
     const showWeightModal: Ref<boolean> = ref(false);
     const showEPAModal: Ref<boolean> = ref(false);
     const showAlbuModal: Ref<boolean> = ref(false);
+
+    const instructionDesc: Ref<string> = ref('');
+    const instructionEcheance: Ref<string> = ref('');
+    const instructionInterv: Ref<number> = ref(null);
+    const instructionOptions: Ref<Array<Object>> = ref([
+      {
+        value: null,
+        text: 'Selectionner un patient',
+      },
+    ]);
 
     const patientAlerts: Ref<Array<Object>> = ref([]);
 
@@ -286,6 +299,7 @@ export default defineComponent({
       dangerAlbu.value = 'default';
       dangerWeight.value = 'default';
       for (const alert of patientAlerts.value) {
+        console.log(alert);
         switch (alert.code) {
           case 10:
           case 11:
@@ -425,6 +439,22 @@ export default defineComponent({
       retrievePatientMeals(route.params.patientId);
     }
 
+    const addInstruction = async () => {
+      const rappel: IRappel = {
+        date: new Date().toISOString(),
+        echeance: new Date(instructionEcheance.value).toISOString(),
+        intervaleJours: instructionInterv.value,
+        tache: instructionDesc.value,
+        feeDansLetang: true,
+        patient: { id: patient.value.id },
+      };
+      try {
+        await rappelService().create(rappel);
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+    };
+
     return {
       ...dateFormat,
       alertService,
@@ -458,6 +488,11 @@ export default defineComponent({
       showEPAModal,
       showAlbuModal,
 
+      instructionDesc,
+      instructionOptions,
+      instructionEcheance,
+      instructionInterv,
+
       previousState,
       t$: useI18n().t,
       addEPAValue,
@@ -470,6 +505,7 @@ export default defineComponent({
       removeEPAValue,
       updateAlbuValues,
       removeAlbuValue,
+      addInstruction,
     };
   },
 });
