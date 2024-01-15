@@ -1,4 +1,4 @@
-# g2ecom
+# ecom02
 
 This application was generated using JHipster 8.0.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v8.0.0](https://www.jhipster.tech/documentation-archive/v8.0.0).
 
@@ -91,7 +91,7 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 
 ### Packaging as jar
 
-To build the final jar and optimize the g2ecom application for production, run:
+To build the final jar and optimize the ecom02 application for production, run:
 
 ```
 ./gradlew -Pprod clean bootJar
@@ -250,4 +250,3 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [Leaflet]: https://leafletjs.com/
 [DefinitelyTyped]: https://definitelytyped.org/
 [Gatling]: https://gatling.io/
->>>>>>> 11db240bda96e686b4083110c2f7716f78adda8a

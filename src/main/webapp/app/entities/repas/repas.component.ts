@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import RepasService from './repas.service';
 import { type IRepas } from '@/shared/model/repas.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'Repas',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const repasService = inject('repasService', () => new RepasService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -51,7 +53,7 @@ export default defineComponent({
     const removeRepas = async () => {
       try {
         await repasService().delete(removeId.value);
-        const message = t$('g2EcomApp.repas.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.repas.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveRepass();
@@ -67,6 +69,7 @@ export default defineComponent({
       isFetching,
       retrieveRepass,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

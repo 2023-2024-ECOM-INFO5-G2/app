@@ -6,7 +6,7 @@ export interface IEtablissement {
   nom?: string | null;
   adresse?: string;
   ville?: string;
-  codePostal?: number;
+  codePostal?: string;
   patients?: IPatient[] | null;
   users?: IUser[] | null;
 }
@@ -17,7 +17,7 @@ export class Etablissement implements IEtablissement {
     public nom?: string | null,
     public adresse?: string,
     public ville?: string,
-    public codePostal?: number,
+    public codePostal?: string,
     public patients?: IPatient[] | null,
     public users?: IUser[] | null,
   ) {}

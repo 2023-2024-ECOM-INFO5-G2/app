@@ -1,5 +1,5 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: g2ecom
+name: ecom02
 services:
   prometheus:
     image: prom/prometheus:v2.47.2
@@ -28,3 +28,4 @@ services:
       - 3000:3000
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
+    network_mode: 'host' # to test locally running service

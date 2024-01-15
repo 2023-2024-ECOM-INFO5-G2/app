@@ -1,5 +1,5 @@
 {
-  "g2EcomApp": {
+  "ecom02App": {
     "rappel": {
       "home": {
         "title": "Rappels",
@@ -18,11 +18,13 @@
         "title": "Rappel"
       },
       "id": "ID",
-      "frequence": "Frequence",
+      "date": "Date",
       "echeance": "Echeance",
+      "intervaleJours": "Intervale Jours",
       "tache": "Tache",
-      "patient": "Patient",
-      "medecin": "Medecin"
+      "feeDansLetang": "Fee Dans Letang",
+      "user": "User",
+      "patient": "Patient"
     }
   }
 }

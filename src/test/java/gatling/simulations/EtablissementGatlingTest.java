@@ -80,7 +80,7 @@ public class EtablissementGatlingTest extends Simulation {
                                 "\"nom\": \"SAMPLE_TEXT\"" +
                                 ", \"adresse\": \"SAMPLE_TEXT\"" +
                                 ", \"ville\": \"SAMPLE_TEXT\"" +
-                                ", \"codePostal\": 0" +
+                                ", \"codePostal\": \"SAMPLE_TEXT\"" +
                                 "}"
                             )
                         )

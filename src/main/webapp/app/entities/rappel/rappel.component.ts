@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import RappelService from './rappel.service';
 import { type IRappel } from '@/shared/model/rappel.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'Rappel',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const rappelService = inject('rappelService', () => new RappelService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -51,7 +53,7 @@ export default defineComponent({
     const removeRappel = async () => {
       try {
         await rappelService().delete(removeId.value);
-        const message = t$('g2EcomApp.rappel.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.rappel.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveRappels();
@@ -67,6 +69,7 @@ export default defineComponent({
       isFetching,
       retrieveRappels,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

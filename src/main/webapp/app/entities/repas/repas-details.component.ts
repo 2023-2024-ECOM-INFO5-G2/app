@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import RepasService from './repas.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IRepas } from '@/shared/model/repas.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'RepasDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const repasService = inject('repasService', () => new RepasService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       repas,
 

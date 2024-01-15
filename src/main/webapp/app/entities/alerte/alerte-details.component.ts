@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import AlerteService from './alerte.service';
+import { useDateFormat } from '@/shared/composables';
 import { type IAlerte } from '@/shared/model/alerte.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -10,6 +11,7 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'AlerteDetails',
   setup() {
+    const dateFormat = useDateFormat();
     const alerteService = inject('alerteService', () => new AlerteService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -33,6 +35,7 @@ export default defineComponent({
     }
 
     return {
+      ...dateFormat,
       alertService,
       alerte,
 

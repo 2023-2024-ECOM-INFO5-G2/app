@@ -68,5 +68,34 @@ describe('Component Tests', () => {
         expect(comp.patients[0]).toEqual(expect.objectContaining({ id: 123 }));
       });
     });
+    describe('Handles', () => {
+      let comp: PatientComponentType;
+
+      beforeEach(async () => {
+        const wrapper = shallowMount(Patient, { global: mountOptions });
+        comp = wrapper.vm;
+        await comp.$nextTick();
+        patientServiceStub.retrieve.reset();
+        patientServiceStub.retrieve.resolves({ headers: {}, data: [] });
+      });
+
+      it('Should call delete service on confirmDelete', async () => {
+        // GIVEN
+        patientServiceStub.delete.resolves({});
+
+        // WHEN
+        comp.prepareRemove({ id: 123 });
+
+        comp.removePatient();
+        await comp.$nextTick(); // clear components
+
+        // THEN
+        expect(patientServiceStub.delete.called).toBeTruthy();
+
+        // THEN
+        await comp.$nextTick(); // handle component clear watch
+        expect(patientServiceStub.retrieve.callCount).toEqual(1);
+      });
+    });
   });
 });

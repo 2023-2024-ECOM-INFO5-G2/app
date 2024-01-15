@@ -3,43 +3,55 @@
     <div class="col-8">
       <div v-if="rappel">
         <h2 class="jh-entity-heading" data-cy="rappelDetailsHeading">
-          <span v-text="t$('g2EcomApp.rappel.detail.title')"></span> {{ rappel.id }}
+          <span v-text="t$('ecom02App.rappel.detail.title')"></span> {{ rappel.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('g2EcomApp.rappel.frequence')"></span>
+            <span v-text="t$('ecom02App.rappel.date')"></span>
           </dt>
           <dd>
-            <span>{{ rappel.frequence }}</span>
+            <span v-if="rappel.date">{{ formatDateLong(rappel.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.rappel.echeance')"></span>
+            <span v-text="t$('ecom02App.rappel.echeance')"></span>
           </dt>
           <dd>
-            <span>{{ rappel.echeance }}</span>
+            <span v-if="rappel.echeance">{{ formatDateLong(rappel.echeance) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.rappel.tache')"></span>
+            <span v-text="t$('ecom02App.rappel.intervaleJours')"></span>
+          </dt>
+          <dd>
+            <span>{{ rappel.intervaleJours }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.rappel.tache')"></span>
           </dt>
           <dd>
             <span>{{ rappel.tache }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.rappel.patient')"></span>
+            <span v-text="t$('ecom02App.rappel.feeDansLetang')"></span>
+          </dt>
+          <dd>
+            <span>{{ rappel.feeDansLetang }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.rappel.user')"></span>
+          </dt>
+          <dd>
+            <span v-for="(user, i) in rappel.users" :key="user.id"
+              >{{ i > 0 ? ', ' : '' }}
+              {{ user.id }}
+            </span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.rappel.patient')"></span>
           </dt>
           <dd>
             <div v-if="rappel.patient">
               <router-link :to="{ name: 'PatientView', params: { patientId: rappel.patient.id } }">{{ rappel.patient.id }}</router-link>
             </div>
-          </dd>
-          <dt>
-            <span v-text="t$('g2EcomApp.rappel.medecin')"></span>
-          </dt>
-          <dd>
-            <span v-for="(medecin, i) in rappel.medecins" :key="medecin.id"
-              >{{ i > 0 ? ', ' : '' }}
-              <router-link :to="{ name: 'MedecinView', params: { medecinId: medecin.id } }">{{ medecin.id }}</router-link>
-            </span>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

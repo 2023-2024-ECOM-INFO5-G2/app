@@ -1,7 +1,7 @@
 sourceSets {
     test {
         java {
-            exclude 'polytech/g02/ecom//config/PostgreSqlTestContainer.java'
+            exclude 'polytech/ecom/g02//config/PostgreSqlTestContainer.java'
         }
     }
 }

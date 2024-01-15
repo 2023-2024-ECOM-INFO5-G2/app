@@ -1,5 +1,5 @@
 {
-  "g2EcomApp": {
+  "ecom02App": {
     "repas": {
       "home": {
         "title": "Repas",
@@ -19,8 +19,10 @@
       },
       "id": "ID",
       "nom": "Nom",
-      "description": "Description",
+      "date": "Date",
       "apportCalorique": "Apport Calorique",
+      "poidsConsomme": "Poids Consomme",
+      "description": "Description",
       "patient": "Patient"
     }
   }

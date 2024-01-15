@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import AlerteService from './alerte.service';
 import { type IAlerte } from '@/shared/model/alerte.model';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 export default defineComponent({
@@ -10,6 +11,7 @@ export default defineComponent({
   name: 'Alerte',
   setup() {
     const { t: t$ } = useI18n();
+    const dateFormat = useDateFormat();
     const alerteService = inject('alerteService', () => new AlerteService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -51,7 +53,7 @@ export default defineComponent({
     const removeAlerte = async () => {
       try {
         await alerteService().delete(removeId.value);
-        const message = t$('g2EcomApp.alerte.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.alerte.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveAlertes();
@@ -67,6 +69,7 @@ export default defineComponent({
       isFetching,
       retrieveAlertes,
       clear,
+      ...dateFormat,
       removeId,
       removeEntity,
       prepareRemove,

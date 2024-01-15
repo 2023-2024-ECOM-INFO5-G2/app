@@ -26,24 +26,28 @@
   <div class="row mt-5">
     <div class="col">
       <h2 id="page-heading" data-cy="PatientHeading">
-        <span id="patient-heading" v-text="t$('g2EcomApp.patient.home.title')"></span>
+        <span id="patient-heading" v-text="t$('ecom02App.patient.home.title')"></span>
       </h2>
     </div>
   </div>
   <div class="row mt-5">
     <div class="col">
-      <table aria-describedby="patients" class="table table-striped table-hover">
+      <table
+        aria-describedby="patients"
+        class="table table-striped table-hover"
+        v-if="patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id).length > 0"
+      >
         <thead>
           <tr>
-            <th scope="row"><span v-text="t$('g2EcomApp.patient.prenom')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.patient.nom')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.patient.numChambre')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.prenom')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.nom')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.patient.numChambre')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
           <template
-            v-for="patient in patients.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
+            v-for="patient in patients?.filter(p => p.etablissement && p.etablissement.id === selectedetablissement.id)"
             :key="patient.id"
           >
             <tr data-cy="entityTable">
@@ -65,7 +69,31 @@
           </template>
         </tbody>
       </table>
+      <div class="alert alert-warning" v-else>
+        <span v-text="t$('ecom02App.patient.home.notFound')"></span>
+      </div>
     </div>
+    <b-modal ref="removeEntity" id="removeEntity">
+      <template #modal-title>
+        <span id="ecom02App.patient.delete.question" data-cy="patientDeleteDialogHeading" v-text="t$('entity.delete.title')"></span>
+      </template>
+      <div class="modal-body">
+        <p id="jhi-delete-patient-heading" v-text="t$('ecom02App.patient.delete.question', { id: removeId })"></p>
+      </div>
+      <template #modal-footer>
+        <div>
+          <button type="button" class="btn btn-secondary" v-text="t$('entity.action.cancel')" v-on:click="closeDialog()"></button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="jhi-confirm-delete-patient"
+            data-cy="entityConfirmDeleteButton"
+            v-text="t$('entity.action.delete')"
+            v-on:click="removePatient()"
+          ></button>
+        </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 

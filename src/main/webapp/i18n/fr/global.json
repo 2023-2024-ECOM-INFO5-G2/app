@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "NutriGuardian",
+    "title": "Ecom02",
     "browsehappy": "Vous utilisez un <strong>ancien</strong> navigateur. Veuillez <a href=\"http://browsehappy.com/?locale=fr\">mettre à jour votre navigateur</a> pour une meilleure expérience.",
     "menu": {
       "home": "Accueil",
@@ -9,14 +9,13 @@
         "main": "Entités",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "patient": "Patient",
-        "aideSoignant": "Aide Soignant",
-        "infirmiere": "Infirmiere",
-        "medecin": "Medecin",
         "etablissement": "Etablissement",
         "repas": "Repas",
         "rappel": "Rappel",
         "alerte": "Alerte",
-        "mesure": "Mesure"
+        "mesurePoids": "Mesure Poids",
+        "mesureEpa": "Mesure EPA",
+        "mesureAlbumine": "Mesure Albumine"
       },
       "account": {
         "main": "Compte",
@@ -152,5 +151,5 @@
       "not.image": "Le fichier doit être une image et non du type \"{ fileType }\""
     }
   },
-  "footer": "Ceci est votre pied de page"
+  "footer": "Nutriguardian"
 }

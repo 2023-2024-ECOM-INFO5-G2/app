@@ -51,7 +51,7 @@ export default defineComponent({
     const removeEtablissement = async () => {
       try {
         await etablissementService().delete(removeId.value);
-        const message = t$('g2EcomApp.etablissement.deleted', { param: removeId.value }).toString();
+        const message = t$('ecom02App.etablissement.deleted', { param: removeId.value }).toString();
         alertService.showInfo(message, { variant: 'danger' });
         removeId.value = null;
         retrieveEtablissements();

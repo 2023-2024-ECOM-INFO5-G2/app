@@ -80,11 +80,11 @@ public class PatientGatlingTest extends Simulation {
                                 "\"prenom\": \"SAMPLE_TEXT\"" +
                                 ", \"nom\": \"SAMPLE_TEXT\"" +
                                 ", \"sexe\": \"SAMPLE_TEXT\"" +
+                                ", \"taille\": 0" +
                                 ", \"dateDeNaissance\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"numChambre\": 0" +
-                                ", \"taille\": 0" +
                                 ", \"dateArrivee\": \"2020-01-01T00:00:00.000Z\"" +
-                                ", \"infoComplementaires\": null" +
+                                ", \"infoComplementaires\": \"SAMPLE_TEXT\"" +
                                 "}"
                             )
                         )

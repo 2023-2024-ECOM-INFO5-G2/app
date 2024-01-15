@@ -17,8 +17,8 @@ plugins {
     // jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
 }
 
-group = "polytech.g02.ecom"
-version = "0.1.1"
+group = "polytech.ecom.g02"
+version = "0.0.1-SNAPSHOT"
 
 description = ""
 
@@ -93,7 +93,7 @@ eclipse {
 defaultTasks "bootRun"
 
 springBoot {
-    mainClass = "polytech.g02.ecom.G2EcomApp"
+    mainClass = "polytech.ecom.g02.Ecom02App"
 }
 
 test {

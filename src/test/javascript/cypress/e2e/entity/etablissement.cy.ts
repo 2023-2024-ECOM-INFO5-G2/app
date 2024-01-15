@@ -15,7 +15,7 @@ describe('Etablissement e2e test', () => {
   const etablissementPageUrlPattern = new RegExp('/etablissement(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const etablissementSample = { adresse: 'dessous chef', ville: 'manipuler', codePostal: 10472 };
+  const etablissementSample = { adresse: 'à bas de aigre', ville: 'grâce à assez absolument', codePostal: '94459' };
 
   let etablissement;
 
@@ -157,17 +157,17 @@ describe('Etablissement e2e test', () => {
     });
 
     it('should create an instance of Etablissement', () => {
-      cy.get(`[data-cy="nom"]`).type('apparemment étendre boum');
-      cy.get(`[data-cy="nom"]`).should('have.value', 'apparemment étendre boum');
+      cy.get(`[data-cy="nom"]`).type('marron');
+      cy.get(`[data-cy="nom"]`).should('have.value', 'marron');
 
-      cy.get(`[data-cy="adresse"]`).type('emmerder');
-      cy.get(`[data-cy="adresse"]`).should('have.value', 'emmerder');
+      cy.get(`[data-cy="adresse"]`).type('moyennant de façon que');
+      cy.get(`[data-cy="adresse"]`).should('have.value', 'moyennant de façon que');
 
-      cy.get(`[data-cy="ville"]`).type('parlementaire décoller foule');
-      cy.get(`[data-cy="ville"]`).should('have.value', 'parlementaire décoller foule');
+      cy.get(`[data-cy="ville"]`).type("derechef d'entre");
+      cy.get(`[data-cy="ville"]`).should('have.value', "derechef d'entre");
 
-      cy.get(`[data-cy="codePostal"]`).type('17895');
-      cy.get(`[data-cy="codePostal"]`).should('have.value', '17895');
+      cy.get(`[data-cy="codePostal"]`).type('70474');
+      cy.get(`[data-cy="codePostal"]`).should('have.value', '70474');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

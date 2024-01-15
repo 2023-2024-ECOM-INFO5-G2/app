@@ -1,5 +1,5 @@
 {
-  "g2EcomApp": {
+  "ecom02App": {
     "patient": {
       "home": {
         "title": "Patients",
@@ -21,22 +21,32 @@
       "prenom": "Prenom",
       "nom": "Nom",
       "sexe": "Sexe",
-      "dateDeNaissance": "Date De Naissance",
-      "numChambre": "Numéro Chambre",
       "taille": "Taille",
+      "dateDeNaissance": "Date De Naissance",
+      "numChambre": "Num Chambre",
       "dateArrivee": "Date Arrivee",
-      "infoComplementaires": "Informations Complementaires",
-      "mesure": "Mesure",
-      "rappel": "Rappel",
-      "medecin": "Medecin",
-      "etablissement": "Etablissement",
-      "aideSoignant": "Aide Soignant",
-      "infirmiere": "Infirmiere",
-      "repas": "Repas",
+      "infoComplementaires": "Info Complementaires",
       "alerte": "Alerte",
-      "poids": "Poids (kg)",
-      "EPA": "EPA",
-      "IMC": "IMC"
+      "rappel": "Rappel",
+      "mesurePoids": "Mesure Poids",
+      "mesureEPA": "Mesure EPA",
+      "mesureAlbumine": "Mesure Albumine",
+      "repas": "Repas",
+      "user": "User",
+      "etablissement": "Etablissement",
+      "addValue": "Ajouter une mesure",
+      "noData": "Aucune donnée",
+      "modify": "Modifier une ancienne mesure",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "addWeightMeasure": "Ajouter une mesure de poids",
+      "updateWeightMeasure": "Modifier des mesures de poids",
+      "addEPAMeasure": "Ajouter une mesure d'EPA",
+      "updateEPAMeasure": "Modifier des mesures d'EPA",
+      "addAlbuMeasure": "Ajouter une mesure d'Albumine",
+      "updateAlbuMeasure": "Modifier des mesures d'Albumine",
+      "noMeal": "Aucun repas ou apport enregistré",
+      "addMeal": "Ajouter un repas"
     }
   }
 }

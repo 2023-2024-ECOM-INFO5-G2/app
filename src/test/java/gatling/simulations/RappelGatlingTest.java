@@ -77,9 +77,11 @@ public class RappelGatlingTest extends Simulation {
                         .body(
                             StringBody(
                                 "{" +
-                                "\"frequence\": \"SAMPLE_TEXT\"" +
+                                "\"date\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"echeance\": \"2020-01-01T00:00:00.000Z\"" +
+                                ", \"intervaleJours\": 0" +
                                 ", \"tache\": \"SAMPLE_TEXT\"" +
+                                ", \"feeDansLetang\": null" +
                                 "}"
                             )
                         )

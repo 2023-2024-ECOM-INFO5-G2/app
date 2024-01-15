@@ -3,35 +3,46 @@
     <div class="col-8">
       <div v-if="repas">
         <h2 class="jh-entity-heading" data-cy="repasDetailsHeading">
-          <span v-text="t$('g2EcomApp.repas.detail.title')"></span> {{ repas.id }}
+          <span v-text="t$('ecom02App.repas.detail.title')"></span> {{ repas.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('g2EcomApp.repas.nom')"></span>
+            <span v-text="t$('ecom02App.repas.nom')"></span>
           </dt>
           <dd>
             <span>{{ repas.nom }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.repas.description')"></span>
+            <span v-text="t$('ecom02App.repas.date')"></span>
           </dt>
           <dd>
-            <span>{{ repas.description }}</span>
+            <span v-if="repas.date">{{ formatDateLong(repas.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.repas.apportCalorique')"></span>
+            <span v-text="t$('ecom02App.repas.apportCalorique')"></span>
           </dt>
           <dd>
             <span>{{ repas.apportCalorique }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.repas.patient')"></span>
+            <span v-text="t$('ecom02App.repas.poidsConsomme')"></span>
           </dt>
           <dd>
-            <span v-for="(patient, i) in repas.patients" :key="patient.id"
-              >{{ i > 0 ? ', ' : '' }}
-              <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>
-            </span>
+            <span>{{ repas.poidsConsomme }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.repas.description')"></span>
+          </dt>
+          <dd>
+            <span>{{ repas.description }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.repas.patient')"></span>
+          </dt>
+          <dd>
+            <div v-if="repas.patient">
+              <router-link :to="{ name: 'PatientView', params: { patientId: repas.patient.id } }">{{ repas.patient.id }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dayjs from 'dayjs';
 
 import AlerteService from './alerte.service';
-import { DATE_FORMAT } from '@/shared/composables/date-format';
+import { DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { Alerte } from '@/shared/model/alerte.model';
 
 const error = {
@@ -33,14 +33,14 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new AlerteService();
       currentDate = new Date();
-      elemDefault = new Alerte(123, 'AAAAAAA', currentDate);
+      elemDefault = new Alerte(123, 'AAAAAAA', currentDate, false);
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
         const returnedFromService = Object.assign(
           {
-            date: dayjs(currentDate).format(DATE_FORMAT),
+            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -65,7 +65,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
-            date: dayjs(currentDate).format(DATE_FORMAT),
+            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -97,7 +97,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            date: dayjs(currentDate).format(DATE_FORMAT),
+            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            severe: true,
           },
           elemDefault,
         );
@@ -130,7 +131,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             description: 'BBBBBB',
-            date: dayjs(currentDate).format(DATE_FORMAT),
+            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new Alerte(),
         );
@@ -164,7 +165,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            date: dayjs(currentDate).format(DATE_FORMAT),
+            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            severe: true,
           },
           elemDefault,
         );

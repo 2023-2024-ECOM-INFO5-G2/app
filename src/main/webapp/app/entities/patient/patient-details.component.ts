@@ -3,24 +3,41 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { Line } from 'vue-chartjs';
-import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip,
+} from 'chart.js';
+import 'chartjs-adapter-luxon';
 import PatientService from './patient.service';
-import MesureService from '../mesure/mesure.service';
-import RepasService from '../repas/repas.service';
+import MesureEPAService from '../mesure-epa/mesure-epa.service';
+import MesurePoidsService from '../mesure-poids/mesure-poids.service';
+import MesureAlbumineService from '../mesure-albumine/mesure-albumine.service';
+import { useDateFormat } from '@/shared/composables';
 // @ts-ignore
 import useDataUtils from '@/shared/data/data-utils.service';
 // @ts-ignore
 import { type IPatient } from '@/shared/model/patient.model';
 // @ts-ignore
-import { type IMesure } from '@/shared/model/mesure.model';
+import { type IMesureEPA } from '@/shared/model/mesure-epa.model';
 // @ts-ignore
-import { type IRepas } from '@/shared/model/repas.model';
+import { type IMesurePoids } from '@/shared/model/mesure-poids.model';
 // @ts-ignore
+import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
+
 import { useAlertService } from '@/shared/alert/alert.service';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowsUpDown, faCakeCandles, faDoorOpen, faGenderless, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import RepasService from '../repas/repas.service';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -32,9 +49,11 @@ export default defineComponent({
     library.add(faGenderless);
     library.add(faArrowsUpDown);
     library.add(faDoorOpen);
-
+    const dateFormat = useDateFormat();
     const patientService = inject('patientService', () => new PatientService());
-    const mesureService = inject('mesureService', () => new MesureService());
+    const mesureEPAService = inject('mesureEPAService', () => new MesureEPAService());
+    const mesurePoidsService = inject('mesurePoidsService', () => new MesurePoidsService());
+    const mesureAlbumineService = inject('mesureAlbumineService', () => new MesureAlbumineService());
     const repasService = inject('repasService', () => new RepasService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -45,20 +64,32 @@ export default defineComponent({
 
     const previousState = () => router.go(-1);
     const patient: Ref<IPatient> = ref({});
-    const poidsPatient: Ref<Array<IMesure>> = ref([]);
-    const EPAPatient: Ref<Array<IMesure>> = ref([]);
-    const albuPatient: Ref<Array<IMesure>> = ref([]);
+    const poidsPatient: Ref<Array<IMesurePoids>> = ref([]);
+    const EPAPatient: Ref<Array<IMesureEPA>> = ref([]);
+    const albuPatient: Ref<Array<IMesureAlbumine>> = ref([]);
     const patientIMC: Ref<Number> = ref(0);
-    const weightChartData: Ref<Object> = ref({});
-    const EPAChartData: Ref<Object> = ref({});
+    const chartData: Ref<Object> = ref({});
     const chartOptions: Ref<Object> = ref({
       responsive: true,
+      scales: {
+        x: {
+          type: 'time',
+          parsing: false,
+          ticks: {
+            callback: (value: number) => new Date(value).toLocaleString('fr-FR'),
+          },
+        },
+      },
     });
-    const weightChartLoaded: Ref<Boolean> = ref(false);
-    const EPAChartLoaded: Ref<Boolean> = ref(false);
+    const chartDataLoaded: Ref<Boolean> = ref(false);
     const newEPAValue: Ref<Number> = ref(0);
     const newWeightValue: Ref<Number> = ref(0);
     const newAlbuValue: Ref<Number> = ref(0);
+
+    const dangerEPA: Ref<Boolean> = ref(false);
+    const dangerWeight: Ref<Boolean> = ref(false);
+
+    const toasts: Ref<Array<Object>> = ref([]);
 
     const patientMeals: Ref<Array<Object>> = ref([]);
     const tableCurrentPage: Ref<Number> = ref(0);
@@ -66,19 +97,27 @@ export default defineComponent({
     const mealName: Ref<String> = ref('');
     const mealDesc: Ref<String> = ref('');
     const mealCal: Ref<Number> = ref(0);
+    const { t: t$ } = useI18n();
+
+    const showWeightModal: Ref<boolean> = ref(false);
+    const showEPAModal: Ref<boolean> = ref(false);
+    const showAlbuModal: Ref<boolean> = ref(false);
 
     const retrievePatient = async (patientId: string | string[]) => {
       try {
-        const res = await patientService().find(Number(patientId));
+        const res = await patientService().find(patientId);
         patient.value = res;
-      } catch (error: any) {
+      } catch (error) {
         alertService.showHttpError(error.response);
       }
     };
 
     const addAlbuValue = async () => {
+      // TODO: add validation using vuelidate
+
       try {
-        if (Number(newAlbuValue.value) <= 0 || newAlbuValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newAlbuValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newAlbuValue.value) <= 0 || Number(newAlbuValue.value) >= 50) alertService.showError('Albumine (0 - 50)');
         else {
           // Create a new Albu entry object
           const newAlbuEntry = {
@@ -92,8 +131,9 @@ export default defineComponent({
           albuPatient.value.push(newAlbuEntry);
 
           // Save the new Albu entry to the server
-          await mesureService().create(newAlbuEntry);
+          await mesureAlbumineService().create(newAlbuEntry);
           await retrievePatientMesures(patient.value.id);
+          refreshData();
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -102,13 +142,13 @@ export default defineComponent({
 
     const addPoidsValue = async () => {
       try {
-        if (Number(newWeightValue.value) <= 0 || newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newWeightValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newWeightValue.value) <= 0 || Number(newWeightValue.value) >= 500) alertService.showError('Poids (0 - 500)');
         else {
           // Create a new Poids entry object
           const newPoidsEntry = {
             date: new Date().toISOString(),
             valeur: Number(newWeightValue.value),
-            nomValeur: 'poids',
             patient: patient.value,
           };
 
@@ -116,9 +156,9 @@ export default defineComponent({
           poidsPatient.value.push(newPoidsEntry);
 
           // Save the new Poids entry to the server
-          await mesureService().create(newPoidsEntry);
+          await mesurePoidsService().create(newPoidsEntry);
           await retrievePatientMesures(patient.value.id);
-          patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[poidsPatient.value.length - 1]?.valeur);
+          refreshData();
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -127,13 +167,13 @@ export default defineComponent({
 
     const addEPAValue = async () => {
       try {
-        if (Number(newEPAValue.value) <= 0 || newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        if (newEPAValue.value === null) alertService.showError('Donnée incorrecte');
+        else if (Number(newEPAValue.value) <= 0 || Number(newEPAValue.value) >= 10) alertService.showError('EPA (0 - 10)');
         else {
           // Create a new EPA entry object
           const newEPAEntry = {
             date: new Date().toISOString(),
             valeur: Number(newEPAValue.value),
-            nomValeur: 'EPA',
             patient: patient.value,
           };
 
@@ -141,8 +181,9 @@ export default defineComponent({
           EPAPatient.value.push(newEPAEntry);
 
           // Save the new EPA entry to the server
-          await mesureService().create(newEPAEntry);
+          await mesureEPAService().create(newEPAEntry);
           await retrievePatientMesures(patient.value.id);
+          refreshData();
         }
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -169,19 +210,145 @@ export default defineComponent({
       }
     };
 
+    const updatePoidsValues = async () => {
+      try {
+        for (const measure of poidsPatient.value) {
+          measure.date = measure.date.concat('Z');
+          await mesurePoidsService().update(measure);
+        }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+      await retrievePatientMesures(patient.value.id);
+      refreshData();
+      showWeightModal.value = false;
+    };
+
+    const removePoidsValue = async (index: number) => {
+      const removed: IMesurePoids = poidsPatient.value.splice(index, 1)[0];
+      await mesurePoidsService().delete(removed.id);
+      refreshData();
+    };
+
+    const updateEPAValues = async () => {
+      try {
+        for (const measure of EPAPatient.value) {
+          measure.date = measure.date.concat('Z');
+          await mesureEPAService().update(measure);
+        }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+      await retrievePatientMesures(patient.value.id);
+      refreshData();
+      showEPAModal.value = false;
+    };
+
+    const removeEPAValue = async (index: number) => {
+      const removed: IMesureEPA = EPAPatient.value.splice(index, 1)[0];
+      await mesureEPAService().delete(removed.id);
+      refreshData();
+    };
+
+    const updateAlbuValues = async () => {
+      try {
+        for (const measure of albuPatient.value) {
+          measure.date = measure.date.concat('Z');
+          await mesureAlbumineService().update(measure);
+        }
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+      await retrievePatientMesures(patient.value.id);
+      refreshData();
+      showAlbuModal.value = false;
+    };
+
+    const removeAlbuValue = async (index: number) => {
+      const removed: IMesureAlbumine = albuPatient.value.splice(index, 1)[0];
+      await mesureAlbumineService().delete(removed.id);
+      refreshData();
+    };
+
     const calculIMC = (patientHeight: string, patientWeight: string) => {
       return Math.round(Number(patientWeight) / (((Number(patientHeight) / 100) * Number(patientHeight)) / 100));
     };
 
+    const updateDanger = () => {
+      dangerEPA.value = EPAPatient.value[0]?.valeur < 7;
+      if (new Date(+new Date() - +new Date(patient.value.dateArrivee)).getUTCDate() - 1 >= 2 && poidsPatient.value?.length === 0) {
+        dangerWeight.value = true;
+      } else {
+        dangerWeight.value = false;
+      }
+    };
+
+    const sortArrays = () => {
+      poidsPatient.value.sort((a: IMesurePoids, b: IMesurePoids) => +new Date(b.date) - +new Date(a.date));
+      EPAPatient.value.sort((a: IMesureEPA, b: IMesureEPA) => +new Date(b.date) - +new Date(a.date));
+      albuPatient.value.sort((a: IMesureAlbumine, b: IMesureAlbumine) => +new Date(b.date) - +new Date(a.date));
+    };
+
+    const refreshData = () => {
+      patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[0]?.valeur);
+      sortArrays();
+      refreshCharts();
+      updateDanger();
+    };
+
+    const refreshCharts = () => {
+      const weightValues = [];
+      const EPAValues = [];
+      for (const weightEntry of poidsPatient.value) {
+        weightValues.push({
+          x: Date.parse(weightEntry.date),
+          y: weightEntry.valeur,
+        });
+      }
+      for (const EPAEntry of EPAPatient.value) {
+        EPAValues.push({
+          x: Date.parse(EPAEntry.date),
+          y: EPAEntry.valeur,
+        });
+      }
+
+      weightValues.sort((a: any, b: any) => +new Date(a.x) - +new Date(b.x));
+      EPAValues.sort((a: any, b: any) => +new Date(a.x) - +new Date(b.x));
+
+      chartData.value = {
+        datasets: [
+          {
+            label: 'poids (kg)',
+            data: weightValues,
+            borderColor: 'rgb(255, 125, 100)',
+          },
+          {
+            label: 'EPA',
+            data: EPAValues,
+            borderColor: 'rgb(45, 80, 255)',
+          },
+        ],
+      };
+      chartDataLoaded.value = true;
+    };
+
     const retrievePatientMesures = async (patientId: string | string[]) => {
       try {
-        const res = await mesureService().retrieve();
-        const patientMesures = res.data.filter((o: IMesure) => o.patient !== null && o.patient.id === Number(patientId));
+        const resAlbu = await mesureAlbumineService().retrieve();
+        const resPoids = await mesurePoidsService().retrieve();
+        const resEPA = await mesureEPAService().retrieve();
 
-        poidsPatient.value = patientMesures.filter((o: IMesure) => o.nomValeur === 'poids');
-        poidsPatient.value.sort((a: IMesure, b: IMesure) => +new Date(a.date) - +new Date(b.date));
-        EPAPatient.value = patientMesures.filter((o: IMesure) => o.nomValeur === 'EPA');
-        albuPatient.value = patientMesures.filter((o: IMesure) => o.nomValeur === 'albumine');
+        const weightValues = resPoids.data.filter((o: IMesurePoids) => o.patient !== null && o.patient.id === Number(patientId));
+        const albuValues = resAlbu.data.filter((o: IMesureAlbumine) => o.patient !== null && o.patient.id === Number(patientId));
+        const EPAValues = resEPA.data.filter((o: IMesureEPA) => o.patient !== null && o.patient.id === Number(patientId));
+
+        weightValues.map((m: IMesurePoids) => (m.date = m.date.substring(0, 19)));
+        albuValues.map((m: IMesureAlbumine) => (m.date = m.date.substring(0, 19)));
+        EPAValues.map((m: IMesureEPA) => (m.date = m.date.substring(0, 19)));
+
+        poidsPatient.value = weightValues;
+        albuPatient.value = albuValues;
+        EPAPatient.value = EPAValues;
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }
@@ -192,7 +359,7 @@ export default defineComponent({
         const res = await repasService().retrieve();
         patientMeals.value = [];
         for (const meal of res.data) {
-          if (meal.patients.filter((patient: IPatient) => patient.id === Number(patientId)).length === 0) continue;
+          if (meal.patients?.filter((patient: IPatient) => patient.id === Number(patientId)).length === 0) continue;
           delete meal.patients;
           patientMeals.value.push(meal);
         }
@@ -204,61 +371,29 @@ export default defineComponent({
     if (route.params?.patientId) {
       retrievePatient(route.params.patientId).then(() =>
         retrievePatientMesures(route.params.patientId).then(() => {
-          patientIMC.value = calculIMC(patient.value.taille, poidsPatient.value[poidsPatient.value.length - 1]?.valeur);
-          const weightValues = [];
-          const EPAValues = [];
-          for (const weightEntry of poidsPatient.value) {
-            weightValues.push({
-              x: weightEntry.date,
-              y: weightEntry.valeur,
-            });
-          }
-          for (const EPAEntry of EPAPatient.value) {
-            EPAValues.push({
-              x: EPAEntry.date,
-              y: EPAEntry.valeur,
-            });
-          }
-          weightChartData.value = {
-            datasets: [
-              {
-                label: 'poids (kg)',
-                data: weightValues,
-                borderColor: 'rgb(255, 125, 100)',
-              },
-            ],
-          };
-          EPAChartData.value = {
-            datasets: [
-              {
-                label: 'EPA',
-                data: EPAValues,
-                borderColor: 'rgb(45, 80, 255)',
-              },
-            ],
-          };
-          weightChartLoaded.value = true;
-          EPAChartLoaded.value = true;
+          refreshData();
         }),
       );
       retrievePatientMeals(route.params.patientId);
     }
 
     return {
+      ...dateFormat,
       alertService,
       patient,
       albuPatient,
       poidsPatient,
       EPAPatient,
       patientIMC,
-      weightChartData,
-      EPAChartData,
+      chartData,
       chartOptions,
-      weightChartLoaded,
-      EPAChartLoaded,
+      chartDataLoaded,
       newEPAValue,
       newWeightValue,
       newAlbuValue,
+      dangerEPA,
+      dangerWeight,
+      toasts,
 
       patientMeals,
       tableCurrentPage,
@@ -266,8 +401,11 @@ export default defineComponent({
       mealName,
       mealDesc,
       mealCal,
-
       ...dataUtils,
+
+      showWeightModal,
+      showEPAModal,
+      showAlbuModal,
 
       previousState,
       t$: useI18n().t,
@@ -275,6 +413,12 @@ export default defineComponent({
       addPoidsValue,
       addAlbuValue,
       addMeal,
+      updatePoidsValues,
+      removePoidsValue,
+      updateEPAValues,
+      removeEPAValue,
+      updateAlbuValues,
+      removeAlbuValue,
     };
   },
 });

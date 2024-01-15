@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new EtablissementService();
-      elemDefault = new Etablissement(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0);
+      elemDefault = new Etablissement(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -84,7 +84,7 @@ describe('Service Tests', () => {
             nom: 'BBBBBB',
             adresse: 'BBBBBB',
             ville: 'BBBBBB',
-            codePostal: 1,
+            codePostal: 'BBBBBB',
           },
           elemDefault,
         );
@@ -112,7 +112,6 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             nom: 'BBBBBB',
-            codePostal: 1,
           },
           new Etablissement(),
         );
@@ -143,7 +142,7 @@ describe('Service Tests', () => {
             nom: 'BBBBBB',
             adresse: 'BBBBBB',
             ville: 'BBBBBB',
-            codePostal: 1,
+            codePostal: 'BBBBBB',
           },
           elemDefault,
         );

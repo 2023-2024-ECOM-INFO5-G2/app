@@ -3,9 +3,9 @@
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <h2
-          id="g2EcomApp.patient.home.createOrEditLabel"
+          id="ecom02App.patient.home.createOrEditLabel"
           data-cy="PatientCreateUpdateHeading"
-          v-text="t$('g2EcomApp.patient.home.createOrEditLabel')"
+          v-text="t$('ecom02App.patient.home.createOrEditLabel')"
         ></h2>
         <div>
           <div class="form-group" v-if="patient.id">
@@ -13,7 +13,7 @@
             <input type="text" class="form-control" id="id" name="id" v-model="patient.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.prenom')" for="patient-prenom"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.prenom')" for="patient-prenom"></label>
             <input
               type="text"
               class="form-control"
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.nom')" for="patient-nom"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.nom')" for="patient-nom"></label>
             <input
               type="text"
               class="form-control"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.sexe')" for="patient-sexe"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.sexe')" for="patient-sexe"></label>
             <input
               type="text"
               class="form-control"
@@ -61,7 +61,23 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.dateDeNaissance')" for="patient-dateDeNaissance"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.taille')" for="patient-taille"></label>
+            <input
+              type="number"
+              class="form-control"
+              name="taille"
+              id="patient-taille"
+              data-cy="taille"
+              :class="{ valid: !v$.taille.$invalid, invalid: v$.taille.$invalid }"
+              v-model.number="v$.taille.$model"
+              required
+            />
+            <div v-if="v$.taille.$anyDirty && v$.taille.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.taille.$errors" :key="error.$uid">{{ error.$message }}</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" v-text="t$('ecom02App.patient.dateDeNaissance')" for="patient-dateDeNaissance"></label>
             <b-input-group class="mb-3">
               <b-input-group-prepend>
                 <b-form-datepicker
@@ -95,7 +111,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.numChambre')" for="patient-numChambre"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.numChambre')" for="patient-numChambre"></label>
             <input
               type="number"
               class="form-control"
@@ -111,45 +127,20 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.taille')" for="patient-taille"></label>
-            <input
-              type="number"
-              class="form-control"
-              name="taille"
-              id="patient-taille"
-              data-cy="taille"
-              :class="{ valid: !v$.taille.$invalid, invalid: v$.taille.$invalid }"
-              v-model.number="v$.taille.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.dateArrivee')" for="patient-dateArrivee"></label>
-            <b-input-group class="mb-3">
-              <b-input-group-prepend>
-                <b-form-datepicker
-                  aria-controls="patient-dateArrivee"
-                  v-model="v$.dateArrivee.$model"
-                  name="dateArrivee"
-                  class="form-control"
-                  :locale="currentLanguage"
-                  button-only
-                  today-button
-                  reset-button
-                  close-button
-                >
-                </b-form-datepicker>
-              </b-input-group-prepend>
-              <b-form-input
+            <label class="form-control-label" v-text="t$('ecom02App.patient.dateArrivee')" for="patient-dateArrivee"></label>
+            <div class="d-flex">
+              <input
                 id="patient-dateArrivee"
                 data-cy="dateArrivee"
-                type="text"
+                type="datetime-local"
                 class="form-control"
                 name="dateArrivee"
                 :class="{ valid: !v$.dateArrivee.$invalid, invalid: v$.dateArrivee.$invalid }"
-                v-model="v$.dateArrivee.$model"
                 required
+                :value="convertDateTimeFromServer(v$.dateArrivee.$model)"
+                @change="updateZonedDateTimeField('dateArrivee', $event)"
               />
-            </b-input-group>
+            </div>
             <div v-if="v$.dateArrivee.$anyDirty && v$.dateArrivee.$invalid">
               <small class="form-text text-danger" v-for="error of v$.dateArrivee.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
@@ -157,33 +148,42 @@
           <div class="form-group">
             <label
               class="form-control-label"
-              v-text="t$('g2EcomApp.patient.infoComplementaires')"
+              v-text="t$('ecom02App.patient.infoComplementaires')"
               for="patient-infoComplementaires"
             ></label>
-            <textarea
+            <input
+              type="text"
               class="form-control"
               name="infoComplementaires"
               id="patient-infoComplementaires"
               data-cy="infoComplementaires"
               :class="{ valid: !v$.infoComplementaires.$invalid, invalid: v$.infoComplementaires.$invalid }"
               v-model="v$.infoComplementaires.$model"
-            ></textarea>
+            />
+            <div v-if="v$.infoComplementaires.$anyDirty && v$.infoComplementaires.$invalid">
+              <small class="form-text text-danger" v-for="error of v$.infoComplementaires.$errors" :key="error.$uid">{{
+                error.$message
+              }}</small>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.medecin')" for="patient-medecin"></label>
-            <select class="form-control" id="patient-medecin" data-cy="medecin" name="medecin" v-model="patient.medecin">
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="patient.medecin && medecinOption.id === patient.medecin.id ? patient.medecin : medecinOption"
-                v-for="medecinOption in medecins"
-                :key="medecinOption.id"
-              >
-                {{ medecinOption.id }}
+            <label v-text="t$('ecom02App.patient.user')" for="patient-user"></label>
+            <select
+              class="form-control"
+              id="patient-users"
+              data-cy="user"
+              multiple
+              name="user"
+              v-if="patient.users !== undefined"
+              v-model="patient.users"
+            >
+              <option v-bind:value="getSelected(patient.users, userOption)" v-for="userOption in users" :key="userOption.id">
+                {{ userOption.id }}
               </option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="t$('g2EcomApp.patient.etablissement')" for="patient-etablissement"></label>
+            <label class="form-control-label" v-text="t$('ecom02App.patient.etablissement')" for="patient-etablissement"></label>
             <select
               class="form-control"
               id="patient-etablissement"

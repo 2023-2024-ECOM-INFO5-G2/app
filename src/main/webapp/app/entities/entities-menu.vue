@@ -4,18 +4,6 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.patient')"></span>
     </b-dropdown-item>
-    <b-dropdown-item to="/aide-soignant">
-      <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.aideSoignant')"></span>
-    </b-dropdown-item>
-    <b-dropdown-item to="/infirmiere">
-      <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.infirmiere')"></span>
-    </b-dropdown-item>
-    <b-dropdown-item to="/medecin">
-      <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.medecin')"></span>
-    </b-dropdown-item>
     <b-dropdown-item to="/etablissement">
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.etablissement')"></span>
@@ -32,9 +20,17 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.alerte')"></span>
     </b-dropdown-item>
-    <b-dropdown-item to="/mesure">
+    <b-dropdown-item to="/mesure-poids">
       <font-awesome-icon icon="asterisk" />
-      <span v-text="t$('global.menu.entities.mesure')"></span>
+      <span v-text="t$('global.menu.entities.mesurePoids')"></span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/mesure-epa">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.mesureEpa')"></span>
+    </b-dropdown-item>
+    <b-dropdown-item to="/mesure-albumine">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.mesureAlbumine')"></span>
     </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>

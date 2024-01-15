@@ -3,35 +3,35 @@
     <div class="col-8">
       <div v-if="etablissement">
         <h2 class="jh-entity-heading" data-cy="etablissementDetailsHeading">
-          <span v-text="t$('g2EcomApp.etablissement.detail.title')"></span> {{ etablissement.id }}
+          <span v-text="t$('ecom02App.etablissement.detail.title')"></span> {{ etablissement.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('g2EcomApp.etablissement.nom')"></span>
+            <span v-text="t$('ecom02App.etablissement.nom')"></span>
           </dt>
           <dd>
             <span>{{ etablissement.nom }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.etablissement.adresse')"></span>
+            <span v-text="t$('ecom02App.etablissement.adresse')"></span>
           </dt>
           <dd>
             <span>{{ etablissement.adresse }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.etablissement.ville')"></span>
+            <span v-text="t$('ecom02App.etablissement.ville')"></span>
           </dt>
           <dd>
             <span>{{ etablissement.ville }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.etablissement.codePostal')"></span>
+            <span v-text="t$('ecom02App.etablissement.codePostal')"></span>
           </dt>
           <dd>
             <span>{{ etablissement.codePostal }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.etablissement.user')"></span>
+            <span v-text="t$('ecom02App.etablissement.user')"></span>
           </dt>
           <dd>
             <span v-for="(user, i) in etablissement.users" :key="user.id"

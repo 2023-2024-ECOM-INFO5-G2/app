@@ -4,12 +4,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import PatientService from './patient.service';
-import useDataUtils from '@/shared/data/data-utils.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
-import MedecinService from '@/entities/medecin/medecin.service';
-import { type IMedecin } from '@/shared/model/medecin.model';
+import UserService from '@/entities/user/user.service';
 import EtablissementService from '@/entities/etablissement/etablissement.service';
 import { type IEtablissement } from '@/shared/model/etablissement.model';
 import { type IPatient, Patient } from '@/shared/model/patient.model';
@@ -22,10 +20,8 @@ export default defineComponent({
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const patient: Ref<IPatient> = ref(new Patient());
-
-    const medecinService = inject('medecinService', () => new MedecinService());
-
-    const medecins: Ref<IMedecin[]> = ref([]);
+    const userService = inject('userService', () => new UserService());
+    const users: Ref<Array<any>> = ref([]);
 
     const etablissementService = inject('etablissementService', () => new EtablissementService());
 
@@ -41,6 +37,7 @@ export default defineComponent({
     const retrievePatient = async patientId => {
       try {
         const res = await patientService().find(patientId);
+        res.dateArrivee = new Date(res.dateArrivee);
         patient.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -52,10 +49,10 @@ export default defineComponent({
     }
 
     const initRelationships = () => {
-      medecinService()
+      userService()
         .retrieve()
         .then(res => {
-          medecins.value = res.data;
+          users.value = res.data;
         });
       etablissementService()
         .retrieve()
@@ -66,19 +63,28 @@ export default defineComponent({
 
     initRelationships();
 
-    const dataUtils = useDataUtils();
-
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
       prenom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       nom: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
       },
       sexe: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 64 }).toString(), 64),
+      },
+      taille: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        min: validations.minValue(t$('entity.validation.min', { min: 45 }).toString(), 45),
+        max: validations.maxValue(t$('entity.validation.max', { max: 290 }).toString(), 290),
       },
       dateDeNaissance: {
         required: validations.required(t$('entity.validation.required').toString()),
@@ -87,19 +93,20 @@ export default defineComponent({
         required: validations.required(t$('entity.validation.required').toString()),
         numeric: validations.numeric(t$('entity.validation.number').toString()),
       },
-      taille: {},
       dateArrivee: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
-      infoComplementaires: {},
-      mesures: {},
-      rappel: {},
-      medecin: {},
-      etablissement: {},
-      aideSoignants: {},
-      infirmieres: {},
-      repas: {},
+      infoComplementaires: {
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 1024 }).toString(), 1024),
+      },
       alertes: {},
+      rappels: {},
+      mesurePoids: {},
+      mesureEPAS: {},
+      mesureAlbumines: {},
+      repas: {},
+      users: {},
+      etablissement: {},
     };
     const v$ = useVuelidate(validationRules, patient as any);
     v$.value.$validate();
@@ -111,14 +118,16 @@ export default defineComponent({
       previousState,
       isSaving,
       currentLanguage,
-      medecins,
+      users,
       etablissements,
-      ...dataUtils,
       v$,
+      ...useDateFormat({ entityRef: patient }),
       t$,
     };
   },
-  created(): void {},
+  created(): void {
+    this.patient.users = [];
+  },
   methods: {
     save(): void {
       this.isSaving = true;
@@ -128,7 +137,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2EcomApp.patient.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.patient.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -140,13 +149,20 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2EcomApp.patient.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.patient.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;
             this.alertService.showHttpError(error.response);
           });
       }
+    },
+
+    getSelected(selectedVals, option): any {
+      if (selectedVals) {
+        return selectedVals.find(value => option.id === value.id) ?? option;
+      }
+      return option;
     },
   },
 });

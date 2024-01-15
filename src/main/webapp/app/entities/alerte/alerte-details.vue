@@ -3,29 +3,34 @@
     <div class="col-8">
       <div v-if="alerte">
         <h2 class="jh-entity-heading" data-cy="alerteDetailsHeading">
-          <span v-text="t$('g2EcomApp.alerte.detail.title')"></span> {{ alerte.id }}
+          <span v-text="t$('ecom02App.alerte.detail.title')"></span> {{ alerte.id }}
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="t$('g2EcomApp.alerte.description')"></span>
+            <span v-text="t$('ecom02App.alerte.description')"></span>
           </dt>
           <dd>
             <span>{{ alerte.description }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.alerte.date')"></span>
+            <span v-text="t$('ecom02App.alerte.date')"></span>
           </dt>
           <dd>
-            <span>{{ alerte.date }}</span>
+            <span v-if="alerte.date">{{ formatDateLong(alerte.date) }}</span>
           </dd>
           <dt>
-            <span v-text="t$('g2EcomApp.alerte.patient')"></span>
+            <span v-text="t$('ecom02App.alerte.severe')"></span>
           </dt>
           <dd>
-            <span v-for="(patient, i) in alerte.patients" :key="patient.id"
-              >{{ i > 0 ? ', ' : '' }}
-              <router-link :to="{ name: 'PatientView', params: { patientId: patient.id } }">{{ patient.id }}</router-link>
-            </span>
+            <span>{{ alerte.severe }}</span>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.alerte.patient')"></span>
+          </dt>
+          <dd>
+            <div v-if="alerte.patient">
+              <router-link :to="{ name: 'PatientView', params: { patientId: alerte.patient.id } }">{{ alerte.patient.id }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

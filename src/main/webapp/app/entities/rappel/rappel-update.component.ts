@@ -4,13 +4,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import RappelService from './rappel.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
+import UserService from '@/entities/user/user.service';
 import PatientService from '@/entities/patient/patient.service';
 import { type IPatient } from '@/shared/model/patient.model';
-import MedecinService from '@/entities/medecin/medecin.service';
-import { type IMedecin } from '@/shared/model/medecin.model';
 import { type IRappel, Rappel } from '@/shared/model/rappel.model';
 
 export default defineComponent({
@@ -21,14 +20,12 @@ export default defineComponent({
     const alertService = inject('alertService', () => useAlertService(), true);
 
     const rappel: Ref<IRappel> = ref(new Rappel());
+    const userService = inject('userService', () => new UserService());
+    const users: Ref<Array<any>> = ref([]);
 
     const patientService = inject('patientService', () => new PatientService());
 
     const patients: Ref<IPatient[]> = ref([]);
-
-    const medecinService = inject('medecinService', () => new MedecinService());
-
-    const medecins: Ref<IMedecin[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'fr'), true);
 
@@ -40,6 +37,8 @@ export default defineComponent({
     const retrieveRappel = async rappelId => {
       try {
         const res = await rappelService().find(rappelId);
+        res.date = new Date(res.date);
+        res.echeance = new Date(res.echeance);
         rappel.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -51,15 +50,15 @@ export default defineComponent({
     }
 
     const initRelationships = () => {
+      userService()
+        .retrieve()
+        .then(res => {
+          users.value = res.data;
+        });
       patientService()
         .retrieve()
         .then(res => {
           patients.value = res.data;
-        });
-      medecinService()
-        .retrieve()
-        .then(res => {
-          medecins.value = res.data;
         });
     };
 
@@ -68,17 +67,28 @@ export default defineComponent({
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
-      frequence: {
+      date: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
       echeance: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
+      intervaleJours: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+        min: validations.minValue(t$('entity.validation.min', { min: 1 }).toString(), 1),
+        max: validations.maxValue(t$('entity.validation.max', { max: 366 }).toString(), 366),
+      },
       tache: {
         required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
       },
+      feeDansLetang: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
+      users: {},
       patient: {},
-      medecins: {},
     };
     const v$ = useVuelidate(validationRules, rappel as any);
     v$.value.$validate();
@@ -90,14 +100,15 @@ export default defineComponent({
       previousState,
       isSaving,
       currentLanguage,
+      users,
       patients,
-      medecins,
       v$,
+      ...useDateFormat({ entityRef: rappel }),
       t$,
     };
   },
   created(): void {
-    this.rappel.medecins = [];
+    this.rappel.users = [];
   },
   methods: {
     save(): void {
@@ -108,7 +119,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2EcomApp.rappel.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.rappel.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -120,7 +131,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2EcomApp.rappel.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.rappel.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

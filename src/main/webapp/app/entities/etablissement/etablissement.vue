@@ -1,11 +1,11 @@
 <template>
   <div>
     <h2 id="page-heading" data-cy="EtablissementHeading">
-      <span v-text="t$('g2EcomApp.etablissement.home.title')" id="etablissement-heading"></span>
+      <span v-text="t$('ecom02App.etablissement.home.title')" id="etablissement-heading"></span>
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
-          <span v-text="t$('g2EcomApp.etablissement.home.refreshListLabel')"></span>
+          <span v-text="t$('ecom02App.etablissement.home.refreshListLabel')"></span>
         </button>
         <router-link :to="{ name: 'EtablissementCreate' }" custom v-slot="{ navigate }">
           <button
@@ -15,25 +15,25 @@
             class="btn btn-primary jh-create-entity create-etablissement"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span v-text="t$('g2EcomApp.etablissement.home.createLabel')"></span>
+            <span v-text="t$('ecom02App.etablissement.home.createLabel')"></span>
           </button>
         </router-link>
       </div>
     </h2>
     <br />
     <div class="alert alert-warning" v-if="!isFetching && etablissements && etablissements.length === 0">
-      <span v-text="t$('g2EcomApp.etablissement.home.notFound')"></span>
+      <span v-text="t$('ecom02App.etablissement.home.notFound')"></span>
     </div>
     <div class="table-responsive" v-if="etablissements && etablissements.length > 0">
       <table class="table table-striped" aria-describedby="etablissements">
         <thead>
           <tr>
             <th scope="row"><span v-text="t$('global.field.id')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.etablissement.nom')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.etablissement.adresse')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.etablissement.ville')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.etablissement.codePostal')"></span></th>
-            <th scope="row"><span v-text="t$('g2EcomApp.etablissement.user')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.etablissement.nom')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.etablissement.adresse')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.etablissement.ville')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.etablissement.codePostal')"></span></th>
+            <th scope="row"><span v-text="t$('ecom02App.etablissement.user')"></span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -95,13 +95,13 @@
     <b-modal ref="removeEntity" id="removeEntity">
       <template #modal-title>
         <span
-          id="g2EcomApp.etablissement.delete.question"
+          id="ecom02App.etablissement.delete.question"
           data-cy="etablissementDeleteDialogHeading"
           v-text="t$('entity.delete.title')"
         ></span>
       </template>
       <div class="modal-body">
-        <p id="jhi-delete-etablissement-heading" v-text="t$('g2EcomApp.etablissement.delete.question', { id: removeId })"></p>
+        <p id="jhi-delete-etablissement-heading" v-text="t$('ecom02App.etablissement.delete.question', { id: removeId })"></p>
       </div>
       <template #modal-footer>
         <div>

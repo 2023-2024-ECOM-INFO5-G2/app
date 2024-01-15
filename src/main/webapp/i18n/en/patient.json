@@ -1,5 +1,5 @@
 {
-  "g2EcomApp": {
+  "ecom02App": {
     "patient": {
       "home": {
         "title": "Patients",
@@ -18,25 +18,35 @@
         "title": "Patient"
       },
       "id": "ID",
-      "prenom": "Name",
-      "nom": "Surname",
-      "sexe": "Gender",
-      "dateDeNaissance": "Birth date",
-      "numChambre": "Room number",
-      "taille": "Height",
-      "dateArrivee": "Arrival Date",
-      "infoComplementaires": "Additional information",
-      "mesure": "Measure",
-      "rappel": "Reminder",
-      "medecin": "Doctor",
-      "etablissement": "Establishment",
-      "aideSoignant": "Nursing assistant",
-      "infirmiere": "Nurse",
-      "repas": "Meal",
-      "alerte": "Alert",
-      "poids": "Weight (kg)",
-      "EPA": "EPA",
-      "IMC": "BMI"
+      "prenom": "Prenom",
+      "nom": "Nom",
+      "sexe": "Sexe",
+      "taille": "Taille",
+      "dateDeNaissance": "Date De Naissance",
+      "numChambre": "Num Chambre",
+      "dateArrivee": "Date Arrivee",
+      "infoComplementaires": "Info Complementaires",
+      "alerte": "Alerte",
+      "rappel": "Rappel",
+      "mesurePoids": "Mesure Poids",
+      "mesureEPA": "Mesure EPA",
+      "mesureAlbumine": "Mesure Albumine",
+      "repas": "Repas",
+      "user": "User",
+      "etablissement": "Etablissement",
+      "addValue": "Add measure",
+      "noData": "No data",
+      "modify": "Update a previous measure",
+      "save": "Save",
+      "close": "Close",
+      "addWeightMeasure": "Add weight measure",
+      "updateWeightMeasure": "Update weight measures",
+      "addEPAMeasure": "Add EPA measure",
+      "updateEPAMeasure": "Update EPA measures",
+      "addAlbuMeasure": "Add Albumine measure",
+      "updateAlbuMeasure": "Update Albumine measures",
+      "noMeal": "No meal given",
+      "addMeal": "Add meal"
     }
   }
 }

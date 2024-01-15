@@ -1,5 +1,5 @@
 {
-  "g2EcomApp": {
+  "ecom02App": {
     "alerte": {
       "home": {
         "title": "Alertes",
@@ -20,8 +20,8 @@
       "id": "ID",
       "description": "Description",
       "date": "Date",
-      "patient": "Patient",
-      "medecin": "Medecin"
+      "severe": "Severe",
+      "patient": "Patient"
     }
   }
 }

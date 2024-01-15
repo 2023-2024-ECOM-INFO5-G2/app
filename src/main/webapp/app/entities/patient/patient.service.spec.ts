@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dayjs from 'dayjs';
 
 import PatientService from './patient.service';
-import { DATE_FORMAT } from '@/shared/composables/date-format';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/shared/composables/date-format';
 import { Patient } from '@/shared/model/patient.model';
 
 const error = {
@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new PatientService();
       currentDate = new Date();
-      elemDefault = new Patient(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 0, 0, currentDate, 'AAAAAAA');
+      elemDefault = new Patient(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, 0, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -41,7 +41,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
-            dateArrivee: dayjs(currentDate).format(DATE_FORMAT),
+            dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -67,7 +67,7 @@ describe('Service Tests', () => {
           {
             id: 123,
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
-            dateArrivee: dayjs(currentDate).format(DATE_FORMAT),
+            dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault,
         );
@@ -102,10 +102,10 @@ describe('Service Tests', () => {
             prenom: 'BBBBBB',
             nom: 'BBBBBB',
             sexe: 'BBBBBB',
+            taille: 1,
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
             numChambre: 1,
-            taille: 1,
-            dateArrivee: dayjs(currentDate).format(DATE_FORMAT),
+            dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
             infoComplementaires: 'BBBBBB',
           },
           elemDefault,
@@ -139,8 +139,12 @@ describe('Service Tests', () => {
       it('should partial update a Patient', async () => {
         const patchObject = Object.assign(
           {
+            prenom: 'BBBBBB',
+            nom: 'BBBBBB',
             sexe: 'BBBBBB',
+            taille: 1,
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
+            dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           new Patient(),
         );
@@ -177,10 +181,10 @@ describe('Service Tests', () => {
             prenom: 'BBBBBB',
             nom: 'BBBBBB',
             sexe: 'BBBBBB',
+            taille: 1,
             dateDeNaissance: dayjs(currentDate).format(DATE_FORMAT),
             numChambre: 1,
-            taille: 1,
-            dateArrivee: dayjs(currentDate).format(DATE_FORMAT),
+            dateArrivee: dayjs(currentDate).format(DATE_TIME_FORMAT),
             infoComplementaires: 'BBBBBB',
           },
           elemDefault,

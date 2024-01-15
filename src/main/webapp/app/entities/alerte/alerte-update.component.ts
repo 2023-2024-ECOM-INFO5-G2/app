@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
 import AlerteService from './alerte.service';
-import { useValidation } from '@/shared/composables';
+import { useValidation, useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
 import PatientService from '@/entities/patient/patient.service';
@@ -34,6 +34,7 @@ export default defineComponent({
     const retrieveAlerte = async alerteId => {
       try {
         const res = await alerteService().find(alerteId);
+        res.date = new Date(res.date);
         alerte.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
@@ -57,10 +58,18 @@ export default defineComponent({
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
-      description: {},
-      date: {},
-      patients: {},
-      medecins: {},
+      description: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        minLength: validations.minLength(t$('entity.validation.minlength', { min: 3 }).toString(), 3),
+        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 512 }).toString(), 512),
+      },
+      date: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
+      severe: {
+        required: validations.required(t$('entity.validation.required').toString()),
+      },
+      patient: {},
     };
     const v$ = useVuelidate(validationRules, alerte as any);
     v$.value.$validate();
@@ -74,12 +83,11 @@ export default defineComponent({
       currentLanguage,
       patients,
       v$,
+      ...useDateFormat({ entityRef: alerte }),
       t$,
     };
   },
-  created(): void {
-    this.alerte.patients = [];
-  },
+  created(): void {},
   methods: {
     save(): void {
       this.isSaving = true;
@@ -89,7 +97,7 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('g2EcomApp.alerte.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('ecom02App.alerte.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
@@ -101,20 +109,13 @@ export default defineComponent({
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('g2EcomApp.alerte.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('ecom02App.alerte.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;
             this.alertService.showHttpError(error.response);
           });
       }
-    },
-
-    getSelected(selectedVals, option): any {
-      if (selectedVals) {
-        return selectedVals.find(value => option.id === value.id) ?? option;
-      }
-      return option;
     },
   },
 });

@@ -76,7 +76,13 @@ public class RepasGatlingTest extends Simulation {
                         .headers(headers_http_authenticated)
                         .body(
                             StringBody(
-                                "{" + "\"nom\": \"SAMPLE_TEXT\"" + ", \"description\": \"SAMPLE_TEXT\"" + ", \"apportCalorique\": 0" + "}"
+                                "{" +
+                                "\"nom\": \"SAMPLE_TEXT\"" +
+                                ", \"date\": \"2020-01-01T00:00:00.000Z\"" +
+                                ", \"apportCalorique\": 0" +
+                                ", \"poidsConsomme\": 0" +
+                                ", \"description\": \"SAMPLE_TEXT\"" +
+                                "}"
                             )
                         )
                         .asJson()

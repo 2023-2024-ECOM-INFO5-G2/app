@@ -4,12 +4,14 @@ import { shallowMount, type MountingOptions } from '@vue/test-utils';
 import sinon, { type SinonStubbedInstance } from 'sinon';
 import { type RouteLocation } from 'vue-router';
 
+import dayjs from 'dayjs';
 import RappelUpdate from './rappel-update.vue';
 import RappelService from './rappel.service';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/composables/date-format';
 import AlertService from '@/shared/alert/alert.service';
 
+import UserService from '@/entities/user/user.service';
 import PatientService from '@/entities/patient/patient.service';
-import MedecinService from '@/entities/medecin/medecin.service';
 
 type RappelUpdateComponentType = InstanceType<typeof RappelUpdate>;
 
@@ -54,12 +56,13 @@ describe('Component Tests', () => {
         provide: {
           alertService,
           rappelService: () => rappelServiceStub,
-          patientService: () =>
-            sinon.createStubInstance<PatientService>(PatientService, {
+
+          userService: () =>
+            sinon.createStubInstance<UserService>(UserService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
-          medecinService: () =>
-            sinon.createStubInstance<MedecinService>(MedecinService, {
+          patientService: () =>
+            sinon.createStubInstance<PatientService>(PatientService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },
@@ -68,6 +71,27 @@ describe('Component Tests', () => {
 
     afterEach(() => {
       vitest.resetAllMocks();
+    });
+
+    describe('load', () => {
+      beforeEach(() => {
+        const wrapper = shallowMount(RappelUpdate, { global: mountOptions });
+        comp = wrapper.vm;
+      });
+      it('Should convert date from string', () => {
+        // GIVEN
+        const date = new Date('2019-10-15T11:42:02Z');
+
+        // WHEN
+        const convertedDate = comp.convertDateTimeFromServer(date);
+
+        // THEN
+        expect(convertedDate).toEqual(dayjs(date).format(DATE_TIME_LONG_FORMAT));
+      });
+
+      it('Should not convert date if date is not present', () => {
+        expect(comp.convertDateTimeFromServer(null)).toBeNull();
+      });
     });
 
     describe('save', () => {

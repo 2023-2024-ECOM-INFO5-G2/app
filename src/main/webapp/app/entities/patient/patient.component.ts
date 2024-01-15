@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import PatientService from './patient.service';
 import { type IPatient } from '@/shared/model/patient.model';
 import EtablissementService from '../etablissement/etablissement.service';
-import useDataUtils from '@/shared/data/data-utils.service';
+import { useDateFormat } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 import type { IEtablissement } from 'shared/model/etablissement.model';
 
@@ -13,7 +13,7 @@ export default defineComponent({
   name: 'Patient',
   setup() {
     const { t: t$ } = useI18n();
-    const dataUtils = useDataUtils();
+    const dateFormat = useDateFormat();
     const patientService = inject('patientService', () => new PatientService());
     const etablissementService = inject('etablissementService', () => new EtablissementService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -43,7 +43,7 @@ export default defineComponent({
       try {
         const res = await patientService().retrieve();
         patients.value = res.data;
-      } catch (err: any) {
+      } catch (err) {
         alertService.showHttpError(err.response);
       } finally {
         isFetching.value = false;
@@ -56,8 +56,30 @@ export default defineComponent({
 
     onMounted(async () => {
       await retrievePatients();
-      await retrieveEtablissements(); //FIXME : à supprimer ???
+      await retrieveEtablissements();
     });
+
+    const removeId: Ref<number> = ref(null);
+    const removeEntity = ref<any>(null);
+    const prepareRemove = (instance: IPatient) => {
+      removeId.value = instance.id;
+      removeEntity.value.show();
+    };
+    const closeDialog = () => {
+      removeEntity.value.hide();
+    };
+    const removePatient = async () => {
+      try {
+        await patientService().delete(removeId.value);
+        const message = t$('ecom02App.patient.deleted', { param: removeId.value }).toString();
+        alertService.showInfo(message, { variant: 'danger' });
+        removeId.value = null;
+        retrievePatients();
+        closeDialog();
+      } catch (error) {
+        alertService.showHttpError(error.response);
+      }
+    };
 
     return {
       patients,
@@ -67,8 +89,13 @@ export default defineComponent({
       retrievePatients,
       clear,
       selectedetablissement,
+      ...dateFormat,
+      removeId,
+      removeEntity,
+      prepareRemove,
+      closeDialog,
+      removePatient,
       t$,
-      ...dataUtils,
     };
   },
 });

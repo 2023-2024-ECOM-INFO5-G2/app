@@ -3,17 +3,21 @@ import { type IPatient } from '@/shared/model/patient.model';
 export interface IRepas {
   id?: number;
   nom?: string;
-  description?: string;
-  apportCalorique?: number;
-  patients?: IPatient[] | null;
+  date?: Date;
+  apportCalorique?: number | null;
+  poidsConsomme?: number | null;
+  description?: string | null;
+  patient?: IPatient | null;
 }
 
 export class Repas implements IRepas {
   constructor(
     public id?: number,
     public nom?: string,
-    public description?: string,
-    public apportCalorique?: number,
-    public patients?: IPatient[] | null,
+    public date?: Date,
+    public apportCalorique?: number | null,
+    public poidsConsomme?: number | null,
+    public description?: string | null,
+    public patient?: IPatient | null,
   ) {}
 }

@@ -1,11 +1,11 @@
-id;description;date
-1;étant donné que ouf;2023-11-07
-2;taire;2023-11-07
-3;que;2023-11-06
-4;à la merci;2023-11-06
-5;ça ronron svelte;2023-11-07
-6;assez;2023-11-07
-7;pourvu que combien;2023-11-07
-8;substituer malgré euh;2023-11-07
-9;obtenir spécialiste;2023-11-07
-10;prout tendre;2023-11-06
+id;description;date;severe
+1;ouch de façon que timide;2023-12-19T08:20:10;true
+2;certainement sale avant;2023-12-19T00:05:03;false
+3;au point que après agréable;2023-12-18T16:31:02;true
+4;dense;2023-12-18T21:47:36;false
+5;tant;2023-12-18T23:53:58;false
+6;glouglou autour;2023-12-18T22:13:52;false
+7;administration;2023-12-19T09:29:31;true
+8;soutenir afin que smack;2023-12-18T14:26:55;true
+9;responsable;2023-12-19T06:15:23;true
+10;athlète;2023-12-18T15:16:07;false

@@ -7,18 +7,6 @@ const Patient = () => import('@/entities/patient/patient.vue');
 const PatientUpdate = () => import('@/entities/patient/patient-update.vue');
 const PatientDetails = () => import('@/entities/patient/patient-details.vue');
 
-const AideSoignant = () => import('@/entities/aide-soignant/aide-soignant.vue');
-const AideSoignantUpdate = () => import('@/entities/aide-soignant/aide-soignant-update.vue');
-const AideSoignantDetails = () => import('@/entities/aide-soignant/aide-soignant-details.vue');
-
-const Infirmiere = () => import('@/entities/infirmiere/infirmiere.vue');
-const InfirmiereUpdate = () => import('@/entities/infirmiere/infirmiere-update.vue');
-const InfirmiereDetails = () => import('@/entities/infirmiere/infirmiere-details.vue');
-
-const Medecin = () => import('@/entities/medecin/medecin.vue');
-const MedecinUpdate = () => import('@/entities/medecin/medecin-update.vue');
-const MedecinDetails = () => import('@/entities/medecin/medecin-details.vue');
-
 const Etablissement = () => import('@/entities/etablissement/etablissement.vue');
 const EtablissementUpdate = () => import('@/entities/etablissement/etablissement-update.vue');
 const EtablissementDetails = () => import('@/entities/etablissement/etablissement-details.vue');
@@ -35,9 +23,17 @@ const Alerte = () => import('@/entities/alerte/alerte.vue');
 const AlerteUpdate = () => import('@/entities/alerte/alerte-update.vue');
 const AlerteDetails = () => import('@/entities/alerte/alerte-details.vue');
 
-const Mesure = () => import('@/entities/mesure/mesure.vue');
-const MesureUpdate = () => import('@/entities/mesure/mesure-update.vue');
-const MesureDetails = () => import('@/entities/mesure/mesure-details.vue');
+const MesurePoids = () => import('@/entities/mesure-poids/mesure-poids.vue');
+const MesurePoidsUpdate = () => import('@/entities/mesure-poids/mesure-poids-update.vue');
+const MesurePoidsDetails = () => import('@/entities/mesure-poids/mesure-poids-details.vue');
+
+const MesureEPA = () => import('@/entities/mesure-epa/mesure-epa.vue');
+const MesureEPAUpdate = () => import('@/entities/mesure-epa/mesure-epa-update.vue');
+const MesureEPADetails = () => import('@/entities/mesure-epa/mesure-epa-details.vue');
+
+const MesureAlbumine = () => import('@/entities/mesure-albumine/mesure-albumine.vue');
+const MesureAlbumineUpdate = () => import('@/entities/mesure-albumine/mesure-albumine-update.vue');
+const MesureAlbumineDetails = () => import('@/entities/mesure-albumine/mesure-albumine-details.vue');
 
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
@@ -67,78 +63,6 @@ export default {
       path: 'patient/:patientId/view',
       name: 'PatientView',
       component: PatientDetails,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'aide-soignant',
-      name: 'AideSoignant',
-      component: AideSoignant,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'aide-soignant/new',
-      name: 'AideSoignantCreate',
-      component: AideSoignantUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'aide-soignant/:aideSoignantId/edit',
-      name: 'AideSoignantEdit',
-      component: AideSoignantUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'aide-soignant/:aideSoignantId/view',
-      name: 'AideSoignantView',
-      component: AideSoignantDetails,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'infirmiere',
-      name: 'Infirmiere',
-      component: Infirmiere,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'infirmiere/new',
-      name: 'InfirmiereCreate',
-      component: InfirmiereUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'infirmiere/:infirmiereId/edit',
-      name: 'InfirmiereEdit',
-      component: InfirmiereUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'infirmiere/:infirmiereId/view',
-      name: 'InfirmiereView',
-      component: InfirmiereDetails,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'medecin',
-      name: 'Medecin',
-      component: Medecin,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'medecin/new',
-      name: 'MedecinCreate',
-      component: MedecinUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'medecin/:medecinId/edit',
-      name: 'MedecinEdit',
-      component: MedecinUpdate,
-      meta: { authorities: [Authority.USER] },
-    },
-    {
-      path: 'medecin/:medecinId/view',
-      name: 'MedecinView',
-      component: MedecinDetails,
       meta: { authorities: [Authority.USER] },
     },
     {
@@ -238,27 +162,75 @@ export default {
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'mesure',
-      name: 'Mesure',
-      component: Mesure,
+      path: 'mesure-poids',
+      name: 'MesurePoids',
+      component: MesurePoids,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'mesure/new',
-      name: 'MesureCreate',
-      component: MesureUpdate,
+      path: 'mesure-poids/new',
+      name: 'MesurePoidsCreate',
+      component: MesurePoidsUpdate,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'mesure/:mesureId/edit',
-      name: 'MesureEdit',
-      component: MesureUpdate,
+      path: 'mesure-poids/:mesurePoidsId/edit',
+      name: 'MesurePoidsEdit',
+      component: MesurePoidsUpdate,
       meta: { authorities: [Authority.USER] },
     },
     {
-      path: 'mesure/:mesureId/view',
-      name: 'MesureView',
-      component: MesureDetails,
+      path: 'mesure-poids/:mesurePoidsId/view',
+      name: 'MesurePoidsView',
+      component: MesurePoidsDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-epa',
+      name: 'MesureEPA',
+      component: MesureEPA,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-epa/new',
+      name: 'MesureEPACreate',
+      component: MesureEPAUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-epa/:mesureEPAId/edit',
+      name: 'MesureEPAEdit',
+      component: MesureEPAUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-epa/:mesureEPAId/view',
+      name: 'MesureEPAView',
+      component: MesureEPADetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-albumine',
+      name: 'MesureAlbumine',
+      component: MesureAlbumine,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-albumine/new',
+      name: 'MesureAlbumineCreate',
+      component: MesureAlbumineUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-albumine/:mesureAlbumineId/edit',
+      name: 'MesureAlbumineEdit',
+      component: MesureAlbumineUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'mesure-albumine/:mesureAlbumineId/view',
+      name: 'MesureAlbumineView',
+      component: MesureAlbumineDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
