@@ -21,7 +21,11 @@
       "description": "Description",
       "date": "Date",
       "severe": "Severe",
-      "patient": "Patient"
+      "code": "Code",
+      "patient": "Patient",
+      "mesureEPA": "Mesure EPA",
+      "mesureAlbumine": "Mesure Albumine",
+      "mesurePoids": "Mesure Poids"
     }
   }
 }

@@ -1,6 +1,7 @@
 package polytech.ecom.g02.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static polytech.ecom.g02.domain.AlerteTestSamples.*;
 import static polytech.ecom.g02.domain.MesureEPATestSamples.*;
 import static polytech.ecom.g02.domain.PatientTestSamples.*;
 
@@ -33,5 +34,19 @@ class MesureEPATest {
 
         mesureEPA.patient(null);
         assertThat(mesureEPA.getPatient()).isNull();
+    }
+
+    @Test
+    void alerteTest() throws Exception {
+        MesureEPA mesureEPA = getMesureEPARandomSampleGenerator();
+        Alerte alerteBack = getAlerteRandomSampleGenerator();
+
+        mesureEPA.setAlerte(alerteBack);
+        assertThat(mesureEPA.getAlerte()).isEqualTo(alerteBack);
+        assertThat(alerteBack.getMesureEPA()).isEqualTo(mesureEPA);
+
+        mesureEPA.alerte(null);
+        assertThat(mesureEPA.getAlerte()).isNull();
+        assertThat(alerteBack.getMesureEPA()).isNull();
     }
 }

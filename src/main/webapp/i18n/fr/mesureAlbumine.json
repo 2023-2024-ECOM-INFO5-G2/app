@@ -20,7 +20,8 @@
       "id": "ID",
       "valeur": "Valeur",
       "date": "Date",
-      "patient": "Patient"
+      "patient": "Patient",
+      "alerte": "Alerte"
     }
   }
 }

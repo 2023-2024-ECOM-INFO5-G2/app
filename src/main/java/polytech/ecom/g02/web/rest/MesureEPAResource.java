@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import polytech.ecom.g02.domain.Alerte;
 import polytech.ecom.g02.domain.MesureEPA;
+import polytech.ecom.g02.domain.Patient;
 import polytech.ecom.g02.repository.AlerteRepository;
 import polytech.ecom.g02.repository.MesureEPARepository;
+import polytech.ecom.g02.repository.PatientRepository;
 import polytech.ecom.g02.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -38,21 +40,52 @@ public class MesureEPAResource {
 
     private final MesureEPARepository mesureEPARepository;
     private final AlerteRepository alerteRepository;
+    private final PatientRepository patientRepository;
 
-    public MesureEPAResource(MesureEPARepository mesureEPARepository, AlerteRepository alerteRepository) {
+    public MesureEPAResource(
+        MesureEPARepository mesureEPARepository,
+        AlerteRepository alerteRepository,
+        PatientRepository patientRepository
+    ) {
         this.mesureEPARepository = mesureEPARepository;
         this.alerteRepository = alerteRepository;
+        this.patientRepository = patientRepository;
+    }
+
+    private boolean isNewest(Patient patient, ZonedDateTime date) {
+        Set<MesureEPA> mesures = patient.getMesureEPAS();
+
+        for (MesureEPA mesure : mesures) {
+            if (mesure.getDate().isAfter(date)) return false;
+        }
+        return true;
     }
 
     private void check(MesureEPA mesureEPA) {
+        if (mesureEPA.getPatient() == null) return;
+        Patient patient = patientRepository.getReferenceById(mesureEPA.getPatient().getId()).addMesureEPA(mesureEPA);
+        if (!isNewest(patient, mesureEPA.getDate())) return;
+        Set<Alerte> alertes = patient.getAlertes();
+        if (alertes != null) {
+            for (Alerte alerte : alertes) {
+                if (alerte.getMesureEPA() != null) {
+                    alerteRepository.deleteById(alerte.getId());
+                    patient.removeAlerte(alerte);
+                }
+            }
+        }
         if (mesureEPA.getValeur() < 7) {
             Alerte alerte = new Alerte();
+            alerte.setMesureEPA(mesureEPA);
             alerte.setSevere(false);
-            alerte.setPatient(mesureEPA.getPatient());
+            alerte.setPatient(patient);
+            alerte.setCode(40);
             alerte.setDescription("Attention EPA faible : " + mesureEPA.getValeur());
             alerte.setDate(mesureEPA.getDate());
+            patient.addAlerte(alerte);
             alerteRepository.save(alerte);
         }
+        patientRepository.save(patient);
     }
 
     /**
@@ -68,9 +101,8 @@ public class MesureEPAResource {
         if (mesureEPA.getId() != null) {
             throw new BadRequestAlertException("A new mesureEPA cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MesureEPA result = mesureEPARepository.save(mesureEPA);
 
-        // On vérifie si la mesureEPA est en dehors des normes
+        MesureEPA result = mesureEPARepository.save(mesureEPA);
         check(mesureEPA);
 
         return ResponseEntity
@@ -106,8 +138,15 @@ public class MesureEPAResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        try {
+            alerteRepository.deleteById(mesureEPARepository.getReferenceById(mesureEPA.getId()).getAlerte().getId());
+        } catch (Exception e) {
+            //Nothing to do here
+        }
+
         MesureEPA result = mesureEPARepository.save(mesureEPA);
-        check(mesureEPARepository.getReferenceById(mesureEPA.getId()));
+        check(mesureEPA);
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mesureEPA.getId().toString()))
@@ -165,10 +204,18 @@ public class MesureEPAResource {
     /**
      * {@code GET  /mesure-epas} : get all the mesureEPAS.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mesureEPAS in body.
      */
     @GetMapping("")
-    public List<MesureEPA> getAllMesureEPAS() {
+    public List<MesureEPA> getAllMesureEPAS(@RequestParam(required = false) String filter) {
+        if ("alerte-is-null".equals(filter)) {
+            log.debug("REST request to get all MesureEPAs where alerte is null");
+            return StreamSupport
+                .stream(mesureEPARepository.findAll().spliterator(), false)
+                .filter(mesureEPA -> mesureEPA.getAlerte() == null)
+                .toList();
+        }
         log.debug("REST request to get all MesureEPAS");
         return mesureEPARepository.findAll();
     }
@@ -195,6 +242,11 @@ public class MesureEPAResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMesureEPA(@PathVariable Long id) {
         log.debug("REST request to delete MesureEPA : {}", id);
+        try {
+            alerteRepository.deleteById(mesureEPARepository.getReferenceById(id).getAlerte().getId());
+        } catch (Exception e) {
+            //Nothing to do here
+        }
         mesureEPARepository.deleteById(id);
         return ResponseEntity
             .noContent()

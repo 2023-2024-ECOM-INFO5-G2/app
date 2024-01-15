@@ -25,11 +25,47 @@
             <span>{{ alerte.severe }}</span>
           </dd>
           <dt>
+            <span v-text="t$('ecom02App.alerte.code')"></span>
+          </dt>
+          <dd>
+            <span>{{ alerte.code }}</span>
+          </dd>
+          <dt>
             <span v-text="t$('ecom02App.alerte.patient')"></span>
           </dt>
           <dd>
             <div v-if="alerte.patient">
               <router-link :to="{ name: 'PatientView', params: { patientId: alerte.patient.id } }">{{ alerte.patient.id }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.alerte.mesureEPA')"></span>
+          </dt>
+          <dd>
+            <div v-if="alerte.mesureEPA">
+              <router-link :to="{ name: 'MesureEPAView', params: { mesureEPAId: alerte.mesureEPA.id } }">{{
+                alerte.mesureEPA.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.alerte.mesureAlbumine')"></span>
+          </dt>
+          <dd>
+            <div v-if="alerte.mesureAlbumine">
+              <router-link :to="{ name: 'MesureAlbumineView', params: { mesureAlbumineId: alerte.mesureAlbumine.id } }">{{
+                alerte.mesureAlbumine.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span v-text="t$('ecom02App.alerte.mesurePoids')"></span>
+          </dt>
+          <dd>
+            <div v-if="alerte.mesurePoids">
+              <router-link :to="{ name: 'MesurePoidsView', params: { mesurePoidsId: alerte.mesurePoids.id } }">{{
+                alerte.mesurePoids.id
+              }}</router-link>
             </div>
           </dd>
         </dl>

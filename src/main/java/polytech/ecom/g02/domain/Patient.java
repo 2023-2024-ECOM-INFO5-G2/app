@@ -67,7 +67,7 @@ public class Patient implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "mesureEPA", "mesureAlbumine", "mesurePoids" }, allowSetters = true)
     private Set<Alerte> alertes = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
@@ -77,17 +77,17 @@ public class Patient implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alertes" }, allowSetters = true)
     private Set<MesurePoids> mesurePoids = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
     private Set<MesureEPA> mesureEPAS = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patient", "alerte" }, allowSetters = true)
     private Set<MesureAlbumine> mesureAlbumines = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
@@ -247,6 +247,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addAlerte(Alerte alerte) {
+        if (this.alertes == null) this.alertes = new HashSet<>();
         this.alertes.add(alerte);
         alerte.setPatient(this);
         return this;
@@ -309,6 +310,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesurePoids(MesurePoids mesurePoids) {
+        if (this.mesurePoids == null) this.mesurePoids = new HashSet<>();
         this.mesurePoids.add(mesurePoids);
         mesurePoids.setPatient(this);
         return this;
@@ -340,6 +342,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesureEPA(MesureEPA mesureEPA) {
+        if (this.mesureEPAS == null) this.mesureEPAS = new HashSet<>();
         this.mesureEPAS.add(mesureEPA);
         mesureEPA.setPatient(this);
         return this;
@@ -371,6 +374,7 @@ public class Patient implements Serializable {
     }
 
     public Patient addMesureAlbumine(MesureAlbumine mesureAlbumine) {
+        if (this.mesureAlbumines == null) this.mesureAlbumines = new HashSet<>();
         this.mesureAlbumines.add(mesureAlbumine);
         mesureAlbumine.setPatient(this);
         return this;

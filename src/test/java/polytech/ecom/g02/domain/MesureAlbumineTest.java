@@ -1,6 +1,7 @@
 package polytech.ecom.g02.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static polytech.ecom.g02.domain.AlerteTestSamples.*;
 import static polytech.ecom.g02.domain.MesureAlbumineTestSamples.*;
 import static polytech.ecom.g02.domain.PatientTestSamples.*;
 
@@ -33,5 +34,19 @@ class MesureAlbumineTest {
 
         mesureAlbumine.patient(null);
         assertThat(mesureAlbumine.getPatient()).isNull();
+    }
+
+    @Test
+    void alerteTest() throws Exception {
+        MesureAlbumine mesureAlbumine = getMesureAlbumineRandomSampleGenerator();
+        Alerte alerteBack = getAlerteRandomSampleGenerator();
+
+        mesureAlbumine.setAlerte(alerteBack);
+        assertThat(mesureAlbumine.getAlerte()).isEqualTo(alerteBack);
+        assertThat(alerteBack.getMesureAlbumine()).isEqualTo(mesureAlbumine);
+
+        mesureAlbumine.alerte(null);
+        assertThat(mesureAlbumine.getAlerte()).isNull();
+        assertThat(alerteBack.getMesureAlbumine()).isNull();
     }
 }

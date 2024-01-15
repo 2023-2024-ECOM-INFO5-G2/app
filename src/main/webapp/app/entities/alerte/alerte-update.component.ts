@@ -9,6 +9,12 @@ import { useAlertService } from '@/shared/alert/alert.service';
 
 import PatientService from '@/entities/patient/patient.service';
 import { type IPatient } from '@/shared/model/patient.model';
+import MesureEPAService from '@/entities/mesure-epa/mesure-epa.service';
+import { type IMesureEPA } from '@/shared/model/mesure-epa.model';
+import MesureAlbumineService from '@/entities/mesure-albumine/mesure-albumine.service';
+import { type IMesureAlbumine } from '@/shared/model/mesure-albumine.model';
+import MesurePoidsService from '@/entities/mesure-poids/mesure-poids.service';
+import { type IMesurePoids } from '@/shared/model/mesure-poids.model';
 import { type IAlerte, Alerte } from '@/shared/model/alerte.model';
 
 export default defineComponent({
@@ -23,6 +29,18 @@ export default defineComponent({
     const patientService = inject('patientService', () => new PatientService());
 
     const patients: Ref<IPatient[]> = ref([]);
+
+    const mesureEPAService = inject('mesureEPAService', () => new MesureEPAService());
+
+    const mesureEPAS: Ref<IMesureEPA[]> = ref([]);
+
+    const mesureAlbumineService = inject('mesureAlbumineService', () => new MesureAlbumineService());
+
+    const mesureAlbumines: Ref<IMesureAlbumine[]> = ref([]);
+
+    const mesurePoidsService = inject('mesurePoidsService', () => new MesurePoidsService());
+
+    const mesurePoids: Ref<IMesurePoids[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'fr'), true);
 
@@ -51,6 +69,21 @@ export default defineComponent({
         .then(res => {
           patients.value = res.data;
         });
+      mesureEPAService()
+        .retrieve()
+        .then(res => {
+          mesureEPAS.value = res.data;
+        });
+      mesureAlbumineService()
+        .retrieve()
+        .then(res => {
+          mesureAlbumines.value = res.data;
+        });
+      mesurePoidsService()
+        .retrieve()
+        .then(res => {
+          mesurePoids.value = res.data;
+        });
     };
 
     initRelationships();
@@ -69,7 +102,14 @@ export default defineComponent({
       severe: {
         required: validations.required(t$('entity.validation.required').toString()),
       },
+      code: {
+        required: validations.required(t$('entity.validation.required').toString()),
+        numeric: validations.numeric(t$('entity.validation.number').toString()),
+      },
       patient: {},
+      mesureEPA: {},
+      mesureAlbumine: {},
+      mesurePoids: {},
     };
     const v$ = useVuelidate(validationRules, alerte as any);
     v$.value.$validate();
@@ -82,6 +122,9 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       patients,
+      mesureEPAS,
+      mesureAlbumines,
+      mesurePoids,
       v$,
       ...useDateFormat({ entityRef: alerte }),
       t$,

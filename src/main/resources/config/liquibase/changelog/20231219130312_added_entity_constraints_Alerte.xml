@@ -14,5 +14,26 @@
                                  referencedColumnNames="id"
                                  referencedTableName="patient"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="mesureepa_id"
+                                 baseTableName="alerte"
+                                 constraintName="fk_alerte__mesureepa_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mesure_epa"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="mesure_albumine_id"
+                                 baseTableName="alerte"
+                                 constraintName="fk_alerte__mesure_albumine_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mesure_albumine"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="mesure_poids_id"
+                                 baseTableName="alerte"
+                                 constraintName="fk_alerte__mesure_poids_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mesure_poids"
+                                 />
     </changeSet>
 </databaseChangeLog>
